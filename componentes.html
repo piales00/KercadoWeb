@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<!--
+  =========================================================================
+  KERCADO — CATÁLOGO DE COMPONENTES (guía visual)
+  -------------------------------------------------------------------------
+  ESTE ARCHIVO TAMPOCO SE ENTREGA. Es la chuleta del equipo.
+
+  Acá está cada pieza que ya existe en estilo.css, armada y funcionando.
+  Antes de inventar HTML nuevo, entra acá, busca la pieza que necesitas,
+  copia el bloque y pégalo en tu página. Así las cuatro páginas salen
+  parejas aunque las escriban cuatro personas distintas.
+
+  Si algo que necesitas NO está acá: avisa al grupo antes de escribir CSS.
+  =========================================================================
+-->
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Guía interna de componentes visuales del proyecto Kercado.">
+  <title>Componentes · Kercado</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+
+<body>
+
+  <!-- Cabecera: copiada tal cual de plantilla.html -->
+  <header class="encabezado">
+    <div class="contenedor encabezado__fila">
+      <a class="logo" href="index.html">
+        <span>Ker<span class="logo__acento">cado</span>
+          <span class="logo__bajada">Condominio Las Palmas 357</span>
+        </span>
+      </a>
+      <form class="buscador" action="catalogo.html" method="get">
+        <label class="solo-lectores" for="q">Buscar productos</label>
+        <input class="buscador__campo" type="search" id="q" name="q"
+               placeholder="Buscar postres, menús, abarrotes...">
+        <button class="buscador__boton" type="submit">Buscar</button>
+      </form>
+      <a class="boton boton--sm" href="registro.html">Ingresar</a>
+    </div>
+    <nav class="menu" aria-label="Navegación principal">
+      <ul class="contenedor menu__lista">
+        <li><a class="menu__enlace" href="index.html">Inicio</a></li>
+        <li><a class="menu__enlace" href="catalogo.html">Catálogo</a></li>
+        <li><a class="menu__enlace" href="panel.html">Mi panel</a></li>
+        <li><a class="menu__enlace" href="registro.html">Registro</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+  <main>
+
+    <section class="seccion">
+      <div class="contenedor">
+        <h1 class="titulo-seccion">Componentes de Kercado</h1>
+        <p>
+          Cada bloque de abajo ya está resuelto en <code>css/estilo.css</code>.
+          Copia el HTML tal cual y cambia solo el contenido.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- ============================ BOTONES ============================ -->
+    <section class="seccion seccion--alterna">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Botones</h2>
+        <p class="subtexto">
+          Hay tres y no más. Regla de oro: <strong>un solo botón naranja por
+          pantalla</strong>. Si hay dos, ninguno destaca y el usuario no sabe
+          qué se espera de él.
+        </p>
+
+        <p>
+          <!-- Principal: la acción que queremos que ocurra en esa pantalla -->
+          <a class="boton" href="#">Pedir ahora</a>
+
+          <!-- Secundario: alternativa válida, pero no la que empujamos -->
+          <a class="boton boton--linea" href="#">Ver catálogo</a>
+
+          <!-- Terciario: acciones de poco peso -->
+          <a class="boton boton--texto" href="#">Ver más detalles</a>
+        </p>
+
+        <p>
+          <!-- Los tamaños se combinan con cualquiera de los tres -->
+          <a class="boton boton--sm" href="#">Chico</a>
+          <a class="boton boton--lg" href="#">Grande</a>
+        </p>
+
+        <div class="caja">
+          <!-- boton--full ocupa todo el ancho: se usa para el "Crear cuenta"
+               al final del formulario de registro -->
+          <button class="boton boton--full" type="button">Ancho completo</button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ====================== TARJETA DE PRODUCTO ====================== -->
+    <section class="seccion">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Tarjeta de producto</h2>
+        <p class="subtexto">
+          Esta es la pieza que se repite 8 o 9 veces en <code>catalogo.html</code>.
+          Lleva las cuatro cosas que pide el enunciado: <strong>imagen, título,
+          precio y vendedor</strong>. No le pongas ancho: de eso se encarga
+          <code>.grilla-productos</code>.
+        </p>
+
+        <!-- La grilla decide cuántas tarjetas entran por fila. Se adapta sola
+             de 4 a 1 columna sin media queries. -->
+        <div class="grilla-productos">
+
+          <!-- ▼▼▼ COPIAR DESDE ACÁ ▼▼▼ ------------------------------------
+               Para cada producto: cambiar src, alt, categoría, título,
+               vendedor y precio. Nada más. -->
+          <article class="tarjeta">
+
+            <!-- La imagen va en <figure> porque es contenido, no decoración.
+                 RUTA: guardar las fotos en assets/img/ con nombres en
+                 minúscula y sin tildes (ej: torta-chocolate.jpg).
+                 El alt describe la foto: lo lee quien no puede verla y es
+                 lo que se muestra si el archivo falta. -->
+            <figure class="tarjeta__figura">
+              <img class="tarjeta__imagen"
+                   src="assets/img/PONER-IMAGEN-AQUI.jpg"
+                   alt="Descripción breve de la foto del producto">
+            </figure>
+
+            <div class="tarjeta__cuerpo">
+              <!-- Categoría: una de las seis del catálogo -->
+              <span class="etiqueta">Postres</span>
+
+              <!-- El título es el enlace a la ficha. h3 porque cuelga del h2
+                   de la sección: los encabezados no se saltan niveles. -->
+              <h3 class="tarjeta__titulo">
+                <a href="producto.html">Nombre del producto</a>
+              </h3>
+
+              <!-- El vendedor siempre visible: en Kercado es un vecino con
+                   torre y departamento, no una tienda anónima. -->
+              <p class="tarjeta__vendedor mb-0">
+                Vendido por <strong>Nombre del vecino</strong> · Torre B, Dpto. 402
+              </p>
+            </div>
+
+            <div class="tarjeta__pie">
+              <span class="tarjeta__precio">S/ 00.00</span>
+              <a class="boton boton--sm" href="producto.html">Ver</a>
+            </div>
+          </article>
+          <!-- ▲▲▲ HASTA ACÁ ▲▲▲ -->
+
+          <!-- Segunda tarjeta, solo para ver cómo se comporta la grilla -->
+          <article class="tarjeta">
+            <figure class="tarjeta__figura">
+              <img class="tarjeta__imagen"
+                   src="assets/img/PONER-IMAGEN-AQUI.jpg"
+                   alt="Descripción breve de la foto del producto">
+            </figure>
+            <div class="tarjeta__cuerpo">
+              <span class="etiqueta">Comida preparada</span>
+              <h3 class="tarjeta__titulo">
+                <a href="producto.html">Título largo para probar que las
+                  tarjetas quedan parejas</a>
+              </h3>
+              <p class="tarjeta__vendedor mb-0">
+                Vendido por <strong>Nombre del vecino</strong> · Torre A, Dpto. 105
+              </p>
+            </div>
+            <div class="tarjeta__pie">
+              <span class="tarjeta__precio">S/ 00.00</span>
+              <a class="boton boton--sm" href="producto.html">Ver</a>
+            </div>
+          </article>
+
+          <!-- Tercera: con etiqueta naranja, para destacar algo puntual -->
+          <article class="tarjeta">
+            <figure class="tarjeta__figura">
+              <img class="tarjeta__imagen"
+                   src="assets/img/PONER-IMAGEN-AQUI.jpg"
+                   alt="Descripción breve de la foto del producto">
+            </figure>
+            <div class="tarjeta__cuerpo">
+              <span class="etiqueta etiqueta--naranja">Recién publicado</span>
+              <h3 class="tarjeta__titulo">
+                <a href="producto.html">Otro producto</a>
+              </h3>
+              <p class="tarjeta__vendedor mb-0">
+                Vendido por <strong>Nombre del vecino</strong> · Torre C, Dpto. 803
+              </p>
+            </div>
+            <div class="tarjeta__pie">
+              <span class="tarjeta__precio">S/ 00.00</span>
+              <a class="boton boton--sm" href="producto.html">Ver</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================== LAYOUT DE DOS COLUMNAS + ASIDE ================ -->
+    <section class="seccion seccion--alterna">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Aside de categorías y filtros</h2>
+        <p class="subtexto">
+          Estructura de <code>catalogo.html</code>: el <code>&lt;aside&gt;</code>
+          a la izquierda y el <code>&lt;main&gt;</code> a la derecha.
+          Acá van <strong>categorías y filtros</strong>. El menú de navegación
+          NO va acá, va en el header.
+        </p>
+
+        <div class="layout-catalogo">
+
+          <!-- ▼ Columna izquierda: el aside -->
+          <aside class="panel-lateral" aria-label="Categorías y filtros">
+
+            <div class="panel-lateral__bloque">
+              <h3 class="panel-lateral__titulo">Categorías</h3>
+              <ul class="lista-categorias">
+                <!-- La clase "activo" marca la categoría que se está viendo -->
+                <li><a class="activo" href="catalogo.html">Todos los productos</a></li>
+                <li><a href="catalogo.html">Comida preparada</a></li>
+                <li><a href="catalogo.html">Postres</a></li>
+                <li><a href="catalogo.html">Panadería</a></li>
+                <li><a href="catalogo.html">Bebidas</a></li>
+                <li><a href="catalogo.html">Abarrotes</a></li>
+              </ul>
+            </div>
+
+            <div class="panel-lateral__bloque">
+              <h3 class="panel-lateral__titulo">Filtrar por precio</h3>
+              <!-- Este formulario tampoco filtra nada todavía: es la
+                   interfaz del filtro, la lógica llega con JavaScript en un
+                   avance posterior. -->
+              <form action="catalogo.html" method="get">
+                <div class="campo">
+                  <label for="precio-min">Desde (S/)</label>
+                  <input type="number" id="precio-min" name="min" min="0" step="0.5" placeholder="0">
+                </div>
+                <div class="campo">
+                  <label for="precio-max">Hasta (S/)</label>
+                  <input type="number" id="precio-max" name="max" min="0" step="0.5" placeholder="100">
+                </div>
+                <button class="boton boton--linea boton--full boton--sm" type="submit">
+                  Aplicar filtro
+                </button>
+              </form>
+            </div>
+          </aside>
+
+          <!-- ▼ Columna derecha: el contenido -->
+          <div>
+            <div class="caja">
+              <h3>Acá va la grilla de productos</h3>
+              <p class="mb-0">
+                En <code>catalogo.html</code> este espacio lo ocupa el
+                <code>&lt;div class="grilla-productos"&gt;</code> con las
+                8 o 9 tarjetas.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================= TABLAS ============================= -->
+    <section class="seccion">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Tablas</h2>
+        <p class="subtexto">
+          Vale 3 puntos y es lo que más se olvida. Van en
+          <code>panel.html</code>. Regla de armado: la
+          <code>&lt;table&gt;</code> va <strong>siempre</strong> envuelta en
+          <code>.tabla-scroll</code>, si no rompe el ancho en celular.
+        </p>
+
+        <!-- ▼▼▼ TABLA DE DATOS (panel.html) ▼▼▼ -->
+        <div class="tabla-scroll mb-3">
+          <table class="tabla">
+
+            <!-- El caption es el título de la tabla y va adentro. Es la
+                 forma correcta de titularla; un <h3> suelto no queda
+                 asociado a la tabla. -->
+            <caption>Mis compras — pedidos realizados</caption>
+
+            <!-- thead / tbody separan encabezado de datos. Con scope="col"
+                 le decimos al navegador que cada th titula su columna. -->
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Vendedor</th>
+                <th scope="col" class="col-monto">Total</th>
+                <th scope="col">Estado</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <!-- El código identifica la fila, por eso es th con
+                     scope="row" y no un td común. -->
+                <th scope="row">KC-0001</th>
+                <td>05/09/2026</td>
+                <td>Nombre del vecino · Torre B 402</td>
+                <td class="col-monto">S/ 00.00</td>
+                <td><span class="estado estado--entregado">Entregado</span></td>
+              </tr>
+              <tr>
+                <th scope="row">KC-0002</th>
+                <td>07/09/2026</td>
+                <td>Nombre del vecino · Torre A 105</td>
+                <td class="col-monto">S/ 00.00</td>
+                <td><span class="estado estado--pendiente">Pendiente</span></td>
+              </tr>
+              <tr>
+                <th scope="row">KC-0003</th>
+                <td>08/09/2026</td>
+                <td>Nombre del vecino · Torre C 803</td>
+                <td class="col-monto">S/ 00.00</td>
+                <td><span class="estado estado--cancelado">Cancelado</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ▼▼▼ TABLA FICHA, DE DOS COLUMNAS (producto.html) ▼▼▼ -->
+        <h3>Variante ficha</h3>
+        <p class="subtexto">
+          Para la tabla de datos de <code>producto.html</code>: etiqueta a la
+          izquierda, valor a la derecha. Se agrega la clase
+          <code>tabla--ficha</code>.
+        </p>
+        <div class="tabla-scroll">
+          <table class="tabla tabla--ficha">
+            <caption>Información de la publicación</caption>
+            <tbody>
+              <tr><th scope="row">Stock disponible</th><td>00 unidades</td></tr>
+              <tr><th scope="row">Horario de atención</th><td>00:00 a 00:00</td></tr>
+              <tr><th scope="row">Torre y departamento</th><td>Torre X, Dpto. 000</td></tr>
+              <tr><th scope="row">Categoría</th><td>Nombre de la categoría</td></tr>
+              <!-- Kercado NO procesa pagos: solo registra el método acordado
+                   entre vecinos. La ficha lo dice tal cual. -->
+              <tr><th scope="row">Métodos de pago aceptados</th>
+                  <td>Efectivo contra entrega · Yape · Plin</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =========================== FORMULARIOS ========================== -->
+    <section class="seccion seccion--alterna">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Campos de formulario</h2>
+        <p class="subtexto">
+          Piezas sueltas para armar <code>registro.html</code>. Todos los
+          campos ya están estilizados: no hace falta agregar clases a los
+          <code>input</code>, alcanza con envolverlos en <code>.campo</code>.
+          <strong>Ningún formulario envía nada</strong> — no hay servidor.
+        </p>
+
+        <form class="formulario" action="#" method="post">
+
+          <!-- fieldset agrupa campos que van juntos; legend le pone nombre
+               al grupo. En registro.html habrá tres o cuatro fieldsets. -->
+          <fieldset>
+            <legend>Ejemplos de campo</legend>
+
+            <!-- Dos campos lado a lado -->
+            <div class="campo-fila">
+              <div class="campo">
+                <label for="c-nombre">Texto <span class="obligatorio">*</span></label>
+                <input type="text" id="c-nombre" name="nombre" required>
+              </div>
+              <div class="campo">
+                <label for="c-correo">Correo <span class="obligatorio">*</span></label>
+                <input type="email" id="c-correo" name="correo" required>
+              </div>
+            </div>
+
+            <div class="campo">
+              <label for="c-clave">Contraseña <span class="obligatorio">*</span></label>
+              <input type="password" id="c-clave" name="clave" required>
+              <!-- El texto de ayuda va DESPUÉS del campo, no en el
+                   placeholder: el placeholder desaparece al escribir. -->
+              <small class="campo__ayuda">Mínimo 8 caracteres.</small>
+            </div>
+
+            <div class="campo">
+              <label for="c-tel">Teléfono</label>
+              <!-- type="tel" abre el teclado numérico en el celular -->
+              <input type="tel" id="c-tel" name="telefono" placeholder="987 654 321">
+            </div>
+
+            <div class="campo">
+              <label for="c-torre">Torre <span class="obligatorio">*</span></label>
+              <select id="c-torre" name="torre" required>
+                <option value="">Selecciona tu torre</option>
+                <option value="A">Torre A</option>
+                <option value="B">Torre B</option>
+                <option value="C">Torre C</option>
+              </select>
+            </div>
+
+            <div class="campo">
+              <label for="c-depa">Número de departamento</label>
+              <input type="number" id="c-depa" name="departamento" min="101" max="1204">
+            </div>
+
+            <!-- Grupo de radios. El name repetido es lo que los agrupa: por
+                 eso solo se puede marcar uno. -->
+            <div class="campo">
+              <label>Piso</label>
+              <div class="opciones">
+                <label><input type="radio" name="piso" value="1"> Piso 1</label>
+                <label><input type="radio" name="piso" value="2"> Piso 2</label>
+                <label><input type="radio" name="piso" value="3"> Piso 3</label>
+              </div>
+            </div>
+
+            <div class="campo">
+              <label for="c-nota">Área de texto</label>
+              <textarea id="c-nota" name="nota"
+                        placeholder="Cuéntanos qué te gustaría vender en Kercado."></textarea>
+            </div>
+
+            <!-- Checkbox de términos: obligatorio para crear la cuenta -->
+            <div class="campo">
+              <label class="checkbox">
+                <input type="checkbox" name="terminos" required>
+                Acepto el reglamento de convivencia del condominio.
+              </label>
+            </div>
+          </fieldset>
+
+          <button class="boton boton--full" type="submit">Botón de envío</button>
+        </form>
+
+        <!-- Caja de aviso: se usa arriba del formulario de registro cuando
+             el usuario llega desde el botón "Pedir" de producto.html -->
+        <div class="aviso mt-3">
+          <p><strong>Para pedir necesitas una cuenta.</strong>
+            Regístrate con tu torre y departamento; la administración valida
+            que seas residente antes de habilitarte.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =========================== MULTIMEDIA =========================== -->
+    <section class="seccion">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Multimedia</h2>
+        <p class="subtexto">
+          La rúbrica pide uso de imágenes y audio o video. Elegimos imágenes
+          + un audio de presentación en <code>index.html</code>. El
+          reproductor nativo ya trae controles: cero JavaScript.
+        </p>
+
+        <div class="audio-caja">
+          <strong>Kercado en un minuto</strong>
+          <p class="subtexto mb-0">Presentación de la administración para los vecinos.</p>
+          <!-- controls muestra play, barra y volumen.
+               El texto de adentro solo se ve en navegadores muy viejos que
+               no soportan <audio>. -->
+          <audio controls src="assets/audio/PONER-AUDIO-AQUI.mp3">
+            Tu navegador no soporta audio.
+            <a href="assets/audio/PONER-AUDIO-AQUI.mp3">Descarga el archivo</a>.
+          </audio>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- Pie: copiado tal cual de plantilla.html -->
+  <footer class="pie">
+    <div class="contenedor pie__grilla">
+      <div>
+        <h3 class="pie__titulo">Kercado</h3>
+        <p class="subtexto">
+          Marketplace hiperlocal del condominio Las Palmas 357, Chorrillos.
+          Los vecinos publican, los vecinos compran.
+        </p>
+        <p class="subtexto">
+          Kercado no cobra comisiones, no procesa pagos y no gestiona la
+          entrega: solo conecta al vecino que vende con el que compra.
+        </p>
+      </div>
+      <div>
+        <h3 class="pie__titulo">Administración</h3>
+        <ul class="pie__lista">
+          <li>Av. Las Palmas 357, Chorrillos — Lima</li>
+          <li>Oficina: Torre A, primer piso</li>
+          <li>Atención: lunes a sábado, 8:00 a 18:00</li>
+          <li><a href="mailto:administracion@laspalmas357.pe">administracion@laspalmas357.pe</a></li>
+          <li><a href="tel:+5112345678">(01) 234 5678</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="pie__titulo">Reglamento</h3>
+        <ul class="pie__lista">
+          <li><a href="index.html#como-funciona">Cómo funciona Kercado</a></li>
+          <li><a href="index.html#reglas">Reglas de convivencia</a></li>
+          <li><a href="index.html#pagos">Métodos de pago aceptados</a></li>
+          <li><a href="index.html#nosotros">Quiénes somos</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="pie__titulo">Integrantes</h3>
+        <ul class="pie__lista">
+          <li>Piero Alessandro Pérez Izquierdo</li>
+          <li>Edgar Paolo Pérez Román</li>
+          <li>Francys Diego Yareta Cortez</li>
+          <li>Luis Alberto Huánuco Jiménez</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pie__legal">
+      <p class="mb-0">
+        Kercado &copy; 2026 · Proyecto académico — Taller de Programación Web,
+        Universidad Tecnológica del Perú.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
