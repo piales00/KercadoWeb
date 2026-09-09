@@ -247,6 +247,12 @@ main {
   padding-block: var(--sp-2);
   flex-wrap: wrap;                  /* en celular las piezas se apilan solas */
 }
+/* El logo y el botón de cuenta no se encogen nunca: si se encogían, el
+   "Ingresar" se montaba encima del "Buscar" y parecía un botón doble. */
+.encabezado__fila > .logo,
+.encabezado__fila > .boton {
+  flex-shrink: 0;
+}
 
 /* --- Logo ---
    Está hecho con texto, no con imagen: pesa 0 KB, se ve nítido en cualquier
@@ -289,12 +295,15 @@ main {
    enunciado y para que se vea a qué apunta el producto. */
 .buscador {
   display: flex;
-  flex: 1;                          /* se come el espacio libre del medio */
-  min-width: 200px;
+  flex: 1 1 200px;                  /* se come el espacio libre del medio,
+                                       pero también sabe encogerse */
+  min-width: 0;                     /* sin esto no baja de su ancho de
+                                       contenido y desborda la fila */
   max-width: 420px;
 }
 .buscador__campo {
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;                     /* deja que el campo ceda ancho primero */
   padding: 0.6rem var(--sp-2);
   border: none;
   border-radius: var(--radio-sm) 0 0 var(--radio-sm);  /* redondea izquierda */
@@ -304,6 +313,8 @@ main {
   color: var(--texto);
 }
 .buscador__boton {
+  flex-shrink: 0;                   /* el "Buscar" mantiene su tamaño */
+  white-space: nowrap;
   padding: 0.6rem var(--sp-2);
   border: none;
   border-radius: 0 var(--radio-sm) var(--radio-sm) 0; /* redondea derecha */
