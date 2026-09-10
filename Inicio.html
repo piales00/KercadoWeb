@@ -1,0 +1,278 @@
+<html lang="es">
+
+<head>
+  <!-- Codificación: sin esto las tildes y las ñ salen como símbolos raros -->
+  <meta charset="UTF-8">
+
+  <!-- Viewport: le dice al celular que use su ancho real y no que finja ser
+       un monitor. Es lo que hace que el diseño responsive funcione. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Metadatos descriptivos: aparecen en buscadores y al compartir el link -->
+  <meta name="description" content="Conoce qué es Kercado, cómo funciona el marketplace del condominio Las Palmas 357 y sus reglas de convivencia.">
+  <meta name="author" content="Equipo Kercado — Taller de Programación Web, UTP">
+
+  <!-- Título de la pestaña. Formato acordado: Sección · Kercado -->
+  <title>Inicio · Kercado</title>
+
+  <!-- Hoja de estilos ÚNICA del proyecto. Es la misma ruta en las cinco
+       páginas porque todas están en la raíz del repositorio. -->
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+
+<body>
+
+  <!-- =====================================================================
+       CABECERA  —  IDÉNTICA EN LAS CINCO PÁGINAS
+       ---------------------------------------------------------------------
+       Contiene tres cosas: la identidad (logo), el buscador y el menú.
+       El menú va ACÁ, en el <header>. El <aside> del catálogo es solo para
+       categorías y filtros: son dos cosas distintas y la rúbrica lo separa.
+       ===================================================================== -->
+  <header class="encabezado">
+
+    <!-- Fila superior: logo · buscador · acceso a la cuenta -->
+    <div class="contenedor encabezado__fila">
+
+      <!-- El logo siempre lleva al inicio. Es una convención que la gente
+           ya tiene aprendida; romperla no aporta nada. -->
+      <a class="logo" href="index.html">
+        <span>Ker<span class="logo__acento">cado</span>
+          <span class="logo__bajada">Condominio Las Palmas 357</span>
+        </span>
+      </a>
+
+      <!-- Buscador. AVISO HONESTO: en este avance es decorativo. No hay
+           backend ni JavaScript puntuable, así que no busca nada todavía.
+           Está para que la zona de cabecera esté completa y para mostrar
+           hacia dónde va el producto. -->
+      <form class="buscador" action="catalogo.html" method="get">
+        <!-- Toda entrada necesita su <label>, aunque no se vea. La clase
+             .solo-lectores lo oculta a la vista pero lo deja disponible
+             para lectores de pantalla. -->
+        <label class="solo-lectores" for="q">Buscar productos</label>
+        <input class="buscador__campo" type="search" id="q" name="q"
+               placeholder="Buscar postres, menús, abarrotes...">
+        <button class="buscador__boton" type="submit">Buscar</button>
+      </form>
+
+      <!-- Acceso a la cuenta. Una sola cuenta: en Kercado el vecino compra
+           y vende con el mismo usuario, por eso no hay "entrar como
+           vendedor" ni nada parecido. -->
+      <a class="boton boton--sm" href="registro.html">Ingresar</a>
+    </div>
+
+    <!-- Menú de navegación principal.
+         <nav> es la etiqueta semántica correcta para un bloque de enlaces
+         de navegación; aria-label lo distingue de otros <nav> de la página. -->
+    <nav class="menu" aria-label="Navegación principal">
+      <ul class="contenedor menu__lista">
+        <!-- Las cuatro páginas del avance. Ningún enlace muerto:
+             las cinco existen. -->
+        <li><a class="menu__enlace" href="index.html">Inicio</a></li>
+        <li><a class="menu__enlace" href="catalogo.html">Catálogo</a></li>
+        <li><a class="menu__enlace" href="panel.html">Mi panel</a></li>
+        <li><a class="menu__enlace" href="registro.html">Registro</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+  <!-- =====================================================================
+       CONTENIDO PROPIO DE LA PÁGINA
+       ---------------------------------------------------------------------
+       Acá adentro escribe cada integrante. Todo lo de afuera queda igual.
+       Cada bloque temático va en su propia <section class="seccion">.
+       ===================================================================== -->
+  <main>
+
+    <!-- Section Hero -->
+    <section class="seccion hero">
+      <div class="contenedor">
+        <h1>Kercado</h1>
+        <p>El mercado interno de nuestra comunidad, donde comprar y vender es más cercano y seguro.</p>
+        <img src="assets/img/condominiofachada.jpg" alt="Condominio Las Palmas 357" class="imagen-marco">
+        <div>
+          <a href="catalogo.html" class="boton">Ver el catálogo</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Qué es Kercado -->
+    <section class="seccion">
+      <div class="contenedor">
+        <h2>Qué es Kercado</h2>
+        <p>Kercado es una plataforma digital exclusiva para los residentes, diseñada para fomentar el comercio local dentro de nuestra propia comunidad de forma rápida, práctica y confiable.</p>
+        <p>Con una interfaz intuitiva y accesible desde cualquier dispositivo, buscamos fortalecer los lazos vecinales facilitando el intercambio de productos y servicios cotidianos.</p>
+        <p>Un vecino compra y vende con la misma cuenta, utilizando el mismo usuario para ambas actividades sin necesidad de registros separados.</p>
+      </div>
+    </section>
+
+    <!-- Section id="como-funciona" (Obligatoria para las anclas del footer) -->
+    <section class="seccion" id="como-funciona">
+      <div class="contenedor">
+        <h2>Cómo funciona</h2>
+        <div class="pasos-container">
+          <div class="paso">
+            <h3>1. El vecino publica</h3>
+            <p>Sube las fotos y los detalles del producto o servicio que deseas ofrecer en pocos minutos.</p>
+          </div>
+          <div class="paso">
+            <h3>2. Otro vecino pide</h3>
+            <p>Revisa las publicaciones disponibles y contacta al vendedor directamente para solicitar el artículo.</p>
+          </div>
+          <div class="paso">
+            <h3>3. Acuerdan pago y entrega entre ellos</h3>
+            <p>Definen los detalles finales de manera directa. Kercado no cobra ni reparte.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Para quién es -->
+    <section class="seccion">
+      <div class="contenedor">
+        <h2>Para quién es</h2>
+        <p>Residentes del condominio Las Palmas 357.</p>
+      </div>
+    </section>
+
+    <!-- Section id="pagos" (Obligatoria para las anclas del footer) -->
+    <section class="seccion" id="pagos">
+      <div class="contenedor">
+        <h2>Métodos de pago</h2>
+        <ul>
+          <li>Efectivo contra entrega</li>
+          <li>Yape</li>
+          <li>Plin</li>
+        </ul>
+        <p>Kercado no procesa pagos, solo registra el método acordado.</p>
+      </div>
+    </section>
+
+    <!-- Section id="reglas" (Obligatoria para las anclas del footer) -->
+    <section class="seccion" id="reglas">
+      <div class="contenedor">
+        <h2>Reglas de convivencia</h2>
+        <ul>
+          <li>Mantén un trato respetuoso y cordial en todas las negociaciones con tus vecinos.</li>
+          <li>Publica únicamente productos y servicios que cumplan con las normas de seguridad del condominio.</li>
+          <li>Sé puntual y claro al acordar los puntos y horarios de entrega.</li>
+          <li>Reporta cualquier inconveniente o uso inadecuado de la plataforma a los administradores.</li>
+          <li>Verifica el estado del producto antes de concretar la transacción final.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Section id="nosotros" (Obligatoria para las anclas del footer) -->
+    <section class="seccion" id="nosotros">
+      <div class="contenedor">
+        <h2>Nosotros</h2>
+        <div class="equipo-grid">
+          <div class="miembro">
+            <img src="assets/img/integrante1.jpg" alt="Piero Alessandro Pérez Izquierdo" class="foto-cuadrada">
+            <h3>Piero Alessandro Pérez Izquierdo</h3>
+            <p>A cargo del panel.html y la integración general, tablas, estructura de página, funcionamiento y orden del repositorio.</p>
+          </div>
+          <div class="miembro">
+            <img src="assets/img/integrante2.jpg" alt="Edgar Paolo Pérez Román" class="foto-cuadrada">
+            <h3>Edgar Paolo Pérez Román</h3>
+            <p>A cargo de index.html, la sección multimedia, las anclas del footer y la estructura general del inicio.</p>
+          </div>
+          <div class="miembro">
+            <img src="assets/img/integrante3.jpg" alt="Francys Diego Yareta Cortez" class="foto-cuadrada">
+            <h3>Francys Diego Yareta Cortez</h3>
+            <p>A cargo de catalogo.html, producto.html, la tabla ficha y la estructura de la página con el aside.</p>
+          </div>
+          <div class="miembro">
+            <img src="assets/img/integrante4.jpg" alt="Luis Alberto Huánuco Jiménez" class="foto-cuadrada">
+            <h3>Luis Alberto Huánuco Jiménez</h3>
+            <p>A cargo de registro.html, el formulario completo y la gestión de todos los archivos multimedia del proyecto.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section El audio (Criterio de multimedia) -->
+    <section class="seccion">
+      <div class="contenedor">
+        <h2>Presentación en audio</h2>
+        <div class="audio-caja">
+          <audio controls src="assets/audio/kercado-presentacion.mp3">
+            Tu navegador no soporta el elemento de audio.
+          </audio>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================================
+       PIE DE PÁGINA  —  IDÉNTICO EN LAS CINCO PÁGINAS
+       ---------------------------------------------------------------------
+       Tres columnas que pide el enunciado: contacto de la administración,
+       reglamento e integrantes del equipo.
+       ===================================================================== -->
+  <footer class="pie">
+    <div class="contenedor pie__grilla">
+
+      <!-- Columna 1: qué es esto y qué NO es. -->
+      <div>
+        <h3 class="pie__titulo">Kercado</h3>
+        <p class="subtexto">
+          Marketplace hiperlocal del condominio Las Palmas 357, Chorrillos.
+          Los vecinos publican, los vecinos compran.
+        </p>
+        <p class="subtexto">
+          Kercado no cobra comisiones, no procesa pagos y no gestiona la
+          entrega: solo conecta al vecino que vende con el que compra.
+        </p>
+      </div>
+
+      <!-- Columna 2: contacto de la administración -->
+      <div>
+        <h3 class="pie__titulo">Administración</h3>
+        <ul class="pie__lista">
+          <li>Av. Las Palmas 357, Chorrillos — Lima</li>
+          <li>Oficina: Torre A, primer piso</li>
+          <li>Atención: lunes a sábado, 8:00 a 18:00</li>
+          <li><a href="mailto:administracion@laspalmas357.pe">administracion@laspalmas357.pe</a></li>
+          <li><a href="tel:+5112345678">(01) 234 5678</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: reglamento (Enlaces con anclas) -->
+      <div>
+        <h3 class="pie__titulo">Reglamento</h3>
+        <ul class="pie__lista">
+          <li><a href="#como-funciona">Cómo funciona Kercado</a></li>
+          <li><a href="#reglas">Reglas de convivencia</a></li>
+          <li><a href="#pagos">Métodos de pago aceptados</a></li>
+          <li><a href="#nosotros">Quiénes somos</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 4: integrantes del equipo -->
+      <div>
+        <h3 class="pie__titulo">Integrantes</h3>
+        <ul class="pie__lista">
+          <li>Piero Alessandro Pérez Izquierdo</li>
+          <li>Edgar Paolo Pérez Román</li>
+          <li>Francys Diego Yareta Cortez</li>
+          <li>Luis Alberto Huánuco Jiménez</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Línea final -->
+    <div class="pie__legal">
+      <p class="mb-0">
+        Kercado &copy; 2026 · Proyecto académico — Taller de Programación Web,
+        Universidad Tecnológica del Perú.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
