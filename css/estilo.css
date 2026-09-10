@@ -1062,7 +1062,7 @@ p {
 
 .centrado      { text-align: center; }
 .mt-0          { margin-top: 0; }
-.mb-0          { margin-bottom: 0; }
+.mb-0          { margin-bottom: 0;}
 .mt-3          { margin-top: var(--sp-3); }
 .mb-3          { margin-bottom: var(--sp-3); }
 .sin-margen-p p:last-child { margin-bottom: 0; }

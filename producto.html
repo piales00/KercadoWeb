@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<!--
+  =========================================================================
+  KERCADO — PRODUCTO
+  -------------------------------------------------------------------------
+  Cómo se usa:
+    1. Copia este archivo y renómbralo (index.html, catalogo.html, etc.).
+    2. Cambia el <title> y la <meta name="description">.
+    3. Marca tu página en el menú con la clase menu__enlace--activo.
+    4. Escribe SOLO dentro de <main>. No toques el header ni el footer:
+       tienen que quedar idénticos en las cinco páginas (lo pide la rúbrica).
+    5. Borra los comentarios que digan "PLANTILLA" y deja los tuyos.
+
+  Autor de la base: equipo Kercado
+  =========================================================================
+-->
+<html lang="es">
+
+<head>
+  <!-- Codificación: sin esto las tildes y las ñ salen como símbolos raros -->
+  <meta charset="UTF-8">
+
+  <!-- Viewport: le dice al celular que use su ancho real y no que finja ser
+       un monitor. Es lo que hace que el diseño responsive funcione. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Metadatos descriptivos: aparecen en buscadores y al compartir el link -->
+  <meta name="description" content="PRODUCTO">
+  <meta name="author" content="Equipo Kercado — Taller de Programación Web, UTP">
+
+  <!-- Título de la pestaña. Formato acordado: Sección · Kercado -->
+  <title>Producto · Kercado</title>
+
+  <!-- Hoja de estilos ÚNICA del proyecto. Es la misma ruta en las cinco
+       páginas porque todas están en la raíz del repositorio. -->
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+
+<body>
+
+  <!-- =====================================================================
+       CABECERA  —  IDÉNTICA EN LAS CINCO PÁGINAS
+       ---------------------------------------------------------------------
+       Contiene tres cosas: la identidad (logo), el buscador y el menú.
+       El menú va ACÁ, en el <header>. El <aside> del catálogo es solo para
+       categorías y filtros: son dos cosas distintas y la rúbrica lo separa.
+       ===================================================================== -->
+  <header class="encabezado">
+
+    <!-- Fila superior: logo · buscador · acceso a la cuenta -->
+    <div class="contenedor encabezado__fila">
+
+      <!-- El logo siempre lleva al inicio. Es una convención que la gente
+           ya tiene aprendida; romperla no aporta nada. -->
+      <a class="logo" href="index.html">
+        <span>Ker<span class="logo__acento">cado</span>
+          <span class="logo__bajada">Condominio Las Palmas 357</span>
+        </span>
+      </a>
+
+      <!-- Buscador. AVISO HONESTO: en este avance es decorativo. No hay
+           backend ni JavaScript puntuable, así que no busca nada todavía.
+           Está para que la zona de cabecera esté completa y para mostrar
+           hacia dónde va el producto. -->
+      <form class="buscador" action="catalogo.html" method="get">
+        <!-- Toda entrada necesita su <label>, aunque no se vea. La clase
+             .solo-lectores lo oculta a la vista pero lo deja disponible
+             para lectores de pantalla. -->
+        <label class="solo-lectores" for="q">Buscar productos</label>
+        <input class="buscador__campo" type="search" id="q" name="q"
+               placeholder="Buscar postres, menús, abarrotes...">
+        <button class="buscador__boton" type="submit">Buscar</button>
+      </form>
+
+      <!-- Acceso a la cuenta. Una sola cuenta: en Kercado el vecino compra
+           y vende con el mismo usuario, por eso no hay "entrar como
+           vendedor" ni nada parecido. -->
+      <a class="boton boton--sm" href="registro.html">Ingresar</a>
+    </div>
+
+    <!-- Menú de navegación principal.
+         <nav> es la etiqueta semántica correcta para un bloque de enlaces
+         de navegación; aria-label lo distingue de otros <nav> de la página. -->
+    <nav class="menu" aria-label="Navegación principal">
+      <ul class="contenedor menu__lista">
+        <!-- Las cuatro páginas del avance. Ningún enlace muerto:
+             las cinco existen. -->
+        <li><a class="menu__enlace" href="index.html">Inicio</a></li>
+        <li><a class="menu__enlace" href="catalogo.html">Catálogo</a></li>
+        <li><a class="menu__enlace" href="panel.html">Mi panel</a></li>
+        <li><a class="menu__enlace" href="registro.html">Registro</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+  <!-- =====================================================================
+       CONTENIDO PROPIO DE LA PÁGINA
+       ---------------------------------------------------------------------
+       Acá adentro escribe cada integrante. Todo lo de afuera queda igual.
+       Cada bloque temático va en su propia <section class="seccion">.
+       ===================================================================== -->
+  <main>
+    <!-- Ficha detallada del producto. (Fotos,Ficha técnica, botón de pedido hacia el "registro.html") -->
+    <section class="seccion">
+      <div class="contenedor">
+
+        <h1>Torta de Chocolate Casera</h1>
+
+        <!-- Galería de fotos del producto -->
+        <div class="mb-3">
+            <figure class="galeria__principal">
+                <img src="assets/img/catalogos/torta-chocolate.jpg" alt="Torta de chocolate entera vista desde arriba">
+            </figure>
+            <div class="galeria__miniaturas">
+                <img src="assets/img/catalogos/torta-mini-1.jpg" alt="Porción de torta de chocolate">
+                <img src="assets/img/catalogos/torta-mini-2.jpg" alt="Detalle del fudge de chocolate">
+                <img src="assets/img/catalogos/torta-mini-3.jpg" alt="Torta en caja lista para entrega">
+                <img src="assets/img/catalogos/torta-mini-4.jpg" alt="Ingredientes de la torta">
+            </div>
+        </div>
+
+        <!-- Ficha técnica de 2 columnas -->
+        <h3>Ficha del producto</h3>
+        <div class="tabla-scroll mb-3">
+            <table class="tabla tabla--ficha">
+                <caption>Información de la publicación</caption>
+                <tbody>
+                    <tr><th scope="row">Stock disponible</th><td>12 unidades</td></tr>
+                    <tr><th scope="row">Horario de atención</th><td>9:00 a 20:00</td></tr>
+                    <tr><th scope="row">Torre y departamento</th><td>Torre B, Dpto. 402</td></tr>
+                    <tr><th scope="row">Categoría</th><td>Postres</td></tr>
+                    <tr><th scope="row">Métodos de pago aceptados</th><td>Efectivo contra entrega · Yape · Plin</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- NOTA: Aviso informativo -->
+        <div class="aviso mb-3">
+            <p><strong>Para pedir necesitas una cuenta.</strong> Kercado no procesa pagos en línea ni realiza envíos; la entrega y el pago se coordinan directamente entre residentes</p>
+        </div>
+        
+        <!-- Botón de pedido en naranja "PEDIR" para redireccionar a registro.html -->
+        <a class="boton boton--lg" href="registro.html">Pedir</a>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================================
+       PIE DE PÁGINA  —  IDÉNTICO EN LAS CINCO PÁGINAS
+       ---------------------------------------------------------------------
+       Tres columnas que pide el enunciado: contacto de la administración,
+       reglamento e integrantes del equipo.
+       ===================================================================== -->
+  <footer class="pie">
+    <div class="contenedor pie__grilla">
+
+      <!-- Columna 1: qué es esto y qué NO es.
+           El segundo párrafo importa: Kercado no cobra ni reparte. Dejarlo
+           claro en el pie evita que alguien espere una pasarela de pago. -->
+      <div>
+        <h3 class="pie__titulo">Kercado</h3>
+        <p class="subtexto">
+          Marketplace hiperlocal del condominio Las Palmas 357, Chorrillos.
+          Los vecinos publican, los vecinos compran.
+        </p>
+        <p class="subtexto">
+          Kercado no cobra comisiones, no procesa pagos y no gestiona la
+          entrega: solo conecta al vecino que vende con el que compra.
+        </p>
+      </div>
+
+      <!-- Columna 2: contacto de la administración -->
+      <div>
+        <h3 class="pie__titulo">Administración</h3>
+        <ul class="pie__lista">
+          <li>Av. Las Palmas 357, Chorrillos — Lima</li>
+          <li>Oficina: Torre A, primer piso</li>
+          <li>Atención: lunes a sábado, 8:00 a 18:00</li>
+          <li><a href="mailto:administracion@laspalmas357.pe">administracion@laspalmas357.pe</a></li>
+          <li><a href="tel:+5112345678">(01) 234 5678</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: reglamento.
+           Los enlaces apuntan a anclas dentro de index.html. Están así a
+           propósito: NO se enlaza a páginas que todavía no existen. -->
+      <div>
+        <h3 class="pie__titulo">Reglamento</h3>
+        <ul class="pie__lista">
+          <li><a href="index.html#como-funciona">Cómo funciona Kercado</a></li>
+          <li><a href="index.html#reglas">Reglas de convivencia</a></li>
+          <li><a href="index.html#pagos">Métodos de pago aceptados</a></li>
+          <li><a href="index.html#nosotros">Quiénes somos</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 4: integrantes del equipo -->
+      <div>
+        <h3 class="pie__titulo">Integrantes</h3>
+        <ul class="pie__lista">
+          <li>Piero Alessandro Pérez Izquierdo</li>
+          <li>Edgar Paolo Pérez Román</li>
+          <li>Francys Diego Yareta Cortez</li>
+          <li>Luis Alberto Huánuco Jiménez</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Línea final. El año se escribe a mano: no hay JavaScript. -->
+    <div class="pie__legal">
+      <p class="mb-0">
+        Kercado &copy; 2026 · Proyecto académico — Taller de Programación Web,
+        Universidad Tecnológica del Perú.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

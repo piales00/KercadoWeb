@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<!--
+  =========================================================================
+  KERCADO — Catalogo
+  -------------------------------------------------------------------------
+
+  Cómo se usa:
+    1. Copia este archivo y renómbralo (index.html, catalogo.html, etc.).
+    2. Cambia el <title> y la <meta name="description">.
+    3. Marca tu página en el menú con la clase menu__enlace--activo.
+    4. Escribe SOLO dentro de <main>. No toques el header ni el footer:
+       tienen que quedar idénticos en las cinco páginas (lo pide la rúbrica).
+    5. Borra los comentarios que digan "PLANTILLA" y deja los tuyos.
+
+  Autor de la base: equipo Kercado
+  =========================================================================
+-->
+<html lang="es">
+
+<head>
+  <!-- Codificación: sin esto las tildes y las ñ salen como símbolos raros -->
+  <meta charset="UTF-8">
+
+  <!-- Viewport: le dice al celular que use su ancho real y no que finja ser
+       un monitor. Es lo que hace que el diseño responsive funcione. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Metadatos descriptivos: aparecen en buscadores y al compartir el link -->
+  <meta name="description" content="Catalogo">
+  <meta name="author" content="Equipo Kercado — Taller de Programación Web, UTP">
+
+  <!-- Título de la pestaña. Formato acordado: Sección · Kercado -->
+  <title>Catálogo · Kercado</title>
+
+  <!-- Hoja de estilos ÚNICA del proyecto. Es la misma ruta en las cinco
+       páginas porque todas están en la raíz del repositorio. -->
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+
+<body>
+
+  <!-- =====================================================================
+       CABECERA  —  IDÉNTICA EN LAS CINCO PÁGINAS
+       ---------------------------------------------------------------------
+       Contiene tres cosas: la identidad (logo), el buscador y el menú.
+       El menú va ACÁ, en el <header>. El <aside> del catálogo es solo para
+       categorías y filtros: son dos cosas distintas y la rúbrica lo separa.
+       ===================================================================== -->
+  <header class="encabezado">
+
+    <!-- Fila superior: logo · buscador · acceso a la cuenta -->
+    <div class="contenedor encabezado__fila">
+
+      <!-- El logo siempre lleva al inicio. Es una convención que la gente
+           ya tiene aprendida; romperla no aporta nada. -->
+      <a class="logo" href="index.html">
+        <span>Ker<span class="logo__acento">cado</span>
+          <span class="logo__bajada">Condominio Las Palmas 357</span>
+        </span>
+      </a>
+
+      <!-- Buscador. AVISO HONESTO: en este avance es decorativo. No hay
+           backend ni JavaScript puntuable, así que no busca nada todavía.
+           Está para que la zona de cabecera esté completa y para mostrar
+           hacia dónde va el producto. -->
+      <form class="buscador" action="catalogo.html" method="get">
+        <!-- Toda entrada necesita su <label>, aunque no se vea. La clase
+             .solo-lectores lo oculta a la vista pero lo deja disponible
+             para lectores de pantalla. -->
+        <label class="solo-lectores" for="q">Buscar productos</label>
+        <input class="buscador__campo" type="search" id="q" name="q"
+               placeholder="Buscar postres, menús, abarrotes...">
+        <button class="buscador__boton" type="submit">Buscar</button>
+      </form>
+
+      <!-- Acceso a la cuenta. Una sola cuenta: en Kercado el vecino compra
+           y vende con el mismo usuario, por eso no hay "entrar como
+           vendedor" ni nada parecido. -->
+      <a class="boton boton--sm" href="registro.html">Ingresar</a>
+    </div>
+
+    <!-- Menú de navegación principal.
+         <nav> es la etiqueta semántica correcta para un bloque de enlaces
+         de navegación; aria-label lo distingue de otros <nav> de la página. -->
+    <nav class="menu" aria-label="Navegación principal">
+      <ul class="contenedor menu__lista">
+        <!-- Las cuatro páginas del avance. Ningún enlace muerto:
+             las cinco existen. -->
+        <li><a class="menu__enlace" href="index.html">Inicio</a></li>
+        <li><a class="menu__enlace menu_enlace--activo" href="catalogo.html">Catálogo</a></li>
+        <li><a class="menu__enlace" href="panel.html">Mi panel</a></li>
+        <li><a class="menu__enlace" href="registro.html">Registro</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+  <!-- =====================================================================
+       CONTENIDO PROPIO DE LA PÁGINA
+       ---------------------------------------------------------------------
+       Acá adentro escribe cada integrante. Todo lo de afuera queda igual.
+       Cada bloque temático va en su propia <section class="seccion">.
+       ===================================================================== -->
+  <main>
+    <!-- Contenedor principal: Categoria/Filtrado y Grilla de productos. -->
+    <div class="seccion">
+      <div class="contenedor layout-catalogo">
+        <!-- Panel lateral de categorias y filtrado (No lleva menú de navegación) -->
+        <aside class="panel-lateral" aria-label="Categorías y filtros">
+          <div class="panel-lateral__bloque">
+            <h3 class="panel-lateral__titulo">Categorías</h3>
+            
+            <!-- Lista de categorias -->
+            <!-- Todas las categorias deben estar "class="activo" para visualizarlas. (Uso: href="catalogo.html") -->
+            <ul class="lista-categorias">
+              <li><a class="activo" href="catalogo.html">Todos los productos</a></li>
+              <li><a href="catalogo.html">Comida preparada</a></li>
+              <li><a href="catalogo.html">Postres</a></li>
+              <li><a href="catalogo.html">Panadería</a></li>
+              <li><a href="catalogo.html">Bebidas</a></li>
+              <li><a href="catalogo.html">Abarrotes</a></li>
+            </ul>
+          </div>
+
+          <!-- FORMULARIO DE FILTRO POR PRECIO (action="catalogo.html" | method="get") -->
+          <!-- Cada <input> debe tener su <label for="..." conectado con su id="..." -->
+          <div class="panel-lateral__bloque">
+            <h3 class="panel-lateral__titulo">Filtrar por precio</h3>
+            <form action="catalogo.html" method="get">
+              <div class="campo">
+                <label for="precio-min">Desde (S/)</label>
+                <input type="number" id="precio-min" name="min" min="0" step="0.5" placeholder="0">
+              </div>
+              <div class="campo">
+                <label for="precio-max">Hasta (S/)</label>
+                <input type="number" id="precio-max" name="max" min="0" step="0.5" placeholder="100">
+              </div>
+              <button class="boton boton--linea boton--full boton--sm" type="submit">Aplicar filtro</button>
+            </form>
+          </div>
+
+        </aside>
+
+        <!-- Contenido principal del catálogo -->
+        <div>
+          <h1>Catálogo de Productos</h1>
+          <!-- Grilla de productos: 9 tarjetas de 4 a 1 columna. -->
+          <div class="grilla-productos">
+            <!-- Bloque de visualización <article class="tarjeta"> se repite 9 veces segun tipo de producto (Cambiar datos) -->
+            <!-- PRODUCTO 1 -->
+            <article class="tarjeta">
+              <figure class="tarjeta__figura">
+                <img class="tarjeta__imagen" src="assets/img/catalogos/torta-chocolate.jpg" alt="Torta de chocolate artesanal decorada">
+              </figure>
+              <div class="tarjeta__cuerpo">
+                <span class="etiqueta">Postres</span>
+                <h3 class="tarjeta__titulo">
+                  <a href="producto.html">Torta de Chocolate Casera</a>
+                </h3>
+                <p class="tarjeta__vendedor mb-0">
+                  Vendido por <strong>María Torres</strong> · Torre B, Dpto. 402
+                </p>
+              </div>
+              <div class="tarjeta__pie">
+                <!-- Precio siempre con dos decimales -->
+                <span class="tarjeta__precio">S/ 24.00</span>
+                <a class="boton boton--sm" href="producto.html">Ver</a>
+              </div>
+            </article>
+
+            <!-- PRODUCTO 2 -->
+            <article class="tarjeta">
+              <figure class="tarjeta__figura">
+                <img class="tarjeta__imagen" src="assets/img/catalogos/torta-tresleches.jpg" alt="Torta de 3 leches">
+              </figure>
+              <div class="tarjeta__cuerpo">
+                <span class="etiqueta">Postres</span>
+                <h3 class="tarjeta__titulo">
+                  <a href="producto.html">Torta de 3 leches</a>
+                </h3>
+                <p class="tarjeta__vendedor mb-0">
+                  Vendido por <strong>Gregorio Torres</strong> · Torre C, Dpto. 301
+                </p>
+              </div>
+              <div class="tarjeta__pie">
+                <!-- Precio siempre con dos decimales -->
+                <span class="tarjeta__precio">S/ 28.00</span>
+                <a class="boton boton--sm" href="producto.html">Ver</a>
+              </div>
+            </article>
+
+            <!-- PRODUCTO 3 -->
+            <article class="tarjeta">
+              <figure class="tarjeta__figura">
+                <img class="tarjeta__imagen" src="assets/img/catalogos/pan-baguette.jpg" alt="Pan Baguette">
+              </figure>
+              <div class="tarjeta__cuerpo">
+                <span class="etiqueta">Panadería</span>
+                <h3 class="tarjeta__titulo">
+                  <a href="producto.html">Pan Baguette</a>
+                </h3>
+                <p class="tarjeta__vendedor mb-0">
+                  Vendido por <strong>Micaela Jimenez</strong> · Torre A, Dpto. 111
+                </p>
+              </div>
+              <div class="tarjeta__pie">
+                <!-- Precio siempre con dos decimales -->
+                <span class="tarjeta__precio">S/ 2.50</span>
+                <a class="boton boton--sm" href="producto.html">Ver</a>
+              </div>
+            </article>
+
+            <!-- PRODUCTO 4 -->
+            <article class="tarjeta">
+              <figure class="tarjeta__figura">
+                <img class="tarjeta__imagen" src="assets/img/catalogos/galletas-chocolate.jpg" alt="Galletas con Chispas de Chocolate">
+              </figure>
+              <div class="tarjeta__cuerpo">
+                <span class="etiqueta">Panadería</span>
+                <h3 class="tarjeta__titulo">
+                  <a href="producto.html">Galletas con Chispas de Chocolate</a>
+                </h3>
+                <p class="tarjeta__vendedor mb-0">
+                  Vendido por <strong>Rafael Ramirez</strong> · Torre D, Dpto. 215
+                </p>
+              </div>
+              <div class="tarjeta__pie">
+                <!-- Precio siempre con dos decimales -->
+                <span class="tarjeta__precio">S/ 6.00</span>
+                <a class="boton boton--sm" href="producto.html">Ver</a>
+              </div>
+            </article>
+
+            <!-- PRODUCTO 5 -->
+            <article class="tarjeta">
+              <figure class="tarjeta__figura">
+                <img class="tarjeta__imagen" src="assets/img/catalogos/chicha-morada.jpg" alt="Refresco Chicha Morada">
+              </figure>
+              <div class="tarjeta__cuerpo">
+                <span class="etiqueta">Bebidas</span>
+                <h3 class="tarjeta__titulo">
+                  <a href="producto.html">Refresco Chicha Morada</a>
+                </h3>
+                <p class="tarjeta__vendedor mb-0">
+                  Vendido por <strong>Luis Castro</strong> · Torre B, Dpto. 115
+                </p>
+              </div>
+              <div class="tarjeta__pie">
+                <!-- Precio siempre con dos decimales -->
+                <span class="tarjeta__precio">S/ 7.50</span>
+                <a class="boton boton--sm" href="producto.html">Ver</a>
+              </div>
+            </article>
+
+            <!-- PRODUCTO 6 -->
+            <article class="tarjeta">
+              <figure class="tarjeta__figura">
+                <img class="tarjeta__imagen" src="assets/img/catalogos/camu-camu.jpg" alt="Refresco Camu-Camu">
+              </figure>
+              <div class="tarjeta__cuerpo">
+                <span class="etiqueta">Bebidas</span>
+                <h3 class="tarjeta__titulo">
+                  <a href="producto.html">Refresco Camu-Camu</a>
+                </h3>
+                <p class="tarjeta__vendedor mb-0">
+                  Vendido por <strong>Ana López</strong> · Torre A, Dpto. 108
+                </p>
+              </div>
+              <div class="tarjeta__pie">
+                <!-- Precio siempre con dos decimales -->
+                <span class="tarjeta__precio">S/ 8.00</span>
+                <a class="boton boton--sm" href="producto.html">Ver</a>
+              </div>
+            </article>
+
+            <!-- PRODUCTO 7 -->
+            <article class="tarjeta">
+              <figure class="tarjeta__figura">
+                <img class="tarjeta__imagen" src="assets/img/catalogos/lomo-saltado.jpg" alt="Lomo Saltado de Res">
+              </figure>
+              <div class="tarjeta__cuerpo">
+                <span class="etiqueta">Comida Preparada</span>
+                <h3 class="tarjeta__titulo">
+                  <a href="producto.html">Lomo Saltado de Res</a>
+                </h3>
+                <p class="tarjeta__vendedor mb-0">
+                  Vendido por <strong>Nicolás Medina</strong> · Torre A, Dpto. 106
+                </p>
+              </div>
+              <div class="tarjeta__pie">
+                <!-- Precio siempre con dos decimales -->
+                <span class="tarjeta__precio">S/ 30.00</span>
+                <a class="boton boton--sm" href="producto.html">Ver</a>
+              </div>
+            </article>
+
+            <!-- PRODUCTO 8 -->
+            <article class="tarjeta">
+              <figure class="tarjeta__figura">
+                <img class="tarjeta__imagen" src="assets/img/catalogos/pollo-a-la-brasa-entero.jpg" alt="Pollo A la Brasa: Entero">
+              </figure>
+              <div class="tarjeta__cuerpo">
+                <span class="etiqueta">Comida Preparada</span>
+                <h3 class="tarjeta__titulo">
+                  <a href="producto.html">Pollo A la Brasa: Entero </a>
+                </h3>
+                <p class="tarjeta__vendedor mb-0">
+                  Vendido por <strong>Nataly Aguirre</strong> · Torre C, Dpto. 254
+                </p>
+              </div>
+              <div class="tarjeta__pie">
+                <!-- Precio siempre con dos decimales -->
+                <span class="tarjeta__precio">S/ 75.00</span>
+                <a class="boton boton--sm" href="producto.html">Ver</a>
+              </div>
+            </article>
+
+            <!-- PRODUCTO 9 -->
+            <article class="tarjeta">
+              <figure class="tarjeta__figura">
+                <img class="tarjeta__imagen" src="assets/img/catalogos/arroz-superior-BP-10Kg.jpg" alt="Arroz Superior - Blanco de Primera: 10 Kg">
+              </figure>
+              <div class="tarjeta__cuerpo">
+                <span class="etiqueta">Abarrotes</span>
+                <h3 class="tarjeta__titulo">
+                  <a href="producto.html">Arroz Superior - Blanco de Primera: 10 Kg</a>
+                </h3>
+                <p class="tarjeta__vendedor mb-0">
+                  Vendido por <strong>Ernesto Fernández</strong> · Torre B, Dpto. 222
+                </p>
+              </div>
+              <div class="tarjeta__pie">
+                <!-- Precio siempre con dos decimales -->
+                <span class="tarjeta__precio">S/ 25.50</span>
+                <a class="boton boton--sm" href="producto.html">Ver</a>
+              </div>
+            </article>
+
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+  </main>
+
+
+  <!-- =====================================================================
+       PIE DE PÁGINA  —  IDÉNTICO EN LAS CINCO PÁGINAS
+       ---------------------------------------------------------------------
+       Tres columnas que pide el enunciado: contacto de la administración,
+       reglamento e integrantes del equipo.
+       ===================================================================== -->
+  <footer class="pie">
+    <div class="contenedor pie__grilla">
+
+      <!-- Columna 1: qué es esto y qué NO es.
+           El segundo párrafo importa: Kercado no cobra ni reparte. Dejarlo
+           claro en el pie evita que alguien espere una pasarela de pago. -->
+      <div>
+        <h3 class="pie__titulo">Kercado</h3>
+        <p class="subtexto">
+          Marketplace hiperlocal del condominio Las Palmas 357, Chorrillos.
+          Los vecinos publican, los vecinos compran.
+        </p>
+        <p class="subtexto">
+          Kercado no cobra comisiones, no procesa pagos y no gestiona la
+          entrega: solo conecta al vecino que vende con el que compra.
+        </p>
+      </div>
+
+      <!-- Columna 2: contacto de la administración -->
+      <div>
+        <h3 class="pie__titulo">Administración</h3>
+        <ul class="pie__lista">
+          <li>Av. Las Palmas 357, Chorrillos — Lima</li>
+          <li>Oficina: Torre A, primer piso</li>
+          <li>Atención: lunes a sábado, 8:00 a 18:00</li>
+          <li><a href="mailto:administracion@laspalmas357.pe">administracion@laspalmas357.pe</a></li>
+          <li><a href="tel:+5112345678">(01) 234 5678</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: reglamento.
+           Los enlaces apuntan a anclas dentro de index.html. Están así a
+           propósito: NO se enlaza a páginas que todavía no existen. -->
+      <div>
+        <h3 class="pie__titulo">Reglamento</h3>
+        <ul class="pie__lista">
+          <li><a href="index.html#como-funciona">Cómo funciona Kercado</a></li>
+          <li><a href="index.html#reglas">Reglas de convivencia</a></li>
+          <li><a href="index.html#pagos">Métodos de pago aceptados</a></li>
+          <li><a href="index.html#nosotros">Quiénes somos</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 4: integrantes del equipo -->
+      <div>
+        <h3 class="pie__titulo">Integrantes</h3>
+        <ul class="pie__lista">
+          <li>Piero Alessandro Pérez Izquierdo</li>
+          <li>Edgar Paolo Pérez Román</li>
+          <li>Francys Diego Yareta Cortez</li>
+          <li>Luis Alberto Huánuco Jiménez</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Línea final. El año se escribe a mano: no hay JavaScript. -->
+    <div class="pie__legal">
+      <p class="mb-0">
+        Kercado &copy; 2026 · Proyecto académico — Taller de Programación Web,
+        Universidad Tecnológica del Perú.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
