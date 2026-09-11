@@ -899,6 +899,51 @@ p {
   overflow: hidden;
 }
 
+/* el banner grande del inicio, la foto del condominio ocupa todo el ancho
+   y el nombre de kercado va encima, al lado izquierdo */
+.portada {
+  position: relative;
+  min-height: 72vh;
+  display: flex;
+  overflow: hidden;
+  background-color: var(--verde-oscuro);  /* se ve este color mientras carga la foto */
+}
+.portada__imagen {
+  position: absolute;
+  inset: 0;                         /* la foto se estira a los cuatro lados */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;                /* llena el banner sin deformar la foto */
+}
+/* una sombra verde que va de izquierda a derecha, así el texto blanco se
+   lee bien encima de la foto */
+.portada::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(12, 63, 39, 0.88) 0%,
+              rgba(12, 63, 39, 0.55) 45%, rgba(12, 63, 39, 0.1) 100%);
+}
+.portada__contenido {
+  position: relative;
+  z-index: 1;                       /* el texto queda encima de la sombra */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;          /* el texto queda a media altura */
+  padding-block: var(--sp-6);
+}
+.portada__titulo {
+  font-size: calc(var(--txt-2xl) * 1.6);
+  color: var(--blanco);
+  letter-spacing: -0.02em;
+}
+.portada__frase {
+  font-size: var(--txt-lg);
+  color: var(--crema);
+  max-width: 34ch;
+  margin-bottom: var(--sp-4);       /* separa el botón de la frase */
+}
+
 /* la cajita donde va el reproductor de audio */
 .audio-caja {
   background-color: var(--verde-claro);
@@ -965,6 +1010,19 @@ p {
   gap: var(--sp-3);
 }
 
+/* texto a un lado y foto al otro, la usamos en qué es kercado */
+.dos-columnas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-5);
+  align-items: center;
+}
+.dos-columnas__imagen {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
 /* caja blanca para bloques de texto, pasos o integrantes */
 .caja {
   background-color: var(--blanco);
@@ -1003,6 +1061,12 @@ p {
   .panel-lateral {
     position: static;               /* ya no baja con el scroll */
   }
+
+  /* la foto de qué es kercado baja debajo del texto */
+  .dos-columnas {
+    grid-template-columns: 1fr;
+    gap: var(--sp-4);
+  }
 }
 
 /* en celular */
@@ -1020,8 +1084,11 @@ p {
     align-items: stretch;
     gap: var(--sp-2);
   }
+  /* en columna los 200px del flex se volvían alto y el buscador salía
+     gigante, con flex none vuelve a su alto normal */
   .buscador {
     max-width: none;
+    flex: none;
   }
 
   /* el menú queda en una sola fila que se desliza de lado, no usamos menú

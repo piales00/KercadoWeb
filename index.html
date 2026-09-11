@@ -72,30 +72,34 @@
 
   <main>
 
-    <!-- esto es lo primero que ve el vecino al entrar, profesor, el nombre,
-         una frase corta y la foto del condominio para que reconozca dónde
-         está, pusimos un solo botón para que vaya directo al catálogo, si
-         hubiera varios no sabría cuál tocar -->
-    <section class="seccion">
-      <div class="contenedor">
-        <h1>Kercado</h1>
-        <p>El mercado interno de nuestra comunidad, donde comprar y vender es más cercano y seguro.</p>
-        <img src="assets/img/condominiofachada.jpg" alt="Condominio Las Palmas 357" class="imagen-marco">
+    <!-- esto es lo primero que ve el vecino al entrar, profesor, la foto del
+         condominio ocupa todo el ancho para que reconozca dónde está, y
+         encima van el nombre y una frase corta, pusimos un solo botón para
+         que vaya directo al catálogo, si hubiera varios no sabría cuál tocar -->
+    <section class="portada">
+      <img src="assets/img/condominiofachada.jpg" alt="Condominio Las Palmas 357" class="portada__imagen">
+      <div class="contenedor portada__contenido">
+        <h1 class="portada__titulo">Ker<span class="logo__acento">cado</span></h1>
+        <p class="portada__frase">El mercado interno de nuestra comunidad, donde comprar y vender es más cercano y seguro.</p>
         <div>
-          <a href="catalogo.html" class="boton">Ver el catálogo</a>
+          <a href="catalogo.html" class="boton boton--lg">Ver el catálogo</a>
         </div>
       </div>
     </section>
 
     <!-- estos párrafos cuentan que kercado es solo para los residentes, y
          dejamos claro que se compra y se vende con la misma cuenta, así
-         nadie busca un registro aparte para vender -->
+         nadie busca un registro aparte para vender, al lado va una foto de
+         algo que venden los vecinos para que se entienda de qué se trata -->
     <section class="seccion">
-      <div class="contenedor">
-        <h2 class="titulo-seccion">Qué es Kercado</h2>
-        <p>Kercado es una plataforma digital exclusiva para los residentes, diseñada para fomentar el comercio local dentro de nuestra propia comunidad de forma rápida, práctica y confiable.</p>
-        <p>Con una interfaz intuitiva y accesible desde cualquier dispositivo, buscamos fortalecer los lazos vecinales facilitando el intercambio de productos y servicios cotidianos.</p>
-        <p>Un vecino compra y vende con la misma cuenta, utilizando el mismo usuario para ambas actividades sin necesidad de registros separados.</p>
+      <div class="contenedor dos-columnas">
+        <div>
+          <h2 class="titulo-seccion">Qué es Kercado</h2>
+          <p>Kercado es una plataforma digital exclusiva para los residentes, diseñada para fomentar el comercio local dentro de nuestra propia comunidad de forma rápida, práctica y confiable.</p>
+          <p>Con una interfaz intuitiva y accesible desde cualquier dispositivo, buscamos fortalecer los lazos vecinales facilitando el intercambio de productos y servicios cotidianos.</p>
+          <p class="mb-0">Un vecino compra y vende con la misma cuenta, utilizando el mismo usuario para ambas actividades sin necesidad de registros separados.</p>
+        </div>
+        <img src="assets/img/kercado.png" alt="Ilustración de una tienda en línea dentro de una laptop" class="imagen-marco dos-columnas__imagen">
       </div>
     </section>
 
@@ -124,12 +128,31 @@
       </div>
     </section>
 
-    <!-- una sección corta para dejar claro que kercado es solo para los
-         vecinos del condominio y no para cualquier persona -->
-    <section class="seccion">
+    <!-- aquí dejamos claro que kercado es solo para los vecinos del
+         condominio y no para cualquier persona, le pusimos el fondo verde
+         clarito para que se note que es otra parte, y en cada caja contamos
+         cómo lo usa cada tipo de vecino -->
+    <section class="seccion seccion--alterna">
       <div class="contenedor">
         <h2 class="titulo-seccion">Para quién es</h2>
-        <p>Residentes del condominio Las Palmas 357.</p>
+        <p class="mb-3">Kercado es solo para los residentes del condominio Las Palmas 357, así cada compra y cada venta queda entre vecinos que se conocen.</p>
+        <div class="grilla-auto">
+          <div class="caja">
+            <span class="etiqueta">Vende</span>
+            <h3 class="mt-3">El vecino que prepara o tiene algo</h3>
+            <p class="mb-0">Postres, menús caseros, abarrotes o un servicio, lo publica y sus vecinos lo ven al toque.</p>
+          </div>
+          <div class="caja">
+            <span class="etiqueta">Compra</span>
+            <h3 class="mt-3">El vecino que busca algo cerca</h3>
+            <p class="mb-0">Encuentra lo que necesita sin salir del condominio y lo recoge a unos pasos de su departamento.</p>
+          </div>
+          <div class="caja">
+            <span class="etiqueta">Seguridad</span>
+            <h3 class="mt-3">Solo cuentas validadas</h3>
+            <p class="mb-0">La administración revisa la torre y el departamento de cada vecino antes de activar su cuenta.</p>
+          </div>
+        </div>
       </div>
     </section>
 
