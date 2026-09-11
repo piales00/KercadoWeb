@@ -1,4 +1,9 @@
 <!doctype html>
+<!--
+  hecho por luis. aquí el vecino crea su cuenta de kercado, llena sus datos
+  personales, los de su departamento y su contraseña, con esa misma cuenta
+  después puede comprar y vender
+-->
 <html lang="es">
   <head>
     <!-- con esto las tildes y las eñes se ven bien en el navegador -->
@@ -72,8 +77,10 @@
       </nav>
     </header>
 
-    <!-- aquí dentro va el contenido de cada página, cada parte en su propia
-       section -->
+    <!-- aquí está el formulario de registro, profesor, lo dividimos en tres
+         grupos para que no se vea como una lista larga de campos, primero
+         los datos de la persona, después los de su departamento y al final
+         los de su cuenta -->
     <main>
       <section class="seccion">
         <div class="contenedor">
@@ -82,11 +89,14 @@
             <div class="contenedor">
               <form class="formulario" action="#" method="post">
                 <!-- el fieldset agrupa los campos que van juntos y el legend le
-               pone nombre al grupo -->
+                     pone nombre al grupo, este primero es para los datos de
+                     la persona -->
                 <fieldset>
                   <legend>Datos Personales</legend>
 
-                  <!-- dos campos uno al lado del otro -->
+                  <!-- cada campo tiene su label unido con el id, así al hacer
+                       clic en el texto se activa el campo, y el asterisco
+                       naranja marca los que son obligatorios -->
                   <div class="campo">
                     <label for="c-nombre"
                       >Nombres<span class="obligatorio">*</span></label
@@ -127,8 +137,9 @@
                   </div>
                 </fieldset>
 
-                <!-- el fieldset agrupa los campos que van juntos y el legend le
-                   pone nombre al grupo -->
+                <!-- aquí van la torre y el departamento, con estos datos la
+                     administración revisa que la persona de verdad vive en
+                     el condominio antes de activar su cuenta -->
                 <fieldset>
                   <legend>Datos de tu Unidad</legend>
 
@@ -155,8 +166,9 @@
                     />
                   </div>
 
-                  <!-- los radios tienen el mismo name, por eso solo se puede marcar
-                     uno -->
+                  <!-- el piso se elige con radios porque son pocas opciones,
+                       todos tienen el mismo name y por eso solo se puede
+                       marcar uno -->
                   <div class="campo">
                     <label>Piso</label>
                     <div class="opciones">
@@ -176,6 +188,9 @@
                   </div>
                 </fieldset>
 
+                <!-- el último grupo es para la cuenta, la contraseña se pide
+                     dos veces para que el vecino no se equivoque al
+                     escribirla -->
                 <fieldset>
                   <legend>Tu Cuenta</legend>
 
@@ -202,6 +217,8 @@
                     />
                   </div>
 
+                  <!-- este campo no es obligatorio, usamos un textarea porque
+                       el vecino puede escribir varias líneas -->
                   <div class="campo">
                     <label for="c-nota"
                       >¿Qué te gustaría vender en Kercado?</label
@@ -228,8 +245,9 @@
                 </fieldset>
               </form>
 
-              <!-- la caja de aviso, va arriba del registro cuando el vecino llega
-             desde el botón pedir del producto -->
+              <!-- este aviso es para el vecino que llega desde el botón pedir
+                   del producto, le explica por qué necesita una cuenta y
+                   que la administración la tiene que validar -->
               <div class="aviso mt-3">
                 <p>
                   <strong>Para pedir necesitas una cuenta.</strong> Regístrate
@@ -239,8 +257,6 @@
               </div>
             </div>
           </section>
-          <!--Probando -->
-          <!--Separata-->
         </div>
       </section>
     </main>
