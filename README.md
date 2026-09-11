@@ -23,7 +23,7 @@ Abrir el index.html en el navegador
 | `index.html` | Inicio, qué es Kercado, cómo funciona, para quién es, métodos de pago, reglas de convivencia, el equipo y el audio de presentación |
 | `catalogo.html` | Los productos de los vecinos, con un panel lateral de categorías y filtro por precio |
 | `producto.html` | El detalle de un producto, con su galería de fotos y su ficha |
-| `registro.html` | El formulario para crear la cuenta del vecino |
+| `registro.html` | El formulario para crear la cuenta del vecino y, debajo, el de inicio de sesión |
 | `panel.html` | El panel del vecino, con sus compras y sus ventas |
 
 ## Estructura
