@@ -2,7 +2,8 @@
 <!--
   hecho por luis. aquí el vecino crea su cuenta de kercado, llena sus datos
   personales, los de su departamento y su contraseña, con esa misma cuenta
-  después puede comprar y vender
+  después puede comprar y vender, y más abajo está el formulario para
+  iniciar sesión si ya tiene cuenta
 -->
 <html lang="es">
   <head>
@@ -16,7 +17,7 @@
     <!-- la descripción de la página y los autores -->
     <meta
       name="description"
-      content="PLANTILLA — reemplazar por la descripción propia de cada página."
+      content="Crea tu cuenta de residente en Kercado o inicia sesión si ya tienes una."
     />
     <meta
       name="author"
@@ -255,6 +256,45 @@
                   residente antes de habilitarte.
                 </p>
               </div>
+
+              <!-- aquí entra el vecino que ya tiene su cuenta activa, solo le
+                   pedimos el correo y la contraseña con los que se registró,
+                   el botón va con borde verde porque el naranja ya lo tiene
+                   crear cuenta, y como en este avance no hay servidor todavía
+                   no revisa si los datos son correctos -->
+              <h2 class="titulo-seccion mt-3">Iniciar Sesión</h2>
+              <form class="formulario" action="#" method="post">
+                <fieldset>
+                  <legend>¿Ya tienes cuenta?</legend>
+
+                  <div class="campo">
+                    <label for="s-correo"
+                      >Correo electrónico<span class="obligatorio">*</span></label
+                    >
+                    <input type="email" id="s-correo" name="correo" required />
+                  </div>
+
+                  <div class="campo">
+                    <label for="s-clave"
+                      >Contraseña <span class="obligatorio">*</span></label
+                    >
+                    <input type="password" id="s-clave" name="clave" required />
+                  </div>
+
+                  <!-- este no es obligatorio, sirve para que el vecino no tenga
+                       que escribir sus datos cada vez que entra -->
+                  <div class="campo">
+                    <label class="checkbox">
+                      <input type="checkbox" name="recordar" />
+                      Recordar mi sesión en este dispositivo.
+                    </label>
+                  </div>
+
+                  <button class="boton boton--linea boton--full" type="submit">
+                    Ingresar
+                  </button>
+                </fieldset>
+              </form>
             </div>
           </section>
         </div>
