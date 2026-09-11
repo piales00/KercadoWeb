@@ -1,90 +1,66 @@
 <!DOCTYPE html>
 <!--
-  =========================================================================
-  KERCADO — PRODUCTO
-  -------------------------------------------------------------------------
-  Cómo se usa:
-    1. Copia este archivo y renómbralo (index.html, catalogo.html, etc.).
-    2. Cambia el <title> y la <meta name="description">.
-    3. Marca tu página en el menú con la clase menu__enlace--activo.
-    4. Escribe SOLO dentro de <main>. No toques el header ni el footer:
-       tienen que quedar idénticos en las cinco páginas (lo pide la rúbrica).
-    5. Borra los comentarios que digan "PLANTILLA" y deja los tuyos.
-
-  Autor de la base: equipo Kercado
-  =========================================================================
+  hecho por francys. esta es la ficha de un producto, se llega aquí desde
+  las tarjetas del catálogo, muestra las fotos, los datos del producto y
+  el botón para pedirlo
 -->
 <html lang="es">
 
 <head>
-  <!-- Codificación: sin esto las tildes y las ñ salen como símbolos raros -->
+  <!-- con esto las tildes y las eñes se ven bien en el navegador -->
   <meta charset="UTF-8">
 
-  <!-- Viewport: le dice al celular que use su ancho real y no que finja ser
-       un monitor. Es lo que hace que el diseño responsive funcione. -->
+  <!-- esta línea hace que en el celular la página use el ancho real de la
+       pantalla, así el diseño se acomoda bien -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Metadatos descriptivos: aparecen en buscadores y al compartir el link -->
+  <!-- la descripción de la página y los autores -->
   <meta name="description" content="PRODUCTO">
   <meta name="author" content="Equipo Kercado — Taller de Programación Web, UTP">
 
-  <!-- Título de la pestaña. Formato acordado: Sección · Kercado -->
+  <!-- el título que sale en la pestaña del navegador -->
   <title>Producto · Kercado</title>
 
-  <!-- Hoja de estilos ÚNICA del proyecto. Es la misma ruta en las cinco
-       páginas porque todas están en la raíz del repositorio. -->
+  <!-- enlazamos la misma hoja de estilos que usan todas las páginas -->
   <link rel="stylesheet" href="css/estilo.css">
 </head>
 
 <body>
 
-  <!-- =====================================================================
-       CABECERA  —  IDÉNTICA EN LAS CINCO PÁGINAS
-       ---------------------------------------------------------------------
-       Contiene tres cosas: la identidad (logo), el buscador y el menú.
-       El menú va ACÁ, en el <header>. El <aside> del catálogo es solo para
-       categorías y filtros: son dos cosas distintas y la rúbrica lo separa.
-       ===================================================================== -->
+  <!-- esta es la cabecera, es la misma en las cinco páginas del sitio,
+       tiene el logo, el buscador, el botón para ingresar y el menú -->
   <header class="encabezado">
 
-    <!-- Fila superior: logo · buscador · acceso a la cuenta -->
     <div class="contenedor encabezado__fila">
 
-      <!-- El logo siempre lleva al inicio. Es una convención que la gente
-           ya tiene aprendida; romperla no aporta nada. -->
+      <!-- el logo lleva a la página de inicio -->
       <a class="logo" href="index.html">
         <span>Ker<span class="logo__acento">cado</span>
           <span class="logo__bajada">Condominio Las Palmas 357</span>
         </span>
       </a>
 
-      <!-- Buscador. AVISO HONESTO: en este avance es decorativo. No hay
-           backend ni JavaScript puntuable, así que no busca nada todavía.
-           Está para que la zona de cabecera esté completa y para mostrar
-           hacia dónde va el producto. -->
+      <!-- el buscador todavía no busca nada porque en este avance no usamos
+           javascript ni tenemos servidor, pero lo dejamos para que se vea
+           cómo quedará la cabecera -->
       <form class="buscador" action="catalogo.html" method="get">
-        <!-- Toda entrada necesita su <label>, aunque no se vea. La clase
-             .solo-lectores lo oculta a la vista pero lo deja disponible
-             para lectores de pantalla. -->
+        <!-- este label no se ve en pantalla, pero lo leen los lectores de
+             pantalla que usan las personas con discapacidad visual -->
         <label class="solo-lectores" for="q">Buscar productos</label>
         <input class="buscador__campo" type="search" id="q" name="q"
                placeholder="Buscar postres, menús, abarrotes...">
         <button class="buscador__boton" type="submit">Buscar</button>
       </form>
 
-      <!-- Acceso a la cuenta. Una sola cuenta: en Kercado el vecino compra
-           y vende con el mismo usuario, por eso no hay "entrar como
-           vendedor" ni nada parecido. -->
+      <!-- hay un solo botón para ingresar, porque el vecino usa la misma
+           cuenta para comprar y para vender -->
       <a class="boton boton--sm" href="registro.html">Ingresar</a>
     </div>
 
-    <!-- Menú de navegación principal.
-         <nav> es la etiqueta semántica correcta para un bloque de enlaces
-         de navegación; aria-label lo distingue de otros <nav> de la página. -->
+    <!-- este es el menú principal, en cada página marcamos como activo el
+         enlace de la página donde está el vecino -->
     <nav class="menu" aria-label="Navegación principal">
       <ul class="contenedor menu__lista">
-        <!-- Las cuatro páginas del avance. Ningún enlace muerto:
-             las cinco existen. -->
         <li><a class="menu__enlace" href="index.html">Inicio</a></li>
         <li><a class="menu__enlace" href="catalogo.html">Catálogo</a></li>
         <li><a class="menu__enlace" href="panel.html">Mi panel</a></li>
@@ -94,20 +70,15 @@
   </header>
 
 
-  <!-- =====================================================================
-       CONTENIDO PROPIO DE LA PÁGINA
-       ---------------------------------------------------------------------
-       Acá adentro escribe cada integrante. Todo lo de afuera queda igual.
-       Cada bloque temático va en su propia <section class="seccion">.
-       ===================================================================== -->
   <main>
-    <!-- Ficha detallada del producto. (Fotos,Ficha técnica, botón de pedido hacia el "registro.html") -->
+    <!-- aquí está la ficha del producto, profesor, arriba van las fotos,
+         después una tabla con los datos y al final el botón para pedirlo -->
     <section class="seccion">
       <div class="contenedor">
 
         <h1>Torta de Chocolate Casera</h1>
 
-        <!-- Galería de fotos del producto -->
+        <!-- la galería, una foto grande y cuatro pequeñas debajo -->
         <div class="mb-3">
             <figure class="galeria__principal">
                 <img src="assets/img/catalogos/torta-chocolate.jpg" alt="Torta de chocolate entera vista desde arriba">
@@ -120,7 +91,9 @@
             </div>
         </div>
 
-        <!-- Ficha técnica de 2 columnas -->
+        <!-- la tabla con los datos del producto, a la izquierda el dato y a
+             la derecha su valor, como el stock, el horario y dónde vive el
+             vecino que lo vende -->
         <h3>Ficha del producto</h3>
         <div class="tabla-scroll mb-3">
             <table class="tabla tabla--ficha">
@@ -135,12 +108,14 @@
             </table>
         </div>
 
-        <!-- NOTA: Aviso informativo -->
+        <!-- este aviso le dice al vecino que para pedir necesita una cuenta,
+             y que el pago y la entrega los coordina con quien vende -->
         <div class="aviso mb-3">
             <p><strong>Para pedir necesitas una cuenta.</strong> Kercado no procesa pagos en línea ni realiza envíos; la entrega y el pago se coordinan directamente entre residentes</p>
         </div>
-        
-        <!-- Botón de pedido en naranja "PEDIR" para redireccionar a registro.html -->
+
+        <!-- el botón para pedir, lleva al registro porque primero hay que
+             tener una cuenta -->
         <a class="boton boton--lg" href="registro.html">Pedir</a>
 
       </div>
@@ -149,18 +124,13 @@
   </main>
 
 
-  <!-- =====================================================================
-       PIE DE PÁGINA  —  IDÉNTICO EN LAS CINCO PÁGINAS
-       ---------------------------------------------------------------------
-       Tres columnas que pide el enunciado: contacto de la administración,
-       reglamento e integrantes del equipo.
-       ===================================================================== -->
+  <!-- este es el pie de página, también es el mismo en las cinco páginas,
+       tiene información de kercado, el contacto de la administración, el
+       reglamento y los integrantes del grupo -->
   <footer class="pie">
     <div class="contenedor pie__grilla">
 
-      <!-- Columna 1: qué es esto y qué NO es.
-           El segundo párrafo importa: Kercado no cobra ni reparte. Dejarlo
-           claro en el pie evita que alguien espere una pasarela de pago. -->
+      <!-- aquí contamos qué es kercado, y que no cobra ni hace entregas -->
       <div>
         <h3 class="pie__titulo">Kercado</h3>
         <p class="subtexto">
@@ -173,7 +143,7 @@
         </p>
       </div>
 
-      <!-- Columna 2: contacto de la administración -->
+      <!-- los datos de contacto de la administración del condominio -->
       <div>
         <h3 class="pie__titulo">Administración</h3>
         <ul class="pie__lista">
@@ -185,9 +155,8 @@
         </ul>
       </div>
 
-      <!-- Columna 3: reglamento.
-           Los enlaces apuntan a anclas dentro de index.html. Están así a
-           propósito: NO se enlaza a páginas que todavía no existen. -->
+      <!-- estos enlaces llevan a partes de la página de inicio, donde
+           explicamos cómo funciona kercado y sus reglas -->
       <div>
         <h3 class="pie__titulo">Reglamento</h3>
         <ul class="pie__lista">
@@ -198,7 +167,7 @@
         </ul>
       </div>
 
-      <!-- Columna 4: integrantes del equipo -->
+      <!-- nuestros nombres -->
       <div>
         <h3 class="pie__titulo">Integrantes</h3>
         <ul class="pie__lista">
@@ -210,7 +179,8 @@
       </div>
     </div>
 
-    <!-- Línea final. El año se escribe a mano: no hay JavaScript. -->
+    <!-- el año lo escribimos a mano porque en este avance no usamos
+         javascript -->
     <div class="pie__legal">
       <p class="mb-0">
         Kercado &copy; 2026 · Proyecto académico — Taller de Programación Web,

@@ -1,91 +1,67 @@
 <!DOCTYPE html>
 <!--
-  =========================================================================
-  KERCADO — Catalogo
-  -------------------------------------------------------------------------
-
-  Cómo se usa:
-    1. Copia este archivo y renómbralo (index.html, catalogo.html, etc.).
-    2. Cambia el <title> y la <meta name="description">.
-    3. Marca tu página en el menú con la clase menu__enlace--activo.
-    4. Escribe SOLO dentro de <main>. No toques el header ni el footer:
-       tienen que quedar idénticos en las cinco páginas (lo pide la rúbrica).
-    5. Borra los comentarios que digan "PLANTILLA" y deja los tuyos.
-
-  Autor de la base: equipo Kercado
-  =========================================================================
+  hecho por francys. 
+aquí está el catálogo, a la izquierda van las
+  categorías y el filtro por precio, y a la derecha todos los productos que
+  venden los vecinos, cada tarjeta lleva a la ficha del producto
 -->
 <html lang="es">
 
 <head>
-  <!-- Codificación: sin esto las tildes y las ñ salen como símbolos raros -->
+  <!-- con esto las tildes y las eñes se ven bien en el navegador -->
   <meta charset="UTF-8">
 
-  <!-- Viewport: le dice al celular que use su ancho real y no que finja ser
-       un monitor. Es lo que hace que el diseño responsive funcione. -->
+  <!-- esta línea hace que en el celular la página use el ancho real de la
+       pantalla, así el diseño se acomoda bien -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Metadatos descriptivos: aparecen en buscadores y al compartir el link -->
+  <!-- la descripción de la página y los autores -->
   <meta name="description" content="Catalogo">
   <meta name="author" content="Equipo Kercado — Taller de Programación Web, UTP">
 
-  <!-- Título de la pestaña. Formato acordado: Sección · Kercado -->
+  <!-- el título que sale en la pestaña del navegador -->
   <title>Catálogo · Kercado</title>
 
-  <!-- Hoja de estilos ÚNICA del proyecto. Es la misma ruta en las cinco
-       páginas porque todas están en la raíz del repositorio. -->
+  <!-- enlazamos la misma hoja de estilos que usan todas las páginas -->
   <link rel="stylesheet" href="css/estilo.css">
 </head>
 
 <body>
 
-  <!-- =====================================================================
-       CABECERA  —  IDÉNTICA EN LAS CINCO PÁGINAS
-       ---------------------------------------------------------------------
-       Contiene tres cosas: la identidad (logo), el buscador y el menú.
-       El menú va ACÁ, en el <header>. El <aside> del catálogo es solo para
-       categorías y filtros: son dos cosas distintas y la rúbrica lo separa.
-       ===================================================================== -->
+  <!-- esta es la cabecera, es la misma en las cinco páginas del sitio,
+       tiene el logo, el buscador, el botón para ingresar y el menú -->
   <header class="encabezado">
 
-    <!-- Fila superior: logo · buscador · acceso a la cuenta -->
     <div class="contenedor encabezado__fila">
 
-      <!-- El logo siempre lleva al inicio. Es una convención que la gente
-           ya tiene aprendida; romperla no aporta nada. -->
+      <!-- el logo lleva a la página de inicio -->
       <a class="logo" href="index.html">
         <span>Ker<span class="logo__acento">cado</span>
           <span class="logo__bajada">Condominio Las Palmas 357</span>
         </span>
       </a>
 
-      <!-- Buscador. AVISO HONESTO: en este avance es decorativo. No hay
-           backend ni JavaScript puntuable, así que no busca nada todavía.
-           Está para que la zona de cabecera esté completa y para mostrar
-           hacia dónde va el producto. -->
+      <!-- el buscador todavía no busca nada porque en este avance no usamos
+           javascript ni tenemos servidor, pero lo dejamos para que se vea
+           cómo quedará la cabecera -->
       <form class="buscador" action="catalogo.html" method="get">
-        <!-- Toda entrada necesita su <label>, aunque no se vea. La clase
-             .solo-lectores lo oculta a la vista pero lo deja disponible
-             para lectores de pantalla. -->
+        <!-- este label no se ve en pantalla, pero lo leen los lectores de
+             pantalla que usan las personas con discapacidad visual -->
         <label class="solo-lectores" for="q">Buscar productos</label>
         <input class="buscador__campo" type="search" id="q" name="q"
                placeholder="Buscar postres, menús, abarrotes...">
         <button class="buscador__boton" type="submit">Buscar</button>
       </form>
 
-      <!-- Acceso a la cuenta. Una sola cuenta: en Kercado el vecino compra
-           y vende con el mismo usuario, por eso no hay "entrar como
-           vendedor" ni nada parecido. -->
+      <!-- hay un solo botón para ingresar, porque el vecino usa la misma
+           cuenta para comprar y para vender -->
       <a class="boton boton--sm" href="registro.html">Ingresar</a>
     </div>
 
-    <!-- Menú de navegación principal.
-         <nav> es la etiqueta semántica correcta para un bloque de enlaces
-         de navegación; aria-label lo distingue de otros <nav> de la página. -->
+    <!-- este es el menú principal, en cada página marcamos como activo el
+         enlace de la página donde está el vecino -->
     <nav class="menu" aria-label="Navegación principal">
       <ul class="contenedor menu__lista">
-        <!-- Las cuatro páginas del avance. Ningún enlace muerto:
-             las cinco existen. -->
         <li><a class="menu__enlace" href="index.html">Inicio</a></li>
         <li><a class="menu__enlace menu_enlace--activo" href="catalogo.html">Catálogo</a></li>
         <li><a class="menu__enlace" href="panel.html">Mi panel</a></li>
@@ -95,23 +71,20 @@
   </header>
 
 
-  <!-- =====================================================================
-       CONTENIDO PROPIO DE LA PÁGINA
-       ---------------------------------------------------------------------
-       Acá adentro escribe cada integrante. Todo lo de afuera queda igual.
-       Cada bloque temático va en su propia <section class="seccion">.
-       ===================================================================== -->
   <main>
-    <!-- Contenedor principal: Categoria/Filtrado y Grilla de productos. -->
+    <!-- aquí empieza el catálogo, profesor, está dividido en dos columnas,
+         las categorías y el filtro a la izquierda, y los productos a la
+         derecha -->
     <div class="seccion">
       <div class="contenedor layout-catalogo">
-        <!-- Panel lateral de categorias y filtrado (No lleva menú de navegación) -->
+        <!-- el aside con las categorías y el filtro, el menú del sitio no va
+             aquí porque ya está arriba en la cabecera -->
         <aside class="panel-lateral" aria-label="Categorías y filtros">
           <div class="panel-lateral__bloque">
             <h3 class="panel-lateral__titulo">Categorías</h3>
-            
-            <!-- Lista de categorias -->
-            <!-- Todas las categorias deben estar "class="activo" para visualizarlas. (Uso: href="catalogo.html") -->
+
+            <!-- la lista de categorías, la que tiene la clase activo es la que
+                 se está viendo ahora, que es todos los productos -->
             <ul class="lista-categorias">
               <li><a class="activo" href="catalogo.html">Todos los productos</a></li>
               <li><a href="catalogo.html">Comida preparada</a></li>
@@ -122,8 +95,8 @@
             </ul>
           </div>
 
-          <!-- FORMULARIO DE FILTRO POR PRECIO (action="catalogo.html" | method="get") -->
-          <!-- Cada <input> debe tener su <label for="..." conectado con su id="..." -->
+          <!-- el filtro por precio, cada campo tiene su label unido con el id,
+               todavía no filtra porque en este avance no usamos javascript -->
           <div class="panel-lateral__bloque">
             <h3 class="panel-lateral__titulo">Filtrar por precio</h3>
             <form action="catalogo.html" method="get">
@@ -141,13 +114,16 @@
 
         </aside>
 
-        <!-- Contenido principal del catálogo -->
+        <!-- la columna de la derecha con los productos -->
         <div>
           <h1>Catálogo de Productos</h1>
-          <!-- Grilla de productos: 9 tarjetas de 4 a 1 columna. -->
+          <!-- la grilla con las nueve tarjetas, se acomoda sola y en el
+               celular queda en una sola columna -->
           <div class="grilla-productos">
-            <!-- Bloque de visualización <article class="tarjeta"> se repite 9 veces segun tipo de producto (Cambiar datos) -->
-            <!-- PRODUCTO 1 -->
+            <!-- cada tarjeta tiene la foto, la categoría, el nombre, quién lo
+                 vende y el precio, los precios siempre van con dos decimales
+                 para que se vean parejos -->
+            <!-- producto 1 -->
             <article class="tarjeta">
               <figure class="tarjeta__figura">
                 <img class="tarjeta__imagen" src="assets/img/catalogos/torta-chocolate.jpg" alt="Torta de chocolate artesanal decorada">
@@ -162,13 +138,12 @@
                 </p>
               </div>
               <div class="tarjeta__pie">
-                <!-- Precio siempre con dos decimales -->
                 <span class="tarjeta__precio">S/ 24.00</span>
                 <a class="boton boton--sm" href="producto.html">Ver</a>
               </div>
             </article>
 
-            <!-- PRODUCTO 2 -->
+            <!-- producto 2 -->
             <article class="tarjeta">
               <figure class="tarjeta__figura">
                 <img class="tarjeta__imagen" src="assets/img/catalogos/torta-tresleches.jpg" alt="Torta de 3 leches">
@@ -183,13 +158,12 @@
                 </p>
               </div>
               <div class="tarjeta__pie">
-                <!-- Precio siempre con dos decimales -->
                 <span class="tarjeta__precio">S/ 28.00</span>
                 <a class="boton boton--sm" href="producto.html">Ver</a>
               </div>
             </article>
 
-            <!-- PRODUCTO 3 -->
+            <!-- producto 3 -->
             <article class="tarjeta">
               <figure class="tarjeta__figura">
                 <img class="tarjeta__imagen" src="assets/img/catalogos/pan-baguette.jpg" alt="Pan Baguette">
@@ -204,13 +178,12 @@
                 </p>
               </div>
               <div class="tarjeta__pie">
-                <!-- Precio siempre con dos decimales -->
                 <span class="tarjeta__precio">S/ 2.50</span>
                 <a class="boton boton--sm" href="producto.html">Ver</a>
               </div>
             </article>
 
-            <!-- PRODUCTO 4 -->
+            <!-- producto 4 -->
             <article class="tarjeta">
               <figure class="tarjeta__figura">
                 <img class="tarjeta__imagen" src="assets/img/catalogos/galletas-chocolate.jpg" alt="Galletas con Chispas de Chocolate">
@@ -225,13 +198,12 @@
                 </p>
               </div>
               <div class="tarjeta__pie">
-                <!-- Precio siempre con dos decimales -->
                 <span class="tarjeta__precio">S/ 6.00</span>
                 <a class="boton boton--sm" href="producto.html">Ver</a>
               </div>
             </article>
 
-            <!-- PRODUCTO 5 -->
+            <!-- producto 5 -->
             <article class="tarjeta">
               <figure class="tarjeta__figura">
                 <img class="tarjeta__imagen" src="assets/img/catalogos/chicha-morada.jpg" alt="Refresco Chicha Morada">
@@ -246,13 +218,12 @@
                 </p>
               </div>
               <div class="tarjeta__pie">
-                <!-- Precio siempre con dos decimales -->
                 <span class="tarjeta__precio">S/ 7.50</span>
                 <a class="boton boton--sm" href="producto.html">Ver</a>
               </div>
             </article>
 
-            <!-- PRODUCTO 6 -->
+            <!-- producto 6 -->
             <article class="tarjeta">
               <figure class="tarjeta__figura">
                 <img class="tarjeta__imagen" src="assets/img/catalogos/camu-camu.jpg" alt="Refresco Camu-Camu">
@@ -267,13 +238,12 @@
                 </p>
               </div>
               <div class="tarjeta__pie">
-                <!-- Precio siempre con dos decimales -->
                 <span class="tarjeta__precio">S/ 8.00</span>
                 <a class="boton boton--sm" href="producto.html">Ver</a>
               </div>
             </article>
 
-            <!-- PRODUCTO 7 -->
+            <!-- producto 7 -->
             <article class="tarjeta">
               <figure class="tarjeta__figura">
                 <img class="tarjeta__imagen" src="assets/img/catalogos/lomo-saltado.jpg" alt="Lomo Saltado de Res">
@@ -288,13 +258,12 @@
                 </p>
               </div>
               <div class="tarjeta__pie">
-                <!-- Precio siempre con dos decimales -->
                 <span class="tarjeta__precio">S/ 30.00</span>
                 <a class="boton boton--sm" href="producto.html">Ver</a>
               </div>
             </article>
 
-            <!-- PRODUCTO 8 -->
+            <!-- producto 8 -->
             <article class="tarjeta">
               <figure class="tarjeta__figura">
                 <img class="tarjeta__imagen" src="assets/img/catalogos/pollo-a-la-brasa-entero.jpg" alt="Pollo A la Brasa: Entero">
@@ -309,13 +278,12 @@
                 </p>
               </div>
               <div class="tarjeta__pie">
-                <!-- Precio siempre con dos decimales -->
                 <span class="tarjeta__precio">S/ 75.00</span>
                 <a class="boton boton--sm" href="producto.html">Ver</a>
               </div>
             </article>
 
-            <!-- PRODUCTO 9 -->
+            <!-- producto 9 -->
             <article class="tarjeta">
               <figure class="tarjeta__figura">
                 <img class="tarjeta__imagen" src="assets/img/catalogos/arroz-superior-BP-10Kg.jpg" alt="Arroz Superior - Blanco de Primera: 10 Kg">
@@ -330,7 +298,6 @@
                 </p>
               </div>
               <div class="tarjeta__pie">
-                <!-- Precio siempre con dos decimales -->
                 <span class="tarjeta__precio">S/ 25.50</span>
                 <a class="boton boton--sm" href="producto.html">Ver</a>
               </div>
@@ -338,25 +305,20 @@
 
           </div>
         </div>
-        
+
       </div>
     </div>
 
   </main>
 
 
-  <!-- =====================================================================
-       PIE DE PÁGINA  —  IDÉNTICO EN LAS CINCO PÁGINAS
-       ---------------------------------------------------------------------
-       Tres columnas que pide el enunciado: contacto de la administración,
-       reglamento e integrantes del equipo.
-       ===================================================================== -->
+  <!-- este es el pie de página, también es el mismo en las cinco páginas,
+       tiene información de kercado, el contacto de la administración, el
+       reglamento y los integrantes del grupo -->
   <footer class="pie">
     <div class="contenedor pie__grilla">
 
-      <!-- Columna 1: qué es esto y qué NO es.
-           El segundo párrafo importa: Kercado no cobra ni reparte. Dejarlo
-           claro en el pie evita que alguien espere una pasarela de pago. -->
+      <!-- aquí contamos qué es kercado, y que no cobra ni hace entregas -->
       <div>
         <h3 class="pie__titulo">Kercado</h3>
         <p class="subtexto">
@@ -369,7 +331,7 @@
         </p>
       </div>
 
-      <!-- Columna 2: contacto de la administración -->
+      <!-- los datos de contacto de la administración del condominio -->
       <div>
         <h3 class="pie__titulo">Administración</h3>
         <ul class="pie__lista">
@@ -381,9 +343,8 @@
         </ul>
       </div>
 
-      <!-- Columna 3: reglamento.
-           Los enlaces apuntan a anclas dentro de index.html. Están así a
-           propósito: NO se enlaza a páginas que todavía no existen. -->
+      <!-- estos enlaces llevan a partes de la página de inicio, donde
+           explicamos cómo funciona kercado y sus reglas -->
       <div>
         <h3 class="pie__titulo">Reglamento</h3>
         <ul class="pie__lista">
@@ -394,7 +355,7 @@
         </ul>
       </div>
 
-      <!-- Columna 4: integrantes del equipo -->
+      <!-- nuestros nombres -->
       <div>
         <h3 class="pie__titulo">Integrantes</h3>
         <ul class="pie__lista">
@@ -406,7 +367,8 @@
       </div>
     </div>
 
-    <!-- Línea final. El año se escribe a mano: no hay JavaScript. -->
+    <!-- el año lo escribimos a mano porque en este avance no usamos
+         javascript -->
     <div class="pie__legal">
       <p class="mb-0">
         Kercado &copy; 2026 · Proyecto académico — Taller de Programación Web,

@@ -53,6 +53,7 @@ KercadoWeb/
 │   └── audio/            ← audio de presentación (ver LEEME.md adentro)
 │
 ├── GUIA-DE-ESTILOS.md    ← paleta, tipografía, botones, componentes
+├── GUIA-DE-COMENTARIOS.md ← cómo escribir los comentarios del HTML y CSS
 └── REPARTO.md            ← quién hace qué, cronograma y checklist de rúbrica
 ```
 
@@ -72,6 +73,7 @@ porque documentan cómo se construyó el sitio.
 4. Lee **`REPARTO.md`** y busca tu nombre.
 5. Copia `plantilla.html`, renómbrala como tu página, y escribe **solo dentro
    de `<main>`**.
+6. Antes de comentar tu código, lee **`GUIA-DE-COMENTARIOS.md`**.
 
 No hace falta instalar nada ni levantar un servidor: se abren los `.html`
 con doble clic.

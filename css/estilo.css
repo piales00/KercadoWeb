@@ -1,75 +1,47 @@
-/* =========================================================================
-   KERCADO — HOJA DE ESTILOS ÚNICA DEL PROYECTO
-   Curso: Taller de Programación Web (UTP) — Avance 1
-   -------------------------------------------------------------------------
-   Este es el ÚNICO archivo CSS del sitio. Las cinco páginas lo enlazan.
-   Regla del equipo: nadie escribe CSS nuevo por su cuenta. Si necesitas algo
-   que no está aquí, se agrega ACÁ y se avisa al grupo, para que el estilo no
-   se rompa entre páginas.
+/* hoja de estilos de kercado, es la única del sitio y la usan las cinco
+   páginas, así si cambiamos algo aquí se cambia en todas a la vez
 
-   Cómo está ordenado (para no perderse al buscar algo):
-     01. Variables de diseño (colores, tipografía, medidas)
-     02. Reset y bases del documento
-     03. Layout general (las zonas header / aside / main / footer)
-     04. Cabecera: logo, buscador, menú
-     05. Pie de página
-     06. Tipografía y bloques de texto
-     07. Botones
-     08. Tarjetas de producto (catálogo)
-     09. Aside: categorías y filtros
-     10. Tablas (panel del residente)
-     11. Formularios (registro e inicio de sesión)
-     12. Multimedia (imágenes, audio)
-     13. Utilidades
-     14. Responsive
-   ========================================================================= */
+   está ordenada de arriba a abajo así, variables, reset, layout general,
+   cabecera, pie, textos, botones, tarjetas del catálogo, aside, tablas,
+   formularios, multimedia, utilidades y al final lo responsive */
 
 
-/* =========================================================================
-   01. VARIABLES DE DISEÑO
-   -------------------------------------------------------------------------
-   Todo el color y el espaciado del sitio sale de acá. La ventaja práctica:
-   si mañana decidimos que el naranja es muy fuerte, se cambia UNA línea y
-   cambia el sitio entero. Nadie debería escribir un color en hexadecimal
-   fuera de este bloque.
+/* variables de diseño
 
-   La paleta viene de la referencia de marca que definimos: verde de mercado
-   (confianza, producto fresco), naranja de toldo (la acción, lo que se
-   toca) y crema de papel (el fondo, para que la vista descanse).
-   ========================================================================= */
+   aquí están todos los colores, tamaños y espacios del sitio, la idea es
+   que si mañana queremos otro naranja se cambia una sola línea y listo
+
+   el verde es de mercado, da confianza, el naranja es para lo que se
+   toca como botones y precios, y el crema es el fondo para que no canse
+   la vista */
 :root {
 
-  /* --- Colores de marca --- */
-  --verde:           #14603C;  /* color principal: cabecera, pie, títulos    */
-  --verde-oscuro:    #0C3F27;  /* verde apretado: hover del verde, sombras   */
-  --verde-claro:     #E4EFE7;  /* fondos suaves, filas alternas de tabla     */
-  --naranja:         #E8622A;  /* SOLO para acciones y precios. Es el acento */
-  --naranja-oscuro:  #C44E1D;  /* hover del naranja                          */
-  --crema:           #F5EFE0;  /* fondo de página. Nunca blanco puro         */
-  --arena:           #B7A29C;  /* neutro cálido: bordes, texto secundario    */
-  --blanco:          #FFFDF8;  /* "blanco" de tarjetas, tibio, no clínico    */
+  /* colores de la marca */
+  --verde:           #14603C;  /* cabecera, pie y títulos */
+  --verde-oscuro:    #0C3F27;  /* el menú y el hover del verde */
+  --verde-claro:     #E4EFE7;  /* fondos suaves y filas alternas de las tablas */
+  --naranja:         #E8622A;  /* solo para botones y precios */
+  --naranja-oscuro:  #C44E1D;  /* hover del naranja */
+  --crema:           #F5EFE0;  /* fondo de la página, no usamos blanco puro */
+  --arena:           #B7A29C;  /* bordes y texto de apoyo */
+  --blanco:          #FFFDF8;  /* fondo de tarjetas, es un blanco más cálido */
 
-  /* --- Colores de texto --- */
-  --texto:           #1E2A24;  /* casi negro, con una pizca de verde         */
-  --texto-suave:     #5C6A63;  /* subtítulos, ayudas de formulario, metadata */
+  /* colores del texto */
+  --texto:           #1E2A24;  /* casi negro, con un poco de verde */
+  --texto-suave:     #5C6A63;  /* subtítulos y ayudas de los formularios */
 
-  /* --- Colores de estado (para la columna "Estado" de las tablas) --- */
-  --estado-pendiente: #B8860B; /* mostaza: esperando confirmación            */
-  --estado-entregado: #14603C; /* verde: cerrado y feliz                     */
-  --estado-cancelado: #A63A2A; /* rojo terroso: no se concretó               */
+  /* colores para el estado de los pedidos en las tablas del panel */
+  --estado-pendiente: #B8860B; /* mostaza, el pedido todavía no se entrega */
+  --estado-entregado: #14603C; /* verde, el pedido ya llegó */
+  --estado-cancelado: #A63A2A; /* rojo, el pedido no se concretó */
 
-  /* --- Tipografía ---
-     Usamos una pila de fuentes del sistema. Decisión consciente: no
-     dependemos de internet ni de ningún archivo externo, así que el sitio
-     se ve idéntico el día de la exposición aunque el wifi del aula falle.
-     Si algún día queremos la tipografía de la marca (Georama), se agrega
-     el @import acá arriba y se cambia solo esta variable.                   */
+  /* fuentes, usamos las que ya trae la computadora, así la página se ve
+     igual aunque no haya internet */
   --fuente-titulos: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
   --fuente-texto:   system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
-  /* --- Escala de tamaños ---
-     Una escala corta y fija. Si todos usan estos cinco tamaños, el sitio se
-     ve armado por una sola persona aunque lo hayan hecho cuatro.            */
+  /* tamaños de letra, son pocos a propósito, así todas las páginas se ven
+     parejas aunque las hayamos hecho cuatro personas */
   --txt-xs:  0.78rem;
   --txt-sm:  0.88rem;
   --txt-md:  1rem;
@@ -77,17 +49,15 @@
   --txt-xl:  1.75rem;
   --txt-2xl: 2.5rem;
 
-  /* --- Espaciado ---
-     Todo múltiplo de 8px. Sirve para que los márgenes "cuadren" solos.      */
-  --sp-1: 0.5rem;   /*  8px */
+  /* espacios, todos son múltiplos de 8px */
+  --sp-1: 0.5rem;   /* 8px */
   --sp-2: 1rem;     /* 16px */
   --sp-3: 1.5rem;   /* 24px */
   --sp-4: 2rem;     /* 32px */
   --sp-5: 3rem;     /* 48px */
   --sp-6: 4rem;     /* 64px */
 
-  /* --- Bordes y sombras ---
-     Esquinas redondeadas generosas: el sitio es de vecinos, no de un banco. */
+  /* bordes redondeados y sombras */
   --radio-sm: 6px;
   --radio-md: 12px;
   --radio-lg: 20px;
@@ -95,65 +65,60 @@
   --sombra-suave: 0 2px 8px rgba(12, 63, 39, 0.08);
   --sombra-media: 0 6px 20px rgba(12, 63, 39, 0.14);
 
-  /* --- Ancho máximo del contenido ---
-     Ninguna línea de texto debería cruzar toda una pantalla de 27". Cansa.  */
+  /* ancho máximo del contenido, para que en pantallas grandes el texto no
+     quede demasiado largo */
   --ancho-max: 1180px;
 }
 
 
-/* =========================================================================
-   02. RESET Y BASES DEL DOCUMENTO
-   -------------------------------------------------------------------------
-   Un reset mínimo, hecho a mano. No usamos Normalize ni nada externo:
-   el curso pide CSS puro y además estas seis reglas cubren el 95% de lo que
-   nos molestaría después.
-   ========================================================================= */
+/* reset y bases
 
-/* border-box hace que el padding NO agrande la caja. Sin esto, sumar
-   padding a una tarjeta la desborda de la grilla y uno se vuelve loco. */
+   quitamos algunas cosas que el navegador trae por defecto, para empezar
+   desde cero y poner nosotros los márgenes */
+
+/* con border-box el padding no agranda la caja */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-/* El navegador trae márgenes por defecto en h1, p, ul... los apagamos todos
-   y los volvemos a poner nosotros, a propósito, en la sección 06. */
+/* quitamos los márgenes que traen los títulos, párrafos y listas, más
+   abajo en la parte de textos los volvemos a poner */
 body, h1, h2, h3, h4, p, ul, ol, figure, blockquote, dl, dd {
   margin: 0;
   padding: 0;
 }
 
 html {
-  /* Hace que los enlaces internos (#nosotros) bajen suave en vez de saltar. */
+  /* al hacer clic en un enlace como #nosotros la página baja suave */
   scroll-behavior: smooth;
-  /* Deja aire arriba al saltar a un ancla, para que la cabecera no lo tape. */
+  /* deja espacio arriba para que la cabecera no tape el título */
   scroll-padding-top: 90px;
 }
 
 body {
   font-family: var(--fuente-texto);
   font-size: var(--txt-md);
-  line-height: 1.6;          /* aire entre líneas: se lee mucho mejor */
+  line-height: 1.6;          /* más espacio entre líneas, se lee mejor */
   color: var(--texto);
   background-color: var(--crema);
 
-  /* Flexbox en columna + min-height 100vh es el truco clásico para que el
-     footer se quede abajo del todo incluso en páginas con poco contenido
-     (nos pasa en producto.html). Nada de position: fixed. */
+  /* con esto el pie de página se queda abajo aunque la página tenga poco
+     contenido */
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-/* Las imágenes se comportan como bloques y nunca desbordan su contenedor. */
+/* las imágenes nunca se salen de su contenedor */
 img {
   display: block;
   max-width: 100%;
   height: auto;
 }
 
-/* Enlaces: heredan color por defecto; cada sección decide el suyo. */
+/* enlaces en verde y sin subrayado, se subrayan al pasar el mouse */
 a {
   color: var(--verde);
   text-decoration: none;
@@ -163,101 +128,86 @@ a:focus {
   text-decoration: underline;
 }
 
-/* Anillo de foco visible y consistente en todo el sitio.
-   Importa: es lo que ve alguien que navega con el teclado (y es un detalle
-   que suma en la explicación técnica del jueves). */
+/* el borde naranja que aparece al moverse con la tecla tab, así quien usa
+   el teclado sabe dónde está */
 :focus-visible {
   outline: 3px solid var(--naranja);
   outline-offset: 2px;
 }
 
 
-/* =========================================================================
-   03. LAYOUT GENERAL
-   -------------------------------------------------------------------------
-   Las cuatro zonas que se repiten en las cinco páginas:
-     <header>  cabecera fija en contenido (logo, buscador, menú)
-     <aside>   solo en catalogo.html, a la izquierda
-     <main>    el contenido propio de cada página
-     <footer>  pie común
-   ========================================================================= */
+/* layout general
 
-/* .contenedor centra el contenido y le pone respiración a los lados.
-   Se usa dentro del header, del footer y dentro de cada <section>. */
+   las zonas que se repiten en las páginas, header, main y footer, y el
+   aside que solo está en el catálogo */
+
+/* centra el contenido y deja espacio a los lados */
 .contenedor {
   width: 100%;
   max-width: var(--ancho-max);
-  margin-inline: auto;              /* centrado horizontal */
-  padding-inline: var(--sp-2);      /* aire lateral, clave en celular */
+  margin-inline: auto;              /* centra horizontal */
+  padding-inline: var(--sp-2);      /* espacio a los lados, sirve en celular */
 }
 
-/* main crece para empujar el footer hacia abajo (ver body en la sección 02) */
+/* el main crece y empuja el pie hacia abajo */
 main {
   flex: 1;
 }
 
-/* Separación estándar entre secciones de una misma página.
-   Si todos usan <section class="seccion">, el ritmo vertical es el mismo
-   en las cinco páginas sin ponerse de acuerdo. */
+/* el espacio entre secciones, es igual en todas las páginas */
 .seccion {
   padding-block: var(--sp-5);
 }
 
-/* Variante con fondo verde clarito, para alternar secciones en index.html
-   y que la página no sea una sola mancha crema. */
+/* sección con fondo verde clarito, para alternar con las de fondo crema */
 .seccion--alterna {
   background-color: var(--verde-claro);
 }
 
-/* --- Layout de dos columnas (lo usa catalogo.html) ---
-   Grid de dos columnas: el aside mide 260px fijos y el contenido toma el
-   resto. Se colapsa a una sola columna en pantallas chicas (sección 14). */
+/* las dos columnas del catálogo, el aside mide 260px y los productos usan
+   el resto, en pantallas chicas pasa a una columna */
 .layout-catalogo {
   display: grid;
   grid-template-columns: 260px 1fr;
   gap: var(--sp-4);
-  align-items: start;               /* que el aside no se estire de gratis */
+  align-items: start;               /* el aside no se estira hasta abajo */
 }
 
 
-/* =========================================================================
-   04. CABECERA
-   -------------------------------------------------------------------------
-   Es idéntica en las cinco páginas. Si alguien la cambia acá, la cambia en
-   TODAS: por eso conviene copiar y pegar el bloque de plantilla.html tal
-   cual, sin retocar clases.
-   ========================================================================= */
+/* cabecera
+
+   es la misma en las cinco páginas, tiene el logo, el buscador, el botón
+   de ingresar y el menú */
 
 .encabezado {
   background-color: var(--verde);
   color: var(--blanco);
-  /* Una franja naranja abajo: es el guiño al toldo del logo. */
+  /* la franja naranja de abajo */
   border-bottom: 4px solid var(--naranja);
-  position: sticky;                 /* la cabecera acompaña el scroll */
+  position: sticky;                 /* la cabecera baja con el scroll */
   top: 0;
-  z-index: 100;                     /* siempre por encima del contenido */
+  z-index: 100;                     /* siempre queda encima del contenido */
   box-shadow: var(--sombra-suave);
 }
 
-/* Fila principal: logo a la izquierda, buscador al centro, cuenta a la derecha */
+/* la fila de arriba, logo a la izquierda, buscador al medio y botón a la
+   derecha */
 .encabezado__fila {
   display: flex;
   align-items: center;
   gap: var(--sp-3);
   padding-block: var(--sp-2);
-  flex-wrap: wrap;                  /* en celular las piezas se apilan solas */
+  flex-wrap: wrap;                  /* en celular se acomodan uno debajo del otro */
 }
-/* El logo y el botón de cuenta no se encogen nunca: si se encogían, el
-   "Ingresar" se montaba encima del "Buscar" y parecía un botón doble. */
+/* el logo y el botón no se achican, antes el botón ingresar se montaba
+   encima del buscar */
 .encabezado__fila > .logo,
 .encabezado__fila > .boton {
   flex-shrink: 0;
 }
 
-/* --- Logo ---
-   Está hecho con texto, no con imagen: pesa 0 KB, se ve nítido en cualquier
-   pantalla y se puede seleccionar. Si después conseguimos el logotipo en
-   SVG, se reemplaza el contenido y las clases siguen sirviendo. */
+/* el logo está hecho con texto y no con imagen, así se ve nítido y carga
+   al instante */
 .logo {
   display: flex;
   align-items: center;
@@ -273,12 +223,11 @@ main {
   text-decoration: none;
   opacity: 0.9;
 }
-/* La sílaba "kado" en naranja: partimos la palabra en dos <span> para que
-   el nombre tenga el mismo contraste verde/naranja que la marca. */
+/* la parte cado del logo va en naranja */
 .logo__acento {
   color: var(--naranja);
 }
-/* Bajada chiquita bajo el logo ("marketplace del condominio") */
+/* el texto pequeño debajo del logo con el nombre del condominio */
 .logo__bajada {
   display: block;
   font-family: var(--fuente-texto);
@@ -289,35 +238,31 @@ main {
   color: var(--arena);
 }
 
-/* --- Buscador ---
-   OJO: es decorativo en este avance. No busca nada porque no hay backend
-   ni JS puntuable. Está para completar la zona de cabecera que pide el
-   enunciado y para que se vea a qué apunta el producto. */
+/* el buscador, en este avance todavía no busca nada porque no usamos
+   javascript, pero ya está listo en la cabecera */
 .buscador {
   display: flex;
-  flex: 1 1 200px;                  /* se come el espacio libre del medio,
-                                       pero también sabe encogerse */
-  min-width: 0;                     /* sin esto no baja de su ancho de
-                                       contenido y desborda la fila */
+  flex: 1 1 200px;                  /* ocupa el espacio libre del medio */
+  min-width: 0;                     /* deja que se achique sin salirse de la fila */
   max-width: 420px;
 }
 .buscador__campo {
   flex: 1 1 0;
-  min-width: 0;                     /* deja que el campo ceda ancho primero */
+  min-width: 0;                     /* el campo es el que se achica primero */
   padding: 0.6rem var(--sp-2);
   border: none;
-  border-radius: var(--radio-sm) 0 0 var(--radio-sm);  /* redondea izquierda */
+  border-radius: var(--radio-sm) 0 0 var(--radio-sm);  /* redondeado a la izquierda */
   font-family: inherit;
   font-size: var(--txt-sm);
   background-color: var(--blanco);
   color: var(--texto);
 }
 .buscador__boton {
-  flex-shrink: 0;                   /* el "Buscar" mantiene su tamaño */
+  flex-shrink: 0;                   /* el botón buscar no cambia de tamaño */
   white-space: nowrap;
   padding: 0.6rem var(--sp-2);
   border: none;
-  border-radius: 0 var(--radio-sm) var(--radio-sm) 0; /* redondea derecha */
+  border-radius: 0 var(--radio-sm) var(--radio-sm) 0; /* redondeado a la derecha */
   background-color: var(--naranja);
   color: var(--blanco);
   font-family: inherit;
@@ -329,15 +274,14 @@ main {
   background-color: var(--naranja-oscuro);
 }
 
-/* --- Menú de navegación ---
-   IMPORTANTE PARA LA NOTA: el menú va en el <header>. El aside es solo
-   para categorías y filtros del catálogo. Esto la rúbrica lo revisa. */
+/* el menú principal, va dentro del header, en el aside del catálogo solo
+   van las categorías y el filtro */
 .menu {
   background-color: var(--verde-oscuro);
 }
 .menu__lista {
   display: flex;
-  list-style: none;                 /* fuera los puntitos */
+  list-style: none;                 /* quita los puntitos de la lista */
   gap: var(--sp-1);
   flex-wrap: wrap;
 }
@@ -349,38 +293,35 @@ main {
   font-weight: 600;
   letter-spacing: 0.02em;
   text-decoration: none;
-  /* La transición hace que el hover se sienta suave y no como un parpadeo. */
+  /* el cambio de color al pasar el mouse es suave */
   transition: background-color 0.18s ease, color 0.18s ease;
 }
 .menu__enlace:hover {
   background-color: var(--verde);
   text-decoration: none;
 }
-/* Estado "estás acá": se pone a mano en cada página.
-   Ej. en catalogo.html: <a class="menu__enlace menu__enlace--activo"> */
+/* marca en naranja la página donde está el usuario, se pone en cada
+   página en su enlace del menú */
 .menu__enlace--activo {
   background-color: var(--naranja);
   color: var(--blanco);
 }
 
 
-/* =========================================================================
-   05. PIE DE PÁGINA
-   -------------------------------------------------------------------------
-   Tres columnas: contacto de la administración, reglamento e integrantes.
-   Igual que la cabecera: idéntico en las cinco páginas.
-   ========================================================================= */
+/* pie de página
+
+   también es el mismo en las cinco páginas, tiene información de kercado,
+   el contacto de la administración, el reglamento y los integrantes */
 
 .pie {
   background-color: var(--verde-oscuro);
   color: var(--crema);
   border-top: 4px solid var(--naranja);
-  margin-top: var(--sp-5);          /* nunca pegado al contenido de arriba */
+  margin-top: var(--sp-5);          /* separa el pie del contenido */
 }
 
-/* auto-fit + minmax es la forma de hacer una grilla que se adapta sola:
-   pone las columnas que quepan de al menos 220px y baja el resto.
-   No necesitamos media queries para esta parte. */
+/* las columnas del pie, entran las que quepan de mínimo 220px y las demás
+   bajan solas, por eso aquí no hace falta media query */
 .pie__grilla {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -408,7 +349,7 @@ main {
   color: var(--naranja);
 }
 
-/* Línea final con el copyright, separada por un filete tenue. */
+/* la última línea del pie con el copyright */
 .pie__legal {
   border-top: 1px solid rgba(245, 239, 224, 0.18);
   padding-block: var(--sp-2);
@@ -418,11 +359,9 @@ main {
 }
 
 
-/* =========================================================================
-   06. TIPOGRAFÍA Y BLOQUES DE TEXTO
-   -------------------------------------------------------------------------
-   Acá devolvemos los márgenes que apagamos en el reset, pero controlados.
-   ========================================================================= */
+/* textos
+
+   aquí volvemos a poner los márgenes que quitamos en el reset */
 
 h1, h2, h3, h4 {
   font-family: var(--fuente-titulos);
@@ -438,18 +377,17 @@ h4 { font-size: var(--txt-md);  margin-bottom: var(--sp-1); }
 
 p {
   margin-bottom: var(--sp-2);
-  max-width: 68ch;                  /* ~68 caracteres: el largo cómodo de lectura */
+  max-width: 68ch;                  /* las líneas no son tan largas, se leen mejor */
 }
 
-/* Título de sección con una barrita naranja debajo. Un detalle chico que
-   hace que las secciones se lean como capítulos y no como párrafos sueltos. */
+/* título de sección con la barrita naranja debajo */
 .titulo-seccion {
   position: relative;
   padding-bottom: var(--sp-1);
   margin-bottom: var(--sp-3);
 }
 .titulo-seccion::after {
-  content: "";                      /* pseudo-elemento: no ensucia el HTML */
+  content: "";                      /* la barrita se hace con css, no hay que ponerla en el html */
   position: absolute;
   left: 0;
   bottom: 0;
@@ -458,7 +396,7 @@ p {
   background-color: var(--naranja);
   border-radius: 2px;
 }
-/* Versión centrada del mismo título (para secciones tipo "Nosotros"). */
+/* el mismo título pero centrado, por ejemplo para la sección nosotros */
 .titulo-seccion--centro {
   text-align: center;
 }
@@ -467,18 +405,18 @@ p {
   transform: translateX(-50%);
 }
 
-/* Texto de apoyo bajo un título: más chico y en gris verdoso. */
+/* texto de apoyo debajo de un título, más pequeño y en gris verdoso */
 .subtexto {
   color: var(--texto-suave);
   font-size: var(--txt-sm);
 }
 
-/* Etiqueta pequeña tipo "píldora". Sirve para categorías, para marcar
-   "Nuevo", o para el estado en una tarjeta. */
+/* etiqueta pequeña con forma de píldora, la usamos para las categorías de
+   las tarjetas */
 .etiqueta {
   display: inline-block;
   padding: 0.2rem 0.6rem;
-  border-radius: 999px;             /* 999px = cápsula perfecta */
+  border-radius: 999px;             /* con un número tan grande queda como cápsula */
   background-color: var(--verde-claro);
   color: var(--verde-oscuro);
   font-size: var(--txt-xs);
@@ -492,16 +430,11 @@ p {
 }
 
 
-/* =========================================================================
-   07. BOTONES
-   -------------------------------------------------------------------------
-   Regla del equipo, y es la que más se rompe: hay TRES botones y ninguno más.
-     .boton                -> naranja. La acción principal. UNO por pantalla.
-     .boton .boton--linea  -> contorno verde. Acción secundaria.
-     .boton .boton--texto  -> sin caja. Acciones de poco peso ("ver más").
-   Funciona igual en <a> y en <button>: por eso resetamos border y usamos
-   inline-flex, para que los dos se vean idénticos.
-   ========================================================================= */
+/* botones
+
+   hay tres tipos, el naranja que es el principal, el de borde verde que es
+   el secundario, y el de solo texto para cosas de poco peso, se ven igual
+   si se usan en un a o en un button */
 
 .boton {
   display: inline-flex;
@@ -509,8 +442,8 @@ p {
   justify-content: center;
   gap: var(--sp-1);
   padding: 0.75rem var(--sp-3);
-  border: 2px solid transparent;    /* reservamos el borde para que la
-                                       variante --linea no cambie de tamaño */
+  border: 2px solid transparent;    /* borde invisible, así el botón de borde verde
+                                       mide lo mismo que este */
   border-radius: var(--radio-sm);
   background-color: var(--naranja);
   color: var(--blanco);
@@ -526,14 +459,14 @@ p {
 .boton:hover {
   background-color: var(--naranja-oscuro);
   text-decoration: none;
-  transform: translateY(-1px);      /* se levanta 1px: se siente "clickeable" */
+  transform: translateY(-1px);      /* sube un poquito al pasar el mouse */
   box-shadow: var(--sombra-media);
 }
 .boton:active {
-  transform: translateY(0);         /* y se hunde de vuelta al presionar */
+  transform: translateY(0);         /* y baja al hacer clic */
 }
 
-/* Secundario: mismo tamaño, sin relleno. No compite con el naranja. */
+/* el botón secundario, con borde verde y sin relleno */
 .boton--linea {
   background-color: transparent;
   color: var(--verde);
@@ -544,7 +477,7 @@ p {
   color: var(--blanco);
 }
 
-/* Terciario: parece un enlace, se comporta como botón. */
+/* el botón de solo texto, parece un enlace */
 .boton--texto {
   background-color: transparent;
   color: var(--verde);
@@ -558,31 +491,21 @@ p {
   text-decoration: underline;
 }
 
-/* Modificadores de tamaño y ancho, combinables con cualquiera de los tres. */
+/* tamaños del botón, se pueden usar con cualquiera de los tres */
 .boton--sm  { padding: 0.45rem var(--sp-2); font-size: var(--txt-xs); }
 .boton--lg  { padding: 0.95rem var(--sp-4); font-size: var(--txt-md); }
 .boton--full{ width: 100%; }
 
 
-/* =========================================================================
-   08. TARJETA DE PRODUCTO
-   -------------------------------------------------------------------------
-   Es el componente que más se repite (8 o 9 en catalogo.html), así que vale
-   la pena que esté bien resuelto una sola vez.
+/* tarjeta de producto
 
-   Estructura pensada de arriba a abajo:
-     figura  -> imagen del producto (relación 4:3 fija)
-     cuerpo  -> categoría, título, vendedor
-     pie     -> precio a la izquierda, botón a la derecha
-
-   La grilla la maneja .grilla-productos: NO le pongas width a la tarjeta.
-   ========================================================================= */
+   es la que más se repite en el catálogo, arriba va la foto, en el medio
+   la categoría, el nombre y el vendedor, y abajo el precio con el botón */
 
 .grilla-productos {
   display: grid;
-  /* auto-fill + minmax: caben las tarjetas que entren, mínimo 240px cada una.
-     Es lo que hace que el catálogo pase de 3 a 2 a 1 columna sin escribir
-     una sola media query. */
+  /* entran las tarjetas que quepan de mínimo 240px, por eso el catálogo
+     pasa de varias columnas a una sola sin usar media queries */
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: var(--sp-3);
 }
@@ -593,7 +516,7 @@ p {
   background-color: var(--blanco);
   border: var(--borde);
   border-radius: var(--radio-md);
-  overflow: hidden;                 /* recorta la imagen a las esquinas redondas */
+  overflow: hidden;                 /* la foto respeta las esquinas redondeadas */
   box-shadow: var(--sombra-suave);
   transition: transform 0.2s ease, box-shadow 0.2s ease,
               border-color 0.2s ease;
@@ -604,32 +527,31 @@ p {
   border-color: var(--naranja);
 }
 
-/* --- Imagen ---
-   aspect-ratio le fija la proporción a la caja ANTES de que cargue la foto.
-   Así el catálogo no "salta" mientras se descargan las imágenes, y no
-   importa si el vendedor sube una foto cuadrada o panorámica. */
+/* la foto del producto, aspect-ratio reserva el espacio antes de que cargue
+   la imagen, así el catálogo no da saltos, y todas las fotos quedan del
+   mismo tamaño */
 .tarjeta__figura {
   margin: 0;
   aspect-ratio: 4 / 3;
-  background-color: var(--verde-claro);  /* color de espera si falta la foto */
+  background-color: var(--verde-claro);  /* color de fondo mientras carga la foto */
   overflow: hidden;
 }
 .tarjeta__imagen {
   width: 100%;
   height: 100%;
-  object-fit: cover;                /* recorta y llena, sin deformar */
+  object-fit: cover;                /* llena el espacio sin deformar la foto */
   transition: transform 0.35s ease;
 }
 .tarjeta:hover .tarjeta__imagen {
-  transform: scale(1.05);           /* zoom suave al pasar el mouse */
+  transform: scale(1.05);           /* un pequeño zoom al pasar el mouse */
 }
 
-/* --- Cuerpo --- */
+/* la parte del medio de la tarjeta */
 .tarjeta__cuerpo {
   padding: var(--sp-2);
-  flex: 1;                          /* empuja el pie al fondo: así todas las
-                                       tarjetas de la fila terminan parejas
-                                       aunque el título tenga 1 o 3 líneas */
+  flex: 1;                          /* empuja el precio hacia abajo, así todas
+                                       las tarjetas quedan parejas aunque el
+                                       nombre sea más largo */
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
@@ -645,14 +567,13 @@ p {
   color: var(--naranja);
   text-decoration: none;
 }
-/* Vendedor: en Kercado siempre es un vecino con nombre, torre y depa.
-   Que se vea es parte del producto, no un detalle decorativo. */
+/* el nombre del vecino que vende, con su torre y departamento */
 .tarjeta__vendedor {
   font-size: var(--txt-xs);
   color: var(--texto-suave);
 }
 
-/* --- Pie de la tarjeta: precio + acción --- */
+/* la parte de abajo de la tarjeta con el precio y el botón */
 .tarjeta__pie {
   display: flex;
   align-items: center;
@@ -667,17 +588,14 @@ p {
   font-size: var(--txt-lg);
   font-weight: 800;
   color: var(--naranja);
-  white-space: nowrap;              /* que "S/ 12.50" no se parta en dos líneas */
+  white-space: nowrap;              /* el precio no se parte en dos líneas */
 }
 
 
-/* =========================================================================
-   09. ASIDE — CATEGORÍAS Y FILTROS
-   -------------------------------------------------------------------------
-   Solo aparece en catalogo.html, a la izquierda del <main>.
-   Recordatorio: el MENÚ no va acá, va en el header. Acá van categorías y
-   filtros y nada más.
-   ========================================================================= */
+/* aside del catálogo
+
+   la columna de la izquierda en el catálogo, con las categorías y el
+   filtro por precio */
 
 .panel-lateral {
   background-color: var(--blanco);
@@ -685,8 +603,8 @@ p {
   border-radius: var(--radio-md);
   padding: var(--sp-2);
   box-shadow: var(--sombra-suave);
-  /* sticky: el panel acompaña el scroll de la lista de productos.
-     El 90px es la altura aproximada de la cabecera pegajosa. */
+  /* el panel baja junto con la lista de productos, los 90px son más o
+     menos lo que mide la cabecera */
   position: sticky;
   top: 90px;
 }
@@ -701,12 +619,13 @@ p {
   border-bottom: 2px solid var(--verde-claro);
 }
 
-/* Bloque para separar "Categorías" de "Filtrar por precio" */
+/* separa el bloque de categorías del bloque del filtro */
 .panel-lateral__bloque + .panel-lateral__bloque {
   margin-top: var(--sp-3);
 }
 
-/* Lista de categorías: enlaces anchos, fáciles de acertar con el dedo. */
+/* la lista de categorías, los enlaces son anchos para que sea fácil
+   tocarlos en el celular */
 .lista-categorias {
   list-style: none;
 }
@@ -730,20 +649,14 @@ p {
 }
 
 
-/* =========================================================================
-   10. TABLAS
-   -------------------------------------------------------------------------
-   Vale 3 puntos de la rúbrica junto con formularios y multimedia, y es lo
-   que más se olvida. Se usan en panel.html (compras y ventas) y en
-   producto.html (ficha técnica de la publicación).
+/* tablas
 
-   Truco de armado: la tabla va SIEMPRE envuelta en .tabla-scroll. En
-   celular una tabla de 5 columnas no entra, y sin ese contenedor rompe el
-   ancho de toda la página.
-   ========================================================================= */
+   las usamos en el panel para las compras y ventas, y en la ficha del
+   producto, cada tabla va dentro de .tabla-scroll para que en el celular
+   se pueda deslizar de lado */
 
 .tabla-scroll {
-  overflow-x: auto;                 /* scroll horizontal solo de la tabla */
+  overflow-x: auto;                 /* solo la tabla se desliza de lado */
   border: var(--borde);
   border-radius: var(--radio-md);
   box-shadow: var(--sombra-suave);
@@ -752,16 +665,13 @@ p {
 
 .tabla {
   width: 100%;
-  /* collapse une los bordes de celdas contiguas en una sola línea.
-     Sin esto quedan líneas dobles y se ve sucio. */
+  /* junta los bordes de las celdas, si no se ven líneas dobles */
   border-collapse: collapse;
   font-size: var(--txt-sm);
-  min-width: 620px;                 /* debajo de esto, entra el scroll */
+  min-width: 620px;                 /* si la pantalla es más chica aparece el scroll */
 }
 
-/* El <caption> es el título de la tabla y va DENTRO de la <table>.
-   Es la forma semánticamente correcta de titularla (mejor que un <h3>
-   suelto arriba) y es un detalle que se puede lucir en la exposición. */
+/* el caption es el título de la tabla, va dentro de la table */
 .tabla caption {
   caption-side: top;
   text-align: left;
@@ -792,49 +702,46 @@ p {
   vertical-align: middle;
 }
 
-/* Filas cebra: nth-child(even) pinta una sí y una no. Con tablas de 6+
-   filas evita que el ojo se salte de renglón al leer. */
+/* pinta una fila sí y una no, así es más fácil seguir cada fila con la
+   vista */
 .tabla tbody tr:nth-child(even) {
   background-color: rgba(228, 239, 231, 0.45);
 }
 .tabla tbody tr:hover {
   background-color: var(--verde-claro);
 }
-/* La última fila no necesita línea abajo: ya está el borde del contenedor. */
+/* la última fila no lleva línea abajo porque ya está el borde de la caja */
 .tabla tbody tr:last-child td {
   border-bottom: none;
 }
 
-/* Columnas de dinero: alineadas a la derecha y en cifras tabulares, para
-   que los decimales queden uno debajo del otro. */
+/* las columnas de dinero van a la derecha, así los decimales quedan uno
+   debajo del otro */
 .tabla .col-monto {
   text-align: right;
   font-variant-numeric: tabular-nums;
   font-weight: 700;
 }
 
-/* --- Píldoras de estado ---
-   Se usan dentro de la celda "Estado". Color + palabra, nunca solo color:
-   alguien daltónico tiene que poder leerla igual. */
+/* las píldoras del estado del pedido, llevan color y también la palabra,
+   así se entienden aunque alguien no distinga bien los colores */
 .estado {
   display: inline-block;
   padding: 0.15rem 0.6rem;
   border-radius: 999px;
   font-size: var(--txt-xs);
   font-weight: 700;
-  border: 1.5px solid currentColor; /* currentColor = hereda el color del texto,
-                                       así basta cambiar `color` abajo */
+  border: 1.5px solid currentColor; /* el borde toma el mismo color del texto */
   white-space: nowrap;
 }
 .estado--pendiente { color: var(--estado-pendiente); }
 .estado--entregado { color: var(--estado-entregado); }
 .estado--cancelado { color: var(--estado-cancelado); }
 
-/* --- Variante "ficha" para producto.html ---
-   Es una tabla de dos columnas (etiqueta / valor) en lugar de una grilla de
-   datos. Se usa con <th scope="row"> en la primera columna. */
+/* la tabla de la ficha del producto, tiene dos columnas, a la izquierda el
+   dato y a la derecha su valor */
 .tabla--ficha {
-  min-width: 0;                     /* esta sí entra en celular */
+  min-width: 0;                     /* esta tabla sí entra en el celular */
 }
 .tabla--ficha tbody th {
   width: 42%;
@@ -844,15 +751,10 @@ p {
 }
 
 
-/* =========================================================================
-   11. FORMULARIOS
-   -------------------------------------------------------------------------
-   El formulario grande es el de registro.html: es el que demuestra dominio
-   y el que califican. El de inicio de sesión es corto a propósito.
+/* formularios
 
-   Nota importante del avance: NINGÚN formulario envía nada. No hay backend.
-   Usar action="#" y explicarlo en la exposición.
-   ========================================================================= */
+   el formulario grande es el de registro, y el de iniciar sesión es más
+   corto, ninguno envía datos porque en este avance no tenemos servidor */
 
 .formulario {
   background-color: var(--blanco);
@@ -862,8 +764,8 @@ p {
   box-shadow: var(--sombra-suave);
 }
 
-/* <fieldset> agrupa campos relacionados y <legend> le pone nombre al grupo.
-   Le quitamos el marco feo por defecto y lo rearmamos a nuestro gusto. */
+/* el fieldset agrupa los campos y el legend le pone nombre al grupo, les
+   quitamos el borde que traen y les damos nuestro estilo */
 .formulario fieldset {
   border: none;
   padding: 0;
@@ -880,23 +782,22 @@ p {
   width: 100%;
 }
 
-/* Cada par etiqueta+campo va dentro de un .campo. */
+/* cada label con su campo van dentro de un .campo */
 .campo {
   margin-bottom: var(--sp-2);
 }
 .campo label {
-  display: block;                   /* la etiqueta ocupa su propia línea */
+  display: block;                   /* el label va en su propia línea */
   margin-bottom: 0.35rem;
   font-size: var(--txt-sm);
   font-weight: 700;
   color: var(--verde-oscuro);
 }
-/* Asterisco de campo obligatorio, en naranja. Se escribe en el HTML así:
-   <label>Correo <span class="obligatorio">*</span></label> */
+/* el asterisco naranja de los campos obligatorios */
 .obligatorio {
   color: var(--naranja);
 }
-/* Texto de ayuda debajo del campo ("Ej: 987 654 321") */
+/* el texto de ayuda que va debajo de un campo */
 .campo__ayuda {
   display: block;
   margin-top: 0.25rem;
@@ -904,9 +805,8 @@ p {
   color: var(--texto-suave);
 }
 
-/* Un solo bloque de estilos para TODOS los tipos de campo.
-   Escribimos los selectores por atributo (input[type="email"], etc.) para
-   no pintar también los checkbox y radio, que necesitan otra cosa. */
+/* el mismo estilo para todos los campos de texto, los nombramos por tipo
+   para que no afecte a los checkbox y radio, que van aparte */
 .campo input[type="text"],
 .campo input[type="email"],
 .campo input[type="password"],
@@ -921,7 +821,7 @@ p {
   border: 1.5px solid rgba(30, 42, 36, 0.18);
   border-radius: var(--radio-sm);
   background-color: var(--crema);
-  font-family: inherit;             /* si no, los campos usan la fuente del SO */
+  font-family: inherit;             /* usa la misma fuente que el resto de la página */
   font-size: var(--txt-sm);
   color: var(--texto);
   transition: border-color 0.18s ease, background-color 0.18s ease;
@@ -934,12 +834,11 @@ p {
 }
 .campo textarea {
   min-height: 110px;
-  resize: vertical;                 /* solo se estira a lo alto, nunca a lo ancho */
+  resize: vertical;                 /* solo se puede estirar hacia abajo */
 }
 
-/* --- Grupos de radio y checkbox ---
-   Cada opción es <label><input type="radio"> Texto</label>: al envolver el
-   input dentro del label, hacer clic en la palabra también marca la opción. */
+/* las opciones de radio y checkbox, el input va dentro del label, así al
+   hacer clic en el texto también se marca */
 .opciones {
   display: flex;
   flex-wrap: wrap;
@@ -950,7 +849,7 @@ p {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-weight: 400;                 /* pisa el bold del label normal */
+  font-weight: 400;                 /* estos textos no van en negrita */
   font-size: var(--txt-sm);
   color: var(--texto);
   cursor: pointer;
@@ -960,22 +859,20 @@ p {
 .checkbox input {
   width: 18px;
   height: 18px;
-  accent-color: var(--verde);       /* pinta el control nativo de verde:
-                                       una línea, cero JavaScript */
+  accent-color: var(--verde);       /* pinta el radio y el checkbox de verde */
   cursor: pointer;
-  flex-shrink: 0;                   /* que no se aplaste si el texto es largo */
+  flex-shrink: 0;                   /* no se aplasta si el texto es largo */
 }
 
-/* --- Fila de dos campos lado a lado (nombres / apellidos, torre / depa) --- */
+/* dos campos uno al lado del otro, por ejemplo nombres y apellidos */
 .campo-fila {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--sp-2);
 }
 
-/* --- Caja de aviso ---
-   Sirve para el mensaje "necesitas una cuenta para pedir" que llega desde
-   producto.html, y para cualquier nota informativa del sitio. */
+/* la caja de aviso, por ejemplo para decir que se necesita una cuenta
+   para pedir */
 .aviso {
   border-left: 5px solid var(--naranja);
   background-color: var(--verde-claro);
@@ -989,15 +886,12 @@ p {
 }
 
 
-/* =========================================================================
-   12. MULTIMEDIA
-   -------------------------------------------------------------------------
-   La rúbrica pide uso de imágenes / audio / video. Decidimos imágenes +
-   un audio de presentación del condominio. El <audio> nativo del navegador
-   ya trae controles: no hace falta JavaScript.
-   ========================================================================= */
+/* multimedia
 
-/* Imagen con marco y esquinas redondas (hero, fotos del equipo, galería). */
+   usamos imágenes y un audio de presentación, el audio usa los controles
+   que ya trae el navegador */
+
+/* imagen con borde blanco y esquinas redondeadas */
 .imagen-marco {
   border-radius: var(--radio-lg);
   border: 3px solid var(--blanco);
@@ -1005,7 +899,7 @@ p {
   overflow: hidden;
 }
 
-/* Reproductor de audio dentro de una cajita de marca. */
+/* la cajita donde va el reproductor de audio */
 .audio-caja {
   background-color: var(--verde-claro);
   border: var(--borde);
@@ -1018,9 +912,8 @@ p {
   margin-top: var(--sp-1);
 }
 
-/* --- Galería de producto (producto.html) ---
-   Imagen grande arriba, miniaturas debajo. Sin JS: las miniaturas son
-   enlaces a la imagen en tamaño completo, o simplemente decorativas. */
+/* la galería de la página del producto, una foto grande arriba y cuatro
+   pequeñas debajo */
 .galeria__principal {
   aspect-ratio: 4 / 3;
   background-color: var(--verde-claro);
@@ -1053,12 +946,9 @@ p {
 }
 
 
-/* =========================================================================
-   13. UTILIDADES
-   -------------------------------------------------------------------------
-   Clasecitas de una sola tarea. Úsenlas con moderación: si terminan
-   apilando cinco utilidades en un elemento, lo que falta es un componente.
-   ========================================================================= */
+/* utilidades
+
+   clases pequeñas que hacen una sola cosa, como centrar o quitar un margen */
 
 .centrado      { text-align: center; }
 .mt-0          { margin-top: 0; }
@@ -1067,15 +957,15 @@ p {
 .mb-3          { margin-bottom: var(--sp-3); }
 .sin-margen-p p:last-child { margin-bottom: 0; }
 
-/* Grilla genérica de N columnas que se adapta sola. La usamos para el
-   "Cómo funciona" (3 pasos) y para el equipo de "Nosotros" (4 personas). */
+/* grilla que se acomoda sola, la usamos en inicio para los pasos de cómo
+   funciona y para los integrantes */
 .grilla-auto {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: var(--sp-3);
 }
 
-/* Caja blanca genérica: pasos, integrantes del equipo, bloques de texto. */
+/* caja blanca para bloques de texto, pasos o integrantes */
 .caja {
   background-color: var(--blanco);
   border: var(--borde);
@@ -1084,9 +974,8 @@ p {
   box-shadow: var(--sombra-suave);
 }
 
-/* Solo para lectores de pantalla: se ve vacío pero se lee en voz alta.
-   Lo usamos, por ejemplo, en el <label> del buscador de la cabecera, que
-   visualmente no queremos mostrar pero tiene que existir. */
+/* oculta un texto en pantalla pero los lectores de pantalla sí lo leen,
+   la usamos en el label del buscador */
 .solo-lectores {
   position: absolute;
   width: 1px;
@@ -1100,34 +989,32 @@ p {
 }
 
 
-/* =========================================================================
-   14. RESPONSIVE
-   -------------------------------------------------------------------------
-   Casi todo el sitio ya se adapta solo gracias a auto-fit / auto-fill.
-   Acá quedan las tres cosas que sí necesitan un punto de quiebre.
-   ========================================================================= */
+/* responsive
 
-/* --- Tablet: el catálogo pasa de dos columnas a una --- */
+   casi todo ya se acomoda solo con las grillas, aquí están las cosas que
+   sí necesitan cambiar según el tamaño de la pantalla */
+
+/* en tablet el catálogo pasa de dos columnas a una */
 @media (max-width: 860px) {
 
   .layout-catalogo {
-    grid-template-columns: 1fr;     /* el aside se va arriba del contenido */
+    grid-template-columns: 1fr;     /* el aside se va arriba de los productos */
   }
   .panel-lateral {
-    position: static;               /* ya no tiene sentido que sea pegajoso */
+    position: static;               /* ya no baja con el scroll */
   }
 }
 
-/* --- Celular --- */
+/* en celular */
 @media (max-width: 620px) {
 
-  /* Tipografía un poco más chica: en 375px de ancho, 2.5rem es un grito. */
+  /* los títulos grandes se hacen un poco más pequeños */
   :root {
     --txt-2xl: 1.9rem;
     --txt-xl:  1.45rem;
   }
 
-  /* La cabecera se apila: logo, buscador y cuenta, uno debajo del otro. */
+  /* en la cabecera el logo, el buscador y el botón van uno debajo del otro */
   .encabezado__fila {
     flex-direction: column;
     align-items: stretch;
@@ -1137,8 +1024,8 @@ p {
     max-width: none;
   }
 
-  /* El menú se vuelve una fila con scroll horizontal. Solución honesta y
-     sin JavaScript: no hay hamburguesa porque no hay JS puntuable. */
+  /* el menú queda en una sola fila que se desliza de lado, no usamos menú
+     de hamburguesa porque necesitaría javascript */
   .menu__lista {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -1147,25 +1034,21 @@ p {
     white-space: nowrap;
   }
 
-  /* Los pares de campos del formulario se separan en dos líneas. */
+  /* los campos que iban lado a lado pasan uno debajo del otro */
   .campo-fila {
     grid-template-columns: 1fr;
   }
 
-  /* Menos aire vertical: en celular el espacio es caro. */
+  /* menos espacio entre secciones porque la pantalla es chica */
   .seccion {
     padding-block: var(--sp-4);
   }
 }
 
-/* --- Impresión ---
-   Detalle que casi nadie hace y queda muy bien mencionar en la exposición:
-   si el administrador imprime el panel, no necesita el menú ni el pie. */
+/* al imprimir se ocultan la cabecera, el pie, el aside y los botones, y la
+   página sale en negro sobre blanco para no gastar tinta, por eso aquí sí
+   escribimos los colores directo */
 @media print {
-
-  /* Únicos hexadecimales fuera de :root en todo el archivo, y es a
-     propósito: al imprimir queremos negro sobre blanco puro para no gastar
-     tinta ni ensuciar el papel con el crema de fondo. */
 
   .encabezado,
   .pie,

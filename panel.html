@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<!--
+  hecho por piero. aquí el vecino ve lo que compró y lo que
+  vende, lo pusimos todo en una sola página porque en kercado cada vecino
+  tiene una sola cuenta, y con esa misma cuenta puede comprar y vender,
+  no agregué estilos nuevos, las tablas usan las clases que ya estaban en
+  estilo.css
+-->
+<html lang="es">
+
+<head>
+  <!-- con esto las tildes y las eñes se ven bien en el navegador -->
+  <meta charset="UTF-8">
+
+  <!-- esta línea hace que en el celular la página use el ancho real de la
+       pantalla, así el diseño se acomoda bien -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- la descripción de la página y los autores -->
+  <meta name="description" content="Panel del residente en Kercado. Revisa tus compras, tus publicaciones activas y los pedidos que te hicieron tus vecinos.">
+  <meta name="author" content="Equipo Kercado, Taller de Programación Web, UTP">
+
+  <!-- el título que sale en la pestaña del navegador -->
+  <title>Mi panel · Kercado</title>
+
+  <!-- enlazamos la misma hoja de estilos que usan todas las páginas -->
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+
+<body>
+
+  <!-- esta es la cabecera, es la misma en las cinco páginas del sitio,
+       tiene el logo, el buscador, el botón para ingresar y el menú -->
+  <header class="encabezado">
+
+    <div class="contenedor encabezado__fila">
+
+      <!-- el logo lleva a la página de inicio -->
+      <a class="logo" href="index.html">
+        <span>Ker<span class="logo__acento">cado</span>
+          <span class="logo__bajada">Condominio Las Palmas 357</span>
+        </span>
+      </a>
+
+      <!-- el buscador todavía no busca nada porque en este avance no usamos
+           javascript ni tenemos servidor, pero lo dejamos para que se vea
+           cómo quedará la cabecera -->
+      <form class="buscador" action="catalogo.html" method="get">
+        <!-- este label no se ve en pantalla, pero lo leen los lectores de
+             pantalla que usan las personas con discapacidad visual -->
+        <label class="solo-lectores" for="q">Buscar productos</label>
+        <input class="buscador__campo" type="search" id="q" name="q"
+               placeholder="Buscar postres, menús, abarrotes...">
+        <button class="buscador__boton" type="submit">Buscar</button>
+      </form>
+
+      <!-- hay un solo botón para ingresar, porque el vecino usa la misma
+           cuenta para comprar y para vender -->
+      <a class="boton boton--sm" href="registro.html">Ingresar</a>
+    </div>
+
+    <!-- este es el menú principal, en cada página marcamos como activo el
+         enlace de la página donde está el vecino -->
+    <nav class="menu" aria-label="Navegación principal">
+      <ul class="contenedor menu__lista">
+        <li><a class="menu__enlace" href="index.html">Inicio</a></li>
+        <li><a class="menu__enlace" href="catalogo.html">Catálogo</a></li>
+        <li><a class="menu__enlace menu__enlace--activo" href="panel.html">Mi panel</a></li>
+        <li><a class="menu__enlace" href="registro.html">Registro</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+  <main>
+
+    <!-- primero saludamos al vecino para que sepa con qué cuenta entró, y
+         abajo le damos dos enlaces para que baje directo a sus compras o a
+         sus ventas, no pusimos un botón naranja porque en esta página el
+         vecino solo revisa su información -->
+    <section class="seccion">
+      <div class="contenedor">
+        <h1 class="titulo-seccion">Mi panel</h1>
+        <p>
+          Hola, <strong>Carmen Rojas</strong> · Torre C, Dpto. 504.
+          Desde aquí revisas lo que le compraste a tus vecinos y lo que
+          tú estás vendiendo.
+        </p>
+
+        <!-- este aviso le explica al vecino que el pago y la entrega los
+             coordina él mismo con la otra persona, porque kercado solo guarda
+             el registro del pedido -->
+        <div class="aviso">
+          <p>
+            Kercado registra tus pedidos y el método de pago que acordaste
+            (efectivo contra entrega, Yape o Plin), pero no cobra ni hace la
+            entrega. Eso lo coordinas directamente con tu vecino.
+          </p>
+        </div>
+
+        <!-- estos enlaces llevan a las secciones de más abajo usando su id -->
+        <nav aria-label="Secciones del panel">
+          <a class="boton boton--linea boton--sm" href="#mis-compras">Mis compras</a>
+          <a class="boton boton--texto boton--sm" href="#mis-ventas">Mis ventas</a>
+        </nav>
+      </div>
+    </section>
+
+
+    <!-- en esta parte se muestran las compras del vecino, profesor, cada fila
+         es un pedido que hizo, con la fecha, a quién le compró, cuánto pagó y
+         cómo va el pedido, usamos los mismos vendedores que salen en el
+         catálogo para que la información coincida entre las páginas -->
+    <section class="seccion seccion--alterna" id="mis-compras">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Mis compras</h2>
+        <p class="subtexto">Los pedidos que hiciste a otros vecinos del condominio.</p>
+
+        <!-- pusimos la tabla dentro de este div para que en el celular se
+             pueda deslizar hacia los lados, porque cinco columnas no entran
+             en una pantalla pequeña -->
+        <div class="tabla-scroll">
+          <table class="tabla">
+
+            <!-- el caption es el título de la tabla -->
+            <caption>Pedidos realizados</caption>
+
+            <!-- en el thead van los títulos de cada columna, y con scope="col"
+                 indicamos que cada título pertenece a su columna -->
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Vendedor</th>
+                <th scope="col" class="col-monto">Total</th>
+                <th scope="col">Estado</th>
+              </tr>
+            </thead>
+
+            <!-- en el tbody van los pedidos, el código lo pusimos como th con
+                 scope="row" porque es lo que identifica a cada pedido -->
+            <tbody>
+              <tr>
+                <th scope="row">KC-0101</th>
+                <td>01/09/2026</td>
+                <td>María Torres · Torre B, Dpto. 402</td>
+                <td class="col-monto">S/ 24.00</td>
+                <td><span class="estado estado--entregado">Entregado</span></td>
+              </tr>
+              <tr>
+                <th scope="row">KC-0107</th>
+                <td>02/09/2026</td>
+                <td>Micaela Jimenez · Torre A, Dpto. 111</td>
+                <td class="col-monto">S/ 10.00</td>
+                <td><span class="estado estado--entregado">Entregado</span></td>
+              </tr>
+              <tr>
+                <th scope="row">KC-0115</th>
+                <td>04/09/2026</td>
+                <td>Nicolás Medina · Torre A, Dpto. 106</td>
+                <td class="col-monto">S/ 60.00</td>
+                <td><span class="estado estado--cancelado">Cancelado</span></td>
+              </tr>
+              <tr>
+                <th scope="row">KC-0122</th>
+                <td>06/09/2026</td>
+                <td>Luis Castro · Torre B, Dpto. 115</td>
+                <td class="col-monto">S/ 15.00</td>
+                <td><span class="estado estado--entregado">Entregado</span></td>
+              </tr>
+              <tr>
+                <th scope="row">KC-0130</th>
+                <td>08/09/2026</td>
+                <td>Rafael Ramirez · Torre D, Dpto. 215</td>
+                <td class="col-monto">S/ 12.00</td>
+                <td><span class="estado estado--pendiente">Pendiente</span></td>
+              </tr>
+              <tr>
+                <th scope="row">KC-0134</th>
+                <td>09/09/2026</td>
+                <td>Ana López · Torre A, Dpto. 108</td>
+                <td class="col-monto">S/ 8.00</td>
+                <td><span class="estado estado--pendiente">Pendiente</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- en esta parte se muestran las ventas del vecino, está en la misma
+         página que sus compras porque es la misma cuenta, tiene dos tablas,
+         una con los productos que tiene publicados y otra con los pedidos
+         que le hicieron sus vecinos -->
+    <section class="seccion" id="mis-ventas">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Mis ventas</h2>
+        <p class="subtexto">Lo que tienes publicado y los pedidos que te llegaron.</p>
+
+        <!-- esta tabla muestra los productos que el vecino está vendiendo
+             ahora, con su precio y cuántas unidades le quedan -->
+        <div class="tabla-scroll mb-3">
+          <table class="tabla">
+            <caption>Publicaciones activas</caption>
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Categoría</th>
+                <th scope="col" class="col-monto">Precio</th>
+                <th scope="col">Stock</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">PB-0021</th>
+                <td>Empanadas de carne (unidad)</td>
+                <td>Panadería</td>
+                <td class="col-monto">S/ 4.50</td>
+                <td>18 unidades</td>
+              </tr>
+              <tr>
+                <th scope="row">PB-0022</th>
+                <td>Alfajores de maicena (caja x6)</td>
+                <td>Postres</td>
+                <td class="col-monto">S/ 12.00</td>
+                <td>7 cajas</td>
+              </tr>
+              <tr>
+                <th scope="row">PB-0025</th>
+                <td>Ají de gallina con arroz</td>
+                <td>Comida preparada</td>
+                <td class="col-monto">S/ 16.00</td>
+                <td>10 porciones</td>
+              </tr>
+              <tr>
+                <th scope="row">PB-0027</th>
+                <td>Queque de naranja (entero)</td>
+                <td>Postres</td>
+                <td class="col-monto">S/ 22.00</td>
+                <td>3 unidades</td>
+              </tr>
+              <tr>
+                <th scope="row">PB-0030</th>
+                <td>Limonada frozen (1 litro)</td>
+                <td>Bebidas</td>
+                <td class="col-monto">S/ 9.50</td>
+                <td>12 botellas</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- esta tabla muestra los pedidos que le llegaron al vecino, en la
+             columna de unidad de entrega va la torre y el departamento
+             adonde tiene que llevar el pedido, porque la entrega la hacen
+             los mismos vecinos dentro del condominio -->
+        <div class="tabla-scroll">
+          <table class="tabla">
+            <caption>Pedidos recibidos</caption>
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Comprador</th>
+                <th scope="col">Unidad de entrega</th>
+                <th scope="col" class="col-monto">Total</th>
+                <th scope="col">Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">KC-0098</th>
+                <td>Jorge Salazar</td>
+                <td>Torre A, Dpto. 203</td>
+                <td class="col-monto">S/ 27.00</td>
+                <td><span class="estado estado--entregado">Entregado</span></td>
+              </tr>
+              <tr>
+                <th scope="row">KC-0110</th>
+                <td>Rosa Quispe</td>
+                <td>Torre D, Dpto. 601</td>
+                <td class="col-monto">S/ 32.00</td>
+                <td><span class="estado estado--entregado">Entregado</span></td>
+              </tr>
+              <tr>
+                <th scope="row">KC-0118</th>
+                <td>Diego Vargas</td>
+                <td>Torre B, Dpto. 307</td>
+                <td class="col-monto">S/ 22.00</td>
+                <td><span class="estado estado--cancelado">Cancelado</span></td>
+              </tr>
+              <tr>
+                <th scope="row">KC-0127</th>
+                <td>Lucía Fernández</td>
+                <td>Torre C, Dpto. 110</td>
+                <td class="col-monto">S/ 19.00</td>
+                <td><span class="estado estado--pendiente">Pendiente</span></td>
+              </tr>
+              <tr>
+                <th scope="row">KC-0133</th>
+                <td>Martín Paredes</td>
+                <td>Torre A, Dpto. 502</td>
+                <td class="col-monto">S/ 48.00</td>
+                <td><span class="estado estado--pendiente">Pendiente</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- este es el pie de página, también es el mismo en las cinco páginas,
+       tiene información de kercado, el contacto de la administración, el
+       reglamento y los integrantes del grupo -->
+  <footer class="pie">
+    <div class="contenedor pie__grilla">
+
+      <!-- aquí contamos qué es kercado, y que no cobra ni hace entregas -->
+      <div>
+        <h3 class="pie__titulo">Kercado</h3>
+        <p class="subtexto">
+          Marketplace hiperlocal del condominio Las Palmas 357, Chorrillos.
+          Los vecinos publican, los vecinos compran.
+        </p>
+        <p class="subtexto">
+          Kercado no cobra comisiones, no procesa pagos y no gestiona la
+          entrega: solo conecta al vecino que vende con el que compra.
+        </p>
+      </div>
+
+      <!-- los datos de contacto de la administración del condominio -->
+      <div>
+        <h3 class="pie__titulo">Administración</h3>
+        <ul class="pie__lista">
+          <li>Av. Las Palmas 357, Chorrillos — Lima</li>
+          <li>Oficina: Torre A, primer piso</li>
+          <li>Atención: lunes a sábado, 8:00 a 18:00</li>
+          <li><a href="mailto:administracion@laspalmas357.pe">administracion@laspalmas357.pe</a></li>
+          <li><a href="tel:+5112345678">(01) 234 5678</a></li>
+        </ul>
+      </div>
+
+      <!-- estos enlaces llevan a partes de la página de inicio, donde
+           explicamos cómo funciona kercado y sus reglas -->
+      <div>
+        <h3 class="pie__titulo">Reglamento</h3>
+        <ul class="pie__lista">
+          <li><a href="index.html#como-funciona">Cómo funciona Kercado</a></li>
+          <li><a href="index.html#reglas">Reglas de convivencia</a></li>
+          <li><a href="index.html#pagos">Métodos de pago aceptados</a></li>
+          <li><a href="index.html#nosotros">Quiénes somos</a></li>
+        </ul>
+      </div>
+
+      <!-- nuestros nombres -->
+      <div>
+        <h3 class="pie__titulo">Integrantes</h3>
+        <ul class="pie__lista">
+          <li>Piero Alessandro Pérez Izquierdo</li>
+          <li>Edgar Paolo Pérez Román</li>
+          <li>Francys Diego Yareta Cortez</li>
+          <li>Luis Alberto Huánuco Jiménez</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- el año lo escribimos a mano porque en este avance no usamos
+         javascript -->
+    <div class="pie__legal">
+      <p class="mb-0">
+        Kercado &copy; 2026 · Proyecto académico — Taller de Programación Web,
+        Universidad Tecnológica del Perú.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

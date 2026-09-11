@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <!--
-  =========================================================================
-  KERCADO — CATÁLOGO DE COMPONENTES (guía visual)
-  -------------------------------------------------------------------------
-  ESTE ARCHIVO TAMPOCO SE ENTREGA. Es la chuleta del equipo.
+  esta página tampoco se entrega, es la guía visual del grupo
 
-  Acá está cada pieza que ya existe en estilo.css, armada y funcionando.
-  Antes de inventar HTML nuevo, entra acá, busca la pieza que necesitas,
-  copia el bloque y pégalo en tu página. Así las cuatro páginas salen
-  parejas aunque las escriban cuatro personas distintas.
+  aquí están armadas todas las piezas que ya existen en estilo.css, antes
+  de hacer html nuevo busca aquí la pieza que necesitas, copia el bloque y
+  pégalo en tu página, así las páginas salen parejas aunque las hagamos
+  cuatro personas distintas
 
-  Si algo que necesitas NO está acá: avisa al grupo antes de escribir CSS.
-  =========================================================================
+  si lo que necesitas no está aquí avisa al grupo antes de escribir css
 -->
 <html lang="es">
 
@@ -25,7 +21,7 @@
 
 <body>
 
-  <!-- Cabecera: copiada tal cual de plantilla.html -->
+  <!-- la cabecera, copiada igual que en plantilla.html -->
   <header class="encabezado">
     <div class="contenedor encabezado__fila">
       <a class="logo" href="index.html">
@@ -65,7 +61,7 @@
     </section>
 
 
-    <!-- ============================ BOTONES ============================ -->
+    <!-- los botones -->
     <section class="seccion seccion--alterna">
       <div class="contenedor">
         <h2 class="titulo-seccion">Botones</h2>
@@ -76,32 +72,32 @@
         </p>
 
         <p>
-          <!-- Principal: la acción que queremos que ocurra en esa pantalla -->
+          <!-- el principal, para la acción más importante de la página -->
           <a class="boton" href="#">Pedir ahora</a>
 
-          <!-- Secundario: alternativa válida, pero no la que empujamos -->
+          <!-- el secundario, para otra opción que no es la principal -->
           <a class="boton boton--linea" href="#">Ver catálogo</a>
 
-          <!-- Terciario: acciones de poco peso -->
+          <!-- el de solo texto, para cosas de poco peso -->
           <a class="boton boton--texto" href="#">Ver más detalles</a>
         </p>
 
         <p>
-          <!-- Los tamaños se combinan con cualquiera de los tres -->
+          <!-- los tamaños se pueden usar con cualquiera de los tres -->
           <a class="boton boton--sm" href="#">Chico</a>
           <a class="boton boton--lg" href="#">Grande</a>
         </p>
 
         <div class="caja">
-          <!-- boton--full ocupa todo el ancho: se usa para el "Crear cuenta"
-               al final del formulario de registro -->
+          <!-- este ocupa todo el ancho, sirve para el botón de crear cuenta
+               al final del registro -->
           <button class="boton boton--full" type="button">Ancho completo</button>
         </div>
       </div>
     </section>
 
 
-    <!-- ====================== TARJETA DE PRODUCTO ====================== -->
+    <!-- la tarjeta de producto -->
     <section class="seccion">
       <div class="contenedor">
         <h2 class="titulo-seccion">Tarjeta de producto</h2>
@@ -112,20 +108,17 @@
           <code>.grilla-productos</code>.
         </p>
 
-        <!-- La grilla decide cuántas tarjetas entran por fila. Se adapta sola
-             de 4 a 1 columna sin media queries. -->
+        <!-- la grilla decide cuántas tarjetas entran por fila, pasa de
+             varias columnas a una sola sin media queries -->
         <div class="grilla-productos">
 
-          <!-- ▼▼▼ COPIAR DESDE ACÁ ▼▼▼ ------------------------------------
-               Para cada producto: cambiar src, alt, categoría, título,
-               vendedor y precio. Nada más. -->
+          <!-- copia desde aquí, en cada producto solo cambias la foto, el
+               alt, la categoría, el nombre, el vendedor y el precio -->
           <article class="tarjeta">
 
-            <!-- La imagen va en <figure> porque es contenido, no decoración.
-                 RUTA: guardar las fotos en assets/img/ con nombres en
-                 minúscula y sin tildes (ej: torta-chocolate.jpg).
-                 El alt describe la foto: lo lee quien no puede verla y es
-                 lo que se muestra si el archivo falta. -->
+            <!-- la foto va en un figure porque es parte del contenido, las
+                 fotos se guardan en assets/img con nombres en minúscula y
+                 sin tildes, y el alt describe lo que se ve en la foto -->
             <figure class="tarjeta__figura">
               <img class="tarjeta__imagen"
                    src="assets/img/PONER-IMAGEN-AQUI.jpg"
@@ -133,17 +126,17 @@
             </figure>
 
             <div class="tarjeta__cuerpo">
-              <!-- Categoría: una de las seis del catálogo -->
+              <!-- la categoría, es una de las seis del catálogo -->
               <span class="etiqueta">Postres</span>
 
-              <!-- El título es el enlace a la ficha. h3 porque cuelga del h2
-                   de la sección: los encabezados no se saltan niveles. -->
+              <!-- el nombre lleva a la ficha del producto, es h3 porque va
+                   debajo del h2 de la sección -->
               <h3 class="tarjeta__titulo">
                 <a href="producto.html">Nombre del producto</a>
               </h3>
 
-              <!-- El vendedor siempre visible: en Kercado es un vecino con
-                   torre y departamento, no una tienda anónima. -->
+              <!-- el vendedor siempre se ve, porque en kercado vende un
+                   vecino con su torre y departamento -->
               <p class="tarjeta__vendedor mb-0">
                 Vendido por <strong>Nombre del vecino</strong> · Torre B, Dpto. 402
               </p>
@@ -154,9 +147,9 @@
               <a class="boton boton--sm" href="producto.html">Ver</a>
             </div>
           </article>
-          <!-- ▲▲▲ HASTA ACÁ ▲▲▲ -->
+          <!-- hasta aquí -->
 
-          <!-- Segunda tarjeta, solo para ver cómo se comporta la grilla -->
+          <!-- otra tarjeta con un nombre largo, para ver que quedan parejas -->
           <article class="tarjeta">
             <figure class="tarjeta__figura">
               <img class="tarjeta__imagen"
@@ -179,7 +172,7 @@
             </div>
           </article>
 
-          <!-- Tercera: con etiqueta naranja, para destacar algo puntual -->
+          <!-- una tarjeta con la etiqueta naranja, para resaltar algo -->
           <article class="tarjeta">
             <figure class="tarjeta__figura">
               <img class="tarjeta__imagen"
@@ -205,7 +198,7 @@
     </section>
 
 
-    <!-- ================== LAYOUT DE DOS COLUMNAS + ASIDE ================ -->
+    <!-- el layout de dos columnas con el aside -->
     <section class="seccion seccion--alterna">
       <div class="contenedor">
         <h2 class="titulo-seccion">Aside de categorías y filtros</h2>
@@ -218,13 +211,13 @@
 
         <div class="layout-catalogo">
 
-          <!-- ▼ Columna izquierda: el aside -->
+          <!-- la columna de la izquierda, con las categorías y el filtro -->
           <aside class="panel-lateral" aria-label="Categorías y filtros">
 
             <div class="panel-lateral__bloque">
               <h3 class="panel-lateral__titulo">Categorías</h3>
               <ul class="lista-categorias">
-                <!-- La clase "activo" marca la categoría que se está viendo -->
+                <!-- la clase activo marca la categoría que se está viendo -->
                 <li><a class="activo" href="catalogo.html">Todos los productos</a></li>
                 <li><a href="catalogo.html">Comida preparada</a></li>
                 <li><a href="catalogo.html">Postres</a></li>
@@ -236,9 +229,9 @@
 
             <div class="panel-lateral__bloque">
               <h3 class="panel-lateral__titulo">Filtrar por precio</h3>
-              <!-- Este formulario tampoco filtra nada todavía: es la
-                   interfaz del filtro, la lógica llega con JavaScript en un
-                   avance posterior. -->
+              <!-- este filtro todavía no filtra, por ahora es solo cómo se
+                   verá, la parte que funciona llega con javascript más
+                   adelante -->
               <form action="catalogo.html" method="get">
                 <div class="campo">
                   <label for="precio-min">Desde (S/)</label>
@@ -255,7 +248,7 @@
             </div>
           </aside>
 
-          <!-- ▼ Columna derecha: el contenido -->
+          <!-- la columna de la derecha, donde van los productos -->
           <div>
             <div class="caja">
               <h3>Acá va la grilla de productos</h3>
@@ -271,7 +264,7 @@
     </section>
 
 
-    <!-- ============================= TABLAS ============================= -->
+    <!-- las tablas -->
     <section class="seccion">
       <div class="contenedor">
         <h2 class="titulo-seccion">Tablas</h2>
@@ -282,17 +275,16 @@
           <code>.tabla-scroll</code>, si no rompe el ancho en celular.
         </p>
 
-        <!-- ▼▼▼ TABLA DE DATOS (panel.html) ▼▼▼ -->
+        <!-- tabla de datos, como las del panel -->
         <div class="tabla-scroll mb-3">
           <table class="tabla">
 
-            <!-- El caption es el título de la tabla y va adentro. Es la
-                 forma correcta de titularla; un <h3> suelto no queda
-                 asociado a la tabla. -->
+            <!-- el caption es el título de la tabla, va dentro de la table
+                 para que quede unido a ella -->
             <caption>Mis compras — pedidos realizados</caption>
 
-            <!-- thead / tbody separan encabezado de datos. Con scope="col"
-                 le decimos al navegador que cada th titula su columna. -->
+            <!-- el thead lleva los títulos de las columnas y el tbody los
+                 datos, con scope="col" cada título queda unido a su columna -->
             <thead>
               <tr>
                 <th scope="col">Código</th>
@@ -305,8 +297,8 @@
 
             <tbody>
               <tr>
-                <!-- El código identifica la fila, por eso es th con
-                     scope="row" y no un td común. -->
+                <!-- el código identifica cada fila, por eso va en un th con
+                     scope="row" y no en un td -->
                 <th scope="row">KC-0001</th>
                 <td>05/09/2026</td>
                 <td>Nombre del vecino · Torre B 402</td>
@@ -331,7 +323,7 @@
           </table>
         </div>
 
-        <!-- ▼▼▼ TABLA FICHA, DE DOS COLUMNAS (producto.html) ▼▼▼ -->
+        <!-- tabla de dos columnas, como la ficha del producto -->
         <h3>Variante ficha</h3>
         <p class="subtexto">
           Para la tabla de datos de <code>producto.html</code>: etiqueta a la
@@ -346,8 +338,8 @@
               <tr><th scope="row">Horario de atención</th><td>00:00 a 00:00</td></tr>
               <tr><th scope="row">Torre y departamento</th><td>Torre X, Dpto. 000</td></tr>
               <tr><th scope="row">Categoría</th><td>Nombre de la categoría</td></tr>
-              <!-- Kercado NO procesa pagos: solo registra el método acordado
-                   entre vecinos. La ficha lo dice tal cual. -->
+              <!-- kercado no cobra, solo guarda el método de pago que
+                   acuerdan los vecinos, por eso la ficha lo pone así -->
               <tr><th scope="row">Métodos de pago aceptados</th>
                   <td>Efectivo contra entrega · Yape · Plin</td></tr>
             </tbody>
@@ -357,7 +349,7 @@
     </section>
 
 
-    <!-- =========================== FORMULARIOS ========================== -->
+    <!-- los campos de formulario -->
     <section class="seccion seccion--alterna">
       <div class="contenedor">
         <h2 class="titulo-seccion">Campos de formulario</h2>
@@ -370,12 +362,12 @@
 
         <form class="formulario" action="#" method="post">
 
-          <!-- fieldset agrupa campos que van juntos; legend le pone nombre
-               al grupo. En registro.html habrá tres o cuatro fieldsets. -->
+          <!-- el fieldset agrupa los campos que van juntos y el legend le
+               pone nombre al grupo -->
           <fieldset>
             <legend>Ejemplos de campo</legend>
 
-            <!-- Dos campos lado a lado -->
+            <!-- dos campos uno al lado del otro -->
             <div class="campo-fila">
               <div class="campo">
                 <label for="c-nombre">Texto <span class="obligatorio">*</span></label>
@@ -390,14 +382,14 @@
             <div class="campo">
               <label for="c-clave">Contraseña <span class="obligatorio">*</span></label>
               <input type="password" id="c-clave" name="clave" required>
-              <!-- El texto de ayuda va DESPUÉS del campo, no en el
-                   placeholder: el placeholder desaparece al escribir. -->
+              <!-- el texto de ayuda va debajo del campo y no en el
+                   placeholder, porque el placeholder se borra al escribir -->
               <small class="campo__ayuda">Mínimo 8 caracteres.</small>
             </div>
 
             <div class="campo">
               <label for="c-tel">Teléfono</label>
-              <!-- type="tel" abre el teclado numérico en el celular -->
+              <!-- con type="tel" en el celular sale el teclado de números -->
               <input type="tel" id="c-tel" name="telefono" placeholder="987 654 321">
             </div>
 
@@ -416,8 +408,8 @@
               <input type="number" id="c-depa" name="departamento" min="101" max="1204">
             </div>
 
-            <!-- Grupo de radios. El name repetido es lo que los agrupa: por
-                 eso solo se puede marcar uno. -->
+            <!-- los radios tienen el mismo name, por eso solo se puede marcar
+                 uno -->
             <div class="campo">
               <label>Piso</label>
               <div class="opciones">
@@ -433,7 +425,8 @@
                         placeholder="Cuéntanos qué te gustaría vender en Kercado."></textarea>
             </div>
 
-            <!-- Checkbox de términos: obligatorio para crear la cuenta -->
+            <!-- el checkbox de aceptar el reglamento, sin marcarlo no se crea
+                 la cuenta -->
             <div class="campo">
               <label class="checkbox">
                 <input type="checkbox" name="terminos" required>
@@ -445,8 +438,8 @@
           <button class="boton boton--full" type="submit">Botón de envío</button>
         </form>
 
-        <!-- Caja de aviso: se usa arriba del formulario de registro cuando
-             el usuario llega desde el botón "Pedir" de producto.html -->
+        <!-- la caja de aviso, va arriba del registro cuando el vecino llega
+             desde el botón pedir del producto -->
         <div class="aviso mt-3">
           <p><strong>Para pedir necesitas una cuenta.</strong>
             Regístrate con tu torre y departamento; la administración valida
@@ -456,7 +449,7 @@
     </section>
 
 
-    <!-- =========================== MULTIMEDIA =========================== -->
+    <!-- multimedia -->
     <section class="seccion">
       <div class="contenedor">
         <h2 class="titulo-seccion">Multimedia</h2>
@@ -469,9 +462,8 @@
         <div class="audio-caja">
           <strong>Kercado en un minuto</strong>
           <p class="subtexto mb-0">Presentación de la administración para los vecinos.</p>
-          <!-- controls muestra play, barra y volumen.
-               El texto de adentro solo se ve en navegadores muy viejos que
-               no soportan <audio>. -->
+          <!-- controls muestra el botón de play, la barra y el volumen, el
+               texto de adentro solo sale en navegadores muy antiguos -->
           <audio controls src="assets/audio/PONER-AUDIO-AQUI.mp3">
             Tu navegador no soporta audio.
             <a href="assets/audio/PONER-AUDIO-AQUI.mp3">Descarga el archivo</a>.
@@ -483,7 +475,7 @@
   </main>
 
 
-  <!-- Pie: copiado tal cual de plantilla.html -->
+  <!-- el pie, copiado igual que en plantilla.html -->
   <footer class="pie">
     <div class="contenedor pie__grilla">
       <div>

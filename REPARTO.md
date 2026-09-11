@@ -163,9 +163,9 @@ armado) y la sección 5 de `GUIA-DE-ESTILOS.md`.
 
 ### Jueves — noche (reservada, no se escribe código nuevo)
 1. **Comentar HTML y CSS.** Vale 3 puntos y no requiere programar nada.
-   Comentario útil = explica *por qué*, no *qué*.
+   Seguir `GUIA-DE-COMENTARIOS.md`.
    - Malo: `<!-- div -->`
-   - Bueno: `<!-- Grilla de productos: se adapta sola de 4 a 1 columna -->`
+   - Bueno: `<!-- la grilla con los productos, se acomoda sola y en el celular queda en una columna -->`
 2. **Ensayar el Inspector.** Vale 2 puntos y cada uno tiene que saber
    defender su página. Ver la lista de abajo.
 3. **Ordenar archivos.** Nombres en minúscula, sin tildes, sin espacios.
