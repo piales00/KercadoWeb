@@ -14,7 +14,7 @@ en efectivo, Yape o Plin.
 
 ## Cómo verlo
 
-No hace falta instalar nada. Basta con abrir `index.html` en el navegador.
+Abrir el index.html en el navegador
 
 ## Páginas
 
