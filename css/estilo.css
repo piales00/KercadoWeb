@@ -881,6 +881,49 @@ p {
   margin-bottom: 0;
 }
 
+/* los mensajes de las validaciones
+
+   cuando el vecino envía un formulario, javascript escribe acá arriba si
+   quedó bien o cuántos datos faltan */
+.mensaje:empty {
+  display: none;                    /* mientras no haya mensaje no se ve nada */
+}
+.mensaje {
+  padding: var(--sp-2);
+  border-radius: var(--radio-sm);
+  font-size: var(--txt-sm);
+  margin-bottom: var(--sp-2);
+}
+.mensaje--ok {
+  border-left: 5px solid var(--estado-entregado);
+  background-color: var(--verde-claro);
+}
+.mensaje--error {
+  border-left: 5px solid var(--estado-cancelado);
+  background-color: rgba(166, 58, 42, 0.08);
+}
+
+/* el error de cada campo va debajo del campo, como el texto de ayuda pero
+   en rojo */
+.campo__error:empty {
+  display: none;
+}
+.campo__error {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: var(--txt-xs);
+  color: var(--estado-cancelado);
+}
+
+/* el campo que quedó mal se pinta de rojo, así se encuentra rápido dentro
+   de un formulario largo */
+.campo input.campo-malo,
+.campo select.campo-malo,
+.campo textarea.campo-malo {
+  border-color: var(--estado-cancelado);
+  background-color: rgba(166, 58, 42, 0.05);
+}
+
 
 /* multimedia
 

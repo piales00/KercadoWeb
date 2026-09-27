@@ -26,9 +26,12 @@ archivo CSS externo compartido por todas las páginas, cero estilos en línea,
 cero `<style>` en el HTML. Sitio estático: no hay backend ni base de datos,
 así que ningún formulario envía nada.
 
-En este avance **JavaScript no otorga puntaje**, así que no hay lógica de
-sesión, ni carrito funcional, ni validaciones más allá de los atributos
-nativos de HTML.
+JavaScript entra con un único archivo, `js/kercado.js`, enlazado en las
+cinco páginas igual que el CSS. Se encarga de validar los formularios
+(registro, inicio de sesión y filtro de precios del catálogo) y de escribir
+el año del pie. Sigue sin haber lógica de sesión ni carrito funcional: sin
+servidor, ningún formulario envía nada, por eso las validaciones siempre
+devuelven `false` y muestran el resultado en la misma página.
 
 ---
 
@@ -47,6 +50,9 @@ KercadoWeb/
 │
 ├── css/
 │   └── estilo.css        ← ÚNICO archivo CSS del proyecto
+│
+├── js/
+│   └── kercado.js        ← ÚNICO archivo JS del proyecto
 │
 ├── assets/
 │   ├── img/              ← imágenes (ver LEEME.md adentro)
@@ -82,8 +88,9 @@ con doble clic.
 
 ## Las dos reglas del equipo
 
-1. **Nadie escribe CSS por su cuenta.** Si necesitas algo que no está en
-   `estilo.css`, lo avisas al grupo y se agrega ahí una sola vez.
+1. **Nadie escribe CSS ni JS por su cuenta.** Si necesitas algo que no está
+   en `estilo.css` o en `kercado.js`, lo avisas al grupo y se agrega ahí una
+   sola vez.
 2. **Nadie toca el header ni el footer.** Se copian tal cual de
    `plantilla.html`. Tienen que ser idénticos en las cinco páginas.
 

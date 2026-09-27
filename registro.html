@@ -3,7 +3,8 @@
   hecho por luis. aquí el vecino crea su cuenta de kercado, llena sus datos
   personales, los de su departamento y su contraseña, con esa misma cuenta
   después puede comprar y vender, y más abajo está el formulario para
-  iniciar sesión si ya tiene cuenta
+  iniciar sesión si ya tiene cuenta, los dos formularios los revisa
+  javascript antes de enviarlos
 -->
 <html lang="es">
   <head>
@@ -44,9 +45,9 @@
           </span>
         </a>
 
-        <!-- el buscador todavía no busca nada porque en este avance no usamos
-           javascript ni tenemos servidor, pero lo dejamos para que se vea
-           cómo quedará la cabecera -->
+        <!-- el buscador todavía no busca nada porque nos falta el servidor
+           que busque los productos, pero lo dejamos para que se vea cómo
+           quedará la cabecera -->
         <form class="buscador" action="catalogo.html" method="get">
           <!-- este label no se ve en pantalla, pero lo leen los lectores de
              pantalla que usan las personas con discapacidad visual -->
@@ -88,7 +89,16 @@
           <h1 class="titulo-seccion">Formulario de Registro</h1>
           <section class="seccion seccion--alterna">
             <div class="contenedor">
-              <form class="formulario" action="#" method="post">
+              <!-- le pusimos novalidate y un onsubmit para que los errores los
+                   muestre nuestro javascript y no el cartel del navegador, así
+                   el vecino ve todo lo que le falta de una sola vez y los
+                   mensajes se ven iguales en cualquier navegador -->
+              <form class="formulario" action="#" method="post" novalidate
+                    onsubmit="return validarRegistro()">
+                <!-- acá javascript escribe si el registro quedó bien o cuántos
+                     datos faltan corregir -->
+                <p class="mensaje" id="aviso-registro"></p>
+
                 <!-- el fieldset agrupa los campos que van juntos y el legend le
                      pone nombre al grupo, este primero es para los datos de
                      la persona -->
@@ -103,6 +113,7 @@
                       >Nombres<span class="obligatorio">*</span></label
                     >
                     <input type="text" id="c-nombre" name="nombre" required />
+                    <small class="campo__error" id="e-nombre"></small>
                   </div>
 
                   <div class="campo">
@@ -115,6 +126,7 @@
                       name="apellidos"
                       required
                     />
+                    <small class="campo__error" id="e-apellidos"></small>
                   </div>
 
                   <div class="campo">
@@ -124,6 +136,7 @@
                       ></label
                     >
                     <input type="email" id="c-correo" name="correo" required />
+                    <small class="campo__error" id="e-correo"></small>
                   </div>
 
                   <div class="campo">
@@ -135,6 +148,7 @@
                       name="telefono"
                       placeholder="987 654 321"
                     />
+                    <small class="campo__error" id="e-tel"></small>
                   </div>
                 </fieldset>
 
@@ -154,6 +168,7 @@
                       <option value="B">Torre B</option>
                       <option value="C">Torre C</option>
                     </select>
+                    <small class="campo__error" id="e-torre"></small>
                   </div>
 
                   <div class="campo">
@@ -165,13 +180,14 @@
                       min="101"
                       max="1204"
                     />
+                    <small class="campo__error" id="e-depa"></small>
                   </div>
 
                   <!-- el piso se elige con radios porque son pocas opciones,
                        todos tienen el mismo name y por eso solo se puede
                        marcar uno -->
                   <div class="campo">
-                    <label>Piso</label>
+                    <label>Piso<span class="obligatorio">*</span></label>
                     <div class="opciones">
                       <label
                         ><input type="radio" name="piso" value="1" /> Piso
@@ -186,6 +202,7 @@
                         3</label
                       >
                     </div>
+                    <small class="campo__error" id="e-piso"></small>
                   </div>
                 </fieldset>
 
@@ -200,6 +217,7 @@
                       >Contraseña <span class="obligatorio">*</span></label
                     >
                     <input type="password" id="c-clave" name="clave" required />
+                    <small class="campo__error" id="e-clave"></small>
                     <!-- el texto de ayuda va debajo del campo y no en el
                        placeholder, porque el placeholder se borra al escribir -->
                     <small class="campo__ayuda">Mínimo 8 caracteres.</small>
@@ -216,6 +234,7 @@
                       name="repetir_clave"
                       required
                     />
+                    <small class="campo__error" id="e-repetirclave"></small>
                   </div>
 
                   <!-- este campo no es obligatorio, usamos un textarea porque
@@ -235,9 +254,10 @@
                      la cuenta -->
                   <div class="campo">
                     <label class="checkbox">
-                      <input type="checkbox" name="terminos" required />
+                      <input type="checkbox" id="c-terminos" name="terminos" required />
                       Acepto el reglamento de convivencia del condominio.
                     </label>
+                    <small class="campo__error" id="e-terminos"></small>
                   </div>
 
                   <button class="boton boton--full" type="submit">
@@ -260,10 +280,15 @@
               <!-- aquí entra el vecino que ya tiene su cuenta activa, solo le
                    pedimos el correo y la contraseña con los que se registró,
                    el botón va con borde verde porque el naranja ya lo tiene
-                   crear cuenta, y como en este avance no hay servidor todavía
-                   no revisa si los datos son correctos -->
+                   crear cuenta, javascript revisa que el correo tenga forma de
+                   correo y que la contraseña no esté vacía, pero todavía no
+                   entra a ningún lado porque nos falta el servidor -->
               <h2 class="titulo-seccion mt-3">Iniciar Sesión</h2>
-              <form class="formulario" action="#" method="post">
+              <form class="formulario" action="#" method="post" novalidate
+                    onsubmit="return validarSesion()">
+                <!-- acá javascript avisa si el correo o la contraseña están mal -->
+                <p class="mensaje" id="aviso-sesion"></p>
+
                 <fieldset>
                   <legend>¿Ya tienes cuenta?</legend>
 
@@ -272,6 +297,7 @@
                       >Correo electrónico<span class="obligatorio">*</span></label
                     >
                     <input type="email" id="s-correo" name="correo" required />
+                    <small class="campo__error" id="e-scorreo"></small>
                   </div>
 
                   <div class="campo">
@@ -279,6 +305,7 @@
                       >Contraseña <span class="obligatorio">*</span></label
                     >
                     <input type="password" id="s-clave" name="clave" required />
+                    <small class="campo__error" id="e-sclave"></small>
                   </div>
 
                   <!-- este no es obligatorio, sirve para que el vecino no tenga
@@ -361,14 +388,18 @@
         </div>
       </div>
 
-      <!-- el año lo escribimos a mano porque en este avance no usamos
-         javascript -->
+      <!-- el año del pie lo escribe javascript con la fecha del día, así
+         no tenemos que cambiarlo a mano cuando empiece el año nuevo -->
       <div class="pie__legal">
         <p class="mb-0">
-          Kercado &copy; 2026 · Proyecto académico — Taller de Programación Web,
+          Kercado &copy; <span id="anio">2026</span> · Proyecto académico — Taller de Programación Web,
           Universidad Tecnológica del Perú.
         </p>
       </div>
     </footer>
+
+    <!-- el javascript del sitio, revisa los formularios y escribe el año
+         del pie -->
+    <script src="js/kercado.js"></script>
   </body>
 </html>

@@ -41,9 +41,9 @@ aquí está el catálogo, a la izquierda van las
         </span>
       </a>
 
-      <!-- el buscador todavía no busca nada porque en este avance no usamos
-           javascript ni tenemos servidor, pero lo dejamos para que se vea
-           cómo quedará la cabecera -->
+      <!-- el buscador todavía no busca nada porque nos falta el servidor
+         que busque los productos, pero lo dejamos para que se vea cómo
+         quedará la cabecera -->
       <form class="buscador" action="catalogo.html" method="get">
         <!-- este label no se ve en pantalla, pero lo leen los lectores de
              pantalla que usan las personas con discapacidad visual -->
@@ -96,10 +96,16 @@ aquí está el catálogo, a la izquierda van las
           </div>
 
           <!-- el filtro por precio, cada campo tiene su label unido con el id,
-               todavía no filtra porque en este avance no usamos javascript -->
+               javascript revisa que los precios no sean negativos y que el
+               mínimo no sea mayor que el máximo, todavía no filtra los
+               productos porque para eso nos falta el servidor -->
           <div class="panel-lateral__bloque">
             <h3 class="panel-lateral__titulo">Filtrar por precio</h3>
-            <form action="catalogo.html" method="get">
+            <form action="catalogo.html" method="get" novalidate
+                  onsubmit="return validarFiltro()">
+              <!-- acá javascript avisa si los precios quedaron mal -->
+              <p class="mensaje" id="aviso-filtro"></p>
+
               <div class="campo">
                 <label for="precio-min">Desde (S/)</label>
                 <input type="number" id="precio-min" name="min" min="0" step="0.5" placeholder="0">
@@ -367,15 +373,19 @@ aquí está el catálogo, a la izquierda van las
       </div>
     </div>
 
-    <!-- el año lo escribimos a mano porque en este avance no usamos
-         javascript -->
+    <!-- el año del pie lo escribe javascript con la fecha del día, así
+       no tenemos que cambiarlo a mano cuando empiece el año nuevo -->
     <div class="pie__legal">
       <p class="mb-0">
-        Kercado &copy; 2026 · Proyecto académico — Taller de Programación Web,
+        Kercado &copy; <span id="anio">2026</span> · Proyecto académico — Taller de Programación Web,
         Universidad Tecnológica del Perú.
       </p>
     </div>
   </footer>
 
+
+  <!-- el javascript del sitio, revisa los formularios y escribe el año
+       del pie -->
+  <script src="js/kercado.js"></script>
 </body>
 </html>
