@@ -21,34 +21,77 @@
 
 <body>
 
-  <!-- la cabecera, copiada igual que en plantilla.html -->
+  <!-- este enlace solo se ve al apretar tab, sirve para que quien navega
+       con el teclado salte directo al contenido sin pasar por el menú -->
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <!-- esta es la cabecera, es la misma en todas las páginas del sitio,
+       tiene el logo, el buscador, el carrito, la cuenta del vecino y el
+       menú -->
   <header class="encabezado">
+
     <div class="contenedor encabezado__fila">
+
+      <!-- el logo lleva a la página de inicio -->
       <a class="logo" href="index.html">
         <span>Ker<span class="logo__acento">cado</span>
           <span class="logo__bajada">Condominio Las Palmas 357</span>
         </span>
       </a>
-      <form class="buscador" action="catalogo.html" method="get">
+
+      <!-- este botón abre y cierra el menú en el celular, en pantallas
+           grandes no se ve, aria-expanded dice si el menú está abierto -->
+      <button class="menu-boton" type="button" id="menu-boton"
+              aria-expanded="false" aria-controls="menu-principal">
+        <span class="menu-boton__icono" aria-hidden="true"></span>
+        Menú
+      </button>
+
+      <!-- el buscador manda al catálogo lo que se escribió y allá se
+           muestran solo los productos que coinciden -->
+      <form class="buscador" action="catalogo.html" method="get" role="search">
+        <!-- este label no se ve en pantalla, pero lo leen los lectores de
+             pantalla que usan las personas con discapacidad visual -->
         <label class="solo-lectores" for="q">Buscar productos</label>
         <input class="buscador__campo" type="search" id="q" name="q"
                placeholder="Buscar postres, menús, abarrotes...">
         <button class="buscador__boton" type="submit">Buscar</button>
       </form>
-      <a class="boton boton--sm" href="registro.html">Ingresar</a>
+
+      <div class="encabezado__acciones">
+
+        <!-- el enlace al carrito, el globo con la cantidad lo actualiza
+             javascript y se esconde cuando el carrito está vacío -->
+        <a class="encabezado__carrito" href="carrito.html">
+          Carrito
+          <span class="contador" id="contador-carrito" hidden>0</span>
+          <span class="solo-lectores">productos en el carrito</span>
+        </a>
+
+        <!-- hay un solo botón para ingresar, porque el vecino usa la misma
+             cuenta para comprar y para vender, cuando ya entró javascript
+             lo cambia por su nombre y el botón para salir -->
+        <div class="cuenta" id="cuenta">
+          <a class="boton boton--sm" href="registro.html">Ingresar</a>
+        </div>
+      </div>
     </div>
-    <nav class="menu" aria-label="Navegación principal">
+
+    <!-- este es el menú principal, javascript marca el enlace de la página
+         donde está el vecino -->
+    <nav class="menu" id="menu-principal" aria-label="Navegación principal">
       <ul class="contenedor menu__lista">
         <li><a class="menu__enlace" href="index.html">Inicio</a></li>
         <li><a class="menu__enlace" href="catalogo.html">Catálogo</a></li>
         <li><a class="menu__enlace" href="panel.html">Mi panel</a></li>
+        <li><a class="menu__enlace" href="carrito.html">Carrito</a></li>
         <li><a class="menu__enlace" href="registro.html">Registro</a></li>
       </ul>
     </nav>
   </header>
 
 
-  <main>
+  <main id="contenido">
 
     <section class="seccion">
       <div class="contenedor">
@@ -102,7 +145,7 @@
       <div class="contenedor">
         <h2 class="titulo-seccion">Tarjeta de producto</h2>
         <p class="subtexto">
-          Esta es la pieza que se repite 8 o 9 veces en <code>catalogo.html</code>.
+          Esta es la pieza que se repite en <code>catalogo.html</code> y en el inicio.
           Lleva las cuatro cosas que pide el enunciado: <strong>imagen, título,
           precio y vendedor</strong>. No le pongas ancho: de eso se encarga
           <code>.grilla-productos</code>.
@@ -121,7 +164,7 @@
                  sin tildes, y el alt describe lo que se ve en la foto -->
             <figure class="tarjeta__figura">
               <img class="tarjeta__imagen"
-                   src="assets/img/PONER-IMAGEN-AQUI.jpg"
+                   src="assets/img/kercado.png"
                    alt="Descripción breve de la foto del producto">
             </figure>
 
@@ -153,7 +196,7 @@
           <article class="tarjeta">
             <figure class="tarjeta__figura">
               <img class="tarjeta__imagen"
-                   src="assets/img/PONER-IMAGEN-AQUI.jpg"
+                   src="assets/img/kercado.png"
                    alt="Descripción breve de la foto del producto">
             </figure>
             <div class="tarjeta__cuerpo">
@@ -176,7 +219,7 @@
           <article class="tarjeta">
             <figure class="tarjeta__figura">
               <img class="tarjeta__imagen"
-                   src="assets/img/PONER-IMAGEN-AQUI.jpg"
+                   src="assets/img/kercado.png"
                    alt="Descripción breve de la foto del producto">
             </figure>
             <div class="tarjeta__cuerpo">
@@ -229,9 +272,8 @@
 
             <div class="panel-lateral__bloque">
               <h3 class="panel-lateral__titulo">Filtrar por precio</h3>
-              <!-- este filtro todavía no filtra, por ahora es solo cómo se
-                   verá, la parte que funciona llega con javascript más
-                   adelante -->
+              <!-- el filtro por precio, en el catálogo lo aplica javascript
+                   sin recargar la página -->
               <form action="catalogo.html" method="get">
                 <div class="campo">
                   <label for="precio-min">Desde (S/)</label>
@@ -269,8 +311,7 @@
       <div class="contenedor">
         <h2 class="titulo-seccion">Tablas</h2>
         <p class="subtexto">
-          Vale 3 puntos y es lo que más se olvida. Van en
-          <code>panel.html</code>. Regla de armado: la
+          Van en <code>panel.html</code>. Regla de armado: la
           <code>&lt;table&gt;</code> va <strong>siempre</strong> envuelta en
           <code>.tabla-scroll</code>, si no rompe el ancho en celular.
         </p>
@@ -357,7 +398,7 @@
           Piezas sueltas para armar <code>registro.html</code>. Todos los
           campos ya están estilizados: no hace falta agregar clases a los
           <code>input</code>, alcanza con envolverlos en <code>.campo</code>.
-          <strong>Ningún formulario envía nada</strong> — no hay servidor.
+Los errores se muestran con <code>marcarError()</code> de <code>js/base.js</code>.
         </p>
 
         <form class="formulario" action="#" method="post">
@@ -440,8 +481,8 @@
 
         <!-- así se ven los mensajes que escribe javascript cuando se envía un
              formulario, el verde cuando todo está bien y el rojo cuando falta
-             corregir algo, el texto lo pone el archivo js/kercado.js, acá los
-             dejamos escritos solo para ver cómo quedan -->
+             corregir algo, el texto lo pone mostrarResumen de js/base.js, acá
+             los dejamos escritos solo para ver cómo quedan -->
         <p class="mensaje mensaje--ok mt-3">listo, tus datos están completos</p>
         <p class="mensaje mensaje--error">faltan corregir 2 datos, están marcados más abajo</p>
 
@@ -469,9 +510,8 @@
       <div class="contenedor">
         <h2 class="titulo-seccion">Multimedia</h2>
         <p class="subtexto">
-          La rúbrica pide uso de imágenes y audio o video. Elegimos imágenes
-          + un audio de presentación en <code>index.html</code>. El
-          reproductor nativo ya trae controles: cero JavaScript.
+          Usamos imágenes y un audio de presentación en <code>index.html</code>.
+          El reproductor es el del navegador, que ya trae sus controles.
         </p>
 
         <div class="audio-caja">
@@ -479,10 +519,272 @@
           <p class="subtexto mb-0">Presentación de la administración para los vecinos.</p>
           <!-- controls muestra el botón de play, la barra y el volumen, el
                texto de adentro solo sale en navegadores muy antiguos -->
-          <audio controls src="assets/audio/PONER-AUDIO-AQUI.mp3">
+          <audio controls src="assets/audio/kercado-presentacion.mp3">
             Tu navegador no soporta audio.
-            <a href="assets/audio/PONER-AUDIO-AQUI.mp3">Descarga el archivo</a>.
+            <a href="assets/audio/kercado-presentacion.mp3">Descarga el archivo</a>.
           </audio>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- desde aquí están las piezas que agregamos cuando el sitio empezó a
+         usar javascript, cada una con el html listo para copiar -->
+
+    <!-- la tarjeta dentro de un template -->
+    <section class="seccion seccion--alterna">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Tarjeta generada con template</h2>
+        <p class="subtexto">
+          Las tarjetas ya no se escriben a mano. Se copia este
+          <code>&lt;template id="plantilla-tarjeta"&gt;</code> a la página y
+          JavaScript lo clona una vez por cada publicación de
+          <code>listarPublicaciones()</code>. Las tres de abajo salen así, con
+          <code>js/componentes.js</code>. La clase
+          <code>grilla-productos--animada</code> hace que entren una detrás
+          de otra con la animación <code>aparecer</code>.
+        </p>
+
+        <!-- el molde, lo que está dentro de un template no se ve en la
+             página hasta que javascript lo copia -->
+        <template id="plantilla-tarjeta">
+          <article class="tarjeta">
+            <figure class="tarjeta__figura">
+              <img class="tarjeta__imagen" src="assets/img/kercado.png" alt="">
+            </figure>
+            <div class="tarjeta__cuerpo">
+              <span class="etiqueta"></span>
+              <h3 class="tarjeta__titulo"><a href="producto.html"></a></h3>
+              <p class="tarjeta__vendedor mb-0">
+                Vendido por <strong></strong> · <span></span>
+              </p>
+            </div>
+            <div class="tarjeta__pie">
+              <span class="tarjeta__precio"></span>
+              <a class="boton boton--sm" href="producto.html">Ver</a>
+            </div>
+          </article>
+        </template>
+
+        <div class="grilla-productos grilla-productos--animada" id="ejemplo-tarjetas"></div>
+      </div>
+    </section>
+
+
+    <!-- los estados -->
+    <section class="seccion">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Estados de un pedido</h2>
+        <p class="subtexto">
+          Son cinco. La clase la devuelve <code>claseEstado(estado)</code> de
+          <code>js/base.js</code>, no hace falta escribirla a mano.
+        </p>
+        <p>
+          <span class="estado estado--pendiente">Pendiente</span>
+          <span class="estado estado--aceptado">Aceptado</span>
+          <span class="estado estado--preparacion">En preparación</span>
+          <span class="estado estado--entregado">Entregado</span>
+          <span class="estado estado--cancelado">Cancelado</span>
+        </p>
+      </div>
+    </section>
+
+
+    <!-- los avisos flotantes y el diálogo -->
+    <section class="seccion seccion--alterna">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Avisos y confirmaciones</h2>
+        <p class="subtexto">
+          No se usa <code>alert()</code> ni <code>confirm()</code>. Para avisar
+          algo, <code>mostrarAviso(texto, "ok")</code> o <code>"error"</code>.
+          Para preguntar antes de algo que no se puede deshacer,
+          <code>pedirConfirmacion(titulo, texto, funcion)</code>: la función
+          solo se ejecuta si el vecino acepta. El
+          <code>&lt;dialog id="confirmacion"&gt;</code> y la caja
+          <code>#avisos</code> ya vienen en la plantilla, después del pie.
+        </p>
+        <p>
+          <button class="boton boton--linea" type="button" id="ejemplo-aviso-ok">Mostrar un aviso</button>
+          <button class="boton boton--linea" type="button" id="ejemplo-aviso-error">Mostrar un error</button>
+          <button class="boton boton--linea" type="button" id="ejemplo-confirmar">Abrir el diálogo</button>
+        </p>
+      </div>
+    </section>
+
+
+    <!-- las pestañas -->
+    <section class="seccion">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Pestañas</h2>
+        <p class="subtexto">
+          Las usa <code>panel.html</code>. Cada botón lleva
+          <code>role="tab"</code>, <code>aria-controls</code> con el id de su
+          parte y <code>aria-selected</code>. La parte que no se ve lleva el
+          atributo <code>hidden</code>. El comportamiento está en
+          <code>js/panel.js</code>.
+        </p>
+
+        <div class="pestanas" role="tablist" aria-label="Ejemplo de pestañas">
+          <button class="pestanas__boton" type="button" role="tab" id="ejemplo-pestana-1"
+                  aria-controls="ejemplo-parte-1" aria-selected="true">Mis compras</button>
+          <button class="pestanas__boton" type="button" role="tab" id="ejemplo-pestana-2"
+                  aria-controls="ejemplo-parte-2" aria-selected="false" tabindex="-1">Mis ventas</button>
+        </div>
+        <div class="pestanas__panel" id="ejemplo-parte-1" role="tabpanel"
+             aria-labelledby="ejemplo-pestana-1" tabindex="0">
+          <p class="mb-0">Aquí va el contenido de la pestaña elegida.</p>
+        </div>
+        <div class="pestanas__panel" id="ejemplo-parte-2" role="tabpanel"
+             aria-labelledby="ejemplo-pestana-2" tabindex="0" hidden>
+          <p class="mb-0">Esta parte está escondida hasta que se elige su pestaña.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- el carrito -->
+    <section class="seccion seccion--alterna">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Carrito</h2>
+        <p class="subtexto">
+          Estructura de <code>carrito.html</code>: a la izquierda un
+          <code>.carrito__grupo</code> por cada vendedor, con sus
+          <code>.linea-carrito</code>, y a la derecha el
+          <code>.carrito__resumen</code>. El <code>.selector-cantidad</code>
+          también se usa en la ficha del producto. Los botones de solo
+          símbolo llevan <code>aria-label</code>.
+        </p>
+
+        <div class="carrito">
+          <div>
+
+            <!-- un grupo por vendedor, porque cada vecino recibe su pedido -->
+            <section class="carrito__grupo">
+              <h3 class="carrito__vendedor">Vendido por Nombre del vecino · Torre B, Dpto. 402</h3>
+
+              <!-- una línea del carrito -->
+              <article class="linea-carrito">
+                <img class="linea-carrito__imagen" src="assets/img/kercado.png" alt="Nombre del producto">
+                <div class="linea-carrito__datos">
+                  <h4 class="linea-carrito__titulo">Nombre del producto</h4>
+                  <p class="subtexto mb-0">S/ 00.00 cada uno</p>
+                </div>
+
+                <!-- el selector de cantidad, menos, número y más -->
+                <div class="selector-cantidad linea-carrito__cantidad">
+                  <button class="selector-cantidad__boton" type="button"
+                          aria-label="Quitar una unidad de Nombre del producto">−</button>
+                  <input class="selector-cantidad__numero" type="number" min="1" max="12" value="1"
+                         aria-label="Cantidad de Nombre del producto">
+                  <button class="selector-cantidad__boton" type="button"
+                          aria-label="Agregar una unidad de Nombre del producto">+</button>
+                </div>
+
+                <span class="linea-carrito__subtotal">S/ 00.00</span>
+                <button class="boton boton--texto boton--sm linea-carrito__quitar" type="button"
+                        aria-label="Quitar Nombre del producto del carrito">Quitar</button>
+              </article>
+            </section>
+          </div>
+
+          <!-- el resumen con el total y el método de pago -->
+          <aside class="carrito__resumen" aria-label="Resumen del pedido">
+            <h3>Resumen</h3>
+            <p class="carrito__total">
+              <span>Total</span>
+              <span class="carrito__monto">S/ 00.00</span>
+            </p>
+            <div class="campo">
+              <label for="ejemplo-pago">Método de pago acordado</label>
+              <select id="ejemplo-pago" name="pago">
+                <option value="Efectivo contra entrega">Efectivo contra entrega</option>
+                <option value="Yape">Yape</option>
+                <option value="Plin">Plin</option>
+              </select>
+            </div>
+            <button class="boton boton--full" type="button">Registrar pedido</button>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- la lista vacía -->
+    <section class="seccion">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Lista vacía</h2>
+        <p class="subtexto">
+          Cuando un filtro no encuentra nada o el carrito está vacío, la
+          página no se queda en blanco: se muestra este bloque con un botón
+          que le dice al vecino a dónde ir.
+        </p>
+
+        <div class="vacio">
+          <h3 class="vacio__titulo">Tu carrito está vacío</h3>
+          <p>Agrega productos desde el catálogo y van a aparecer aquí.</p>
+          <a class="boton" href="catalogo.html">Ver el catálogo</a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- la ficha en dos columnas y la galería -->
+    <section class="seccion seccion--alterna">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Ficha en dos columnas y galería</h2>
+        <p class="subtexto">
+          Para <code>producto.html</code>: <code>.ficha</code> pone las fotos
+          a la izquierda y los datos a la derecha. Cada miniatura va dentro
+          de un <code>&lt;button class="galeria__boton"&gt;</code> para que
+          se pueda elegir con el teclado, y la que se está viendo lleva
+          <code>aria-pressed="true"</code>.
+        </p>
+
+        <div class="ficha">
+          <div>
+            <figure class="galeria__principal">
+              <img src="assets/img/catalogos/torta-chocolate.jpg" alt="Torta de Chocolate Casera">
+            </figure>
+            <div class="galeria__miniaturas">
+              <button class="galeria__boton" type="button" aria-pressed="true"
+                      aria-label="Ver la foto 1 de Torta de Chocolate Casera">
+                <img src="assets/img/catalogos/torta-chocolate.jpg" alt="">
+              </button>
+              <button class="galeria__boton" type="button" aria-pressed="false"
+                      aria-label="Ver la foto 2 de Torta de Chocolate Casera">
+                <img src="assets/img/catalogos/torta-mini-1.jpg" alt="">
+              </button>
+              <button class="galeria__boton" type="button" aria-pressed="false"
+                      aria-label="Ver la foto 3 de Torta de Chocolate Casera">
+                <img src="assets/img/catalogos/torta-mini-2.jpg" alt="">
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <span class="etiqueta">Postres</span>
+            <h3>Nombre del producto</h3>
+            <p class="ficha__precio">S/ 00.00</p>
+            <p>Descripción del producto, escrita por el vecino que lo vende.</p>
+            <button class="boton boton--lg" type="button">Agregar al carrito</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- las secciones que aparecen al bajar -->
+    <section class="seccion">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Secciones que aparecen al bajar</h2>
+        <p class="subtexto">
+          Para <code>index.html</code>: la sección lleva la clase
+          <code>revelar</code> y JavaScript le agrega
+          <code>revelar--visible</code> cuando entra en la pantalla. La caja
+          de abajo ya tiene las dos clases, por eso se ve.
+        </p>
+        <div class="caja revelar revelar--visible">
+          <p class="mb-0">Esta caja subió a su sitio mientras aparecía.</p>
         </div>
       </div>
     </section>
@@ -490,9 +792,13 @@
   </main>
 
 
-  <!-- el pie, copiado igual que en plantilla.html -->
+  <!-- este es el pie de página, también es el mismo en todas las páginas,
+       tiene información de kercado, el contacto de la administración, el
+       reglamento y los integrantes del grupo -->
   <footer class="pie">
     <div class="contenedor pie__grilla">
+
+      <!-- aquí contamos qué es kercado, y que no cobra ni hace entregas -->
       <div>
         <h3 class="pie__titulo">Kercado</h3>
         <p class="subtexto">
@@ -504,6 +810,8 @@
           entrega: solo conecta al vecino que vende con el que compra.
         </p>
       </div>
+
+      <!-- los datos de contacto de la administración del condominio -->
       <div>
         <h3 class="pie__titulo">Administración</h3>
         <ul class="pie__lista">
@@ -514,6 +822,9 @@
           <li><a href="tel:+5112345678">(01) 234 5678</a></li>
         </ul>
       </div>
+
+      <!-- estos enlaces llevan a partes de la página de inicio, donde
+           explicamos cómo funciona kercado y sus reglas -->
       <div>
         <h3 class="pie__titulo">Reglamento</h3>
         <ul class="pie__lista">
@@ -523,6 +834,8 @@
           <li><a href="index.html#nosotros">Quiénes somos</a></li>
         </ul>
       </div>
+
+      <!-- nuestros nombres -->
       <div>
         <h3 class="pie__titulo">Integrantes</h3>
         <ul class="pie__lista">
@@ -533,6 +846,9 @@
         </ul>
       </div>
     </div>
+
+    <!-- el año del pie lo escribe javascript con la fecha del día, así
+       no tenemos que cambiarlo a mano cuando empiece el año nuevo -->
     <div class="pie__legal">
       <p class="mb-0">
         Kercado &copy; <span id="anio">2026</span> · Proyecto académico — Taller de Programación Web,
@@ -542,8 +858,32 @@
   </footer>
 
 
-  <!-- el javascript del sitio, revisa los formularios y escribe el año
-       del pie -->
-  <script src="js/kercado.js"></script>
+  <!-- el diálogo que pregunta antes de hacer algo que no se puede deshacer,
+       como dar de baja una publicación o vaciar el carrito, javascript le
+       cambia el título y el texto según lo que se esté confirmando -->
+  <dialog class="confirmacion" id="confirmacion" aria-labelledby="confirmacion-titulo">
+    <form method="dialog">
+      <h2 class="confirmacion__titulo" id="confirmacion-titulo">Confirmar</h2>
+      <p id="confirmacion-texto">¿Seguro que quieres continuar?</p>
+      <div class="confirmacion__acciones">
+        <button class="boton boton--linea boton--sm" type="submit" value="no">No, volver</button>
+        <button class="boton boton--sm" type="submit" value="si">Sí, continuar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- aquí javascript pone los avisos flotantes, con aria-live los
+       lectores de pantalla los leen apenas aparecen -->
+  <div class="avisos" id="avisos" aria-live="polite"></div>
+
+
+  <!-- el javascript del sitio, van en este orden porque cada uno usa al
+       anterior, primero los datos iniciales, después el que los guarda en
+       el navegador, luego lo común a todas las páginas y al final el de
+       cada página -->
+  <script src="js/datos.js"></script>
+  <script src="js/almacen.js"></script>
+  <script src="js/base.js"></script>
+  <script src="js/componentes.js"></script>
 </body>
 </html>

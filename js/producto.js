@@ -1,0 +1,3 @@
+/*
+  el javascript de la ficha del producto
+*/

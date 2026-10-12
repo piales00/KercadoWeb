@@ -1,9 +1,12 @@
-/* hoja de estilos de kercado, es la única del sitio y la usan las cinco
+/* hoja de estilos de kercado, es la única del sitio y la usan todas las
    páginas, así si cambiamos algo aquí se cambia en todas a la vez
 
    está ordenada de arriba a abajo así, variables, reset, layout general,
    cabecera, pie, textos, botones, tarjetas del catálogo, aside, tablas,
-   formularios, multimedia, utilidades y al final lo responsive */
+   formularios, multimedia, utilidades, después las piezas que agregamos
+   cuando el sitio empezó a usar javascript, que son los avisos, las
+   pestañas, el carrito, los mensajes de lista vacía y el diálogo, luego las
+   animaciones y al final lo responsive */
 
 
 /* variables de diseño
@@ -27,7 +30,9 @@
   --texto-suave:     #5C6A63;  /* subtítulos y ayudas de los formularios */
 
   /* colores para el estado de los pedidos en las tablas del panel */
-  --estado-pendiente: #B8860B; /* mostaza, el pedido todavía no se entrega */
+  --estado-pendiente: #B8860B; /* mostaza, el vendedor todavía no lo acepta */
+  --estado-aceptado:  #1F5F8B; /* azul, el vendedor ya lo aceptó */
+  --estado-preparacion: #6B4A9B; /* morado, el vendedor lo está preparando */
   --estado-entregado: #14603C; /* verde, el pedido ya llegó */
   --estado-cancelado: #A63A2A; /* rojo, el pedido no se concretó */
 
@@ -64,6 +69,11 @@
   /* ancho máximo del contenido, para que en pantallas grandes el texto no
      quede demasiado largo */
   --ancho-max: 1180px;
+
+  /* cuánto duran las animaciones y cómo aceleran, todas usan estos dos
+     valores para que el sitio se mueva con el mismo ritmo */
+  --duracion: 0.3s;
+  --curva: ease-out;
 }
 
 
@@ -105,6 +115,12 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+/* javascript esconde cosas poniéndoles el atributo hidden, con esto se
+   esconden de verdad aunque su clase les haya puesto otro display */
+[hidden] {
+  display: none !important;
 }
 
 /* las imágenes nunca se salen de su contenedor */
@@ -172,7 +188,7 @@ main {
 
 /* cabecera
 
-   es la misma en las cinco páginas, tiene el logo, el buscador, el botón
+   es la misma en todas las páginas, tiene el logo, el buscador, el botón
    de ingresar y el menú */
 
 .encabezado {
@@ -195,11 +211,29 @@ main {
   padding-block: var(--sp-2);
   flex-wrap: wrap;                  /* en celular se acomodan uno debajo del otro */
 }
-/* el logo y el botón no se achican, antes el botón ingresar se montaba
-   encima del buscar */
-.encabezado__fila > .logo,
-.encabezado__fila > .boton {
+/* el logo no se achica, antes el buscador lo aplastaba */
+.encabezado__fila > .logo {
   flex-shrink: 0;
+}
+
+/* el enlace para saltar al contenido, está escondido arriba de la pantalla
+   y baja cuando recibe el foco con la tecla tab, así quien usa el teclado
+   no tiene que pasar por todo el menú en cada página */
+.saltar {
+  position: absolute;
+  left: var(--sp-2);
+  top: 0;
+  z-index: 200;                     /* queda encima de la cabecera */
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: 0 0 var(--radio-sm) var(--radio-sm);
+  background-color: var(--blanco);
+  color: var(--verde-oscuro);
+  font-weight: 700;
+  transform: translateY(-120%);     /* lo sube hasta sacarlo de la pantalla */
+  transition: transform var(--duracion) var(--curva);
+}
+.saltar:focus {
+  transform: translateY(0);
 }
 
 /* el logo está hecho con texto y no con imagen, así se ve nítido y carga
@@ -234,8 +268,8 @@ main {
   color: var(--arena);
 }
 
-/* el buscador, en este avance todavía no busca nada porque no usamos
-   javascript, pero ya está listo en la cabecera */
+/* el buscador, lleva al catálogo con lo que se escribió y allá se filtran
+   los productos */
 .buscador {
   display: flex;
   flex: 1 1 200px;                  /* ocupa el espacio libre del medio */
@@ -268,6 +302,109 @@ main {
 }
 .buscador__boton:hover {
   background-color: var(--naranja-oscuro);
+}
+
+/* la parte derecha de la cabecera, con el enlace al carrito y la cuenta
+   del vecino */
+.encabezado__acciones {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-left: auto;                /* la empuja al borde derecho */
+  flex-shrink: 0;
+}
+.encabezado__carrito {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.25rem;
+  color: var(--blanco);
+  font-size: var(--txt-sm);
+  font-weight: 700;
+}
+
+/* el globo con la cantidad de productos del carrito, javascript lo esconde
+   cuando el carrito está vacío */
+.contador {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding-inline: 0.4rem;
+  border-radius: 999px;
+  background-color: var(--crema);
+  color: var(--verde-oscuro);
+  font-size: var(--txt-xs);
+  font-weight: 800;
+}
+/* javascript le pone esta clase un momento cada vez que cambia el número */
+.contador--latido {
+  animation: latido var(--duracion) var(--curva) 2;
+}
+
+/* la cuenta del vecino, sin sesión tiene el botón ingresar y con sesión el
+   saludo y el botón salir */
+.cuenta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+.cuenta__saludo {
+  font-size: var(--txt-sm);
+  color: var(--crema);
+  white-space: nowrap;
+}
+
+/* el botón que abre el menú en el celular, en pantallas grandes no se ve
+   porque el menú entra completo */
+.menu-boton {
+  display: none;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: 0.5rem 0.75rem;
+  border: 2px solid var(--blanco);
+  border-radius: var(--radio-sm);
+  background-color: transparent;
+  color: var(--blanco);
+  font-family: inherit;
+  font-size: var(--txt-sm);
+  font-weight: 700;
+  cursor: pointer;
+}
+/* las tres rayitas del botón se dibujan con css, la del medio es el span
+   y las otras dos salen con before y after */
+.menu-boton__icono,
+.menu-boton__icono::before,
+.menu-boton__icono::after {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background-color: var(--blanco);
+  transition: transform var(--duracion) var(--curva),
+              background-color var(--duracion) var(--curva);
+}
+.menu-boton__icono {
+  position: relative;
+}
+.menu-boton__icono::before,
+.menu-boton__icono::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+.menu-boton__icono::before { top: -6px; }
+.menu-boton__icono::after  { top: 6px; }
+
+/* cuando el menú está abierto las rayitas giran y forman una equis */
+.menu-boton[aria-expanded="true"] .menu-boton__icono {
+  background-color: transparent;
+}
+.menu-boton[aria-expanded="true"] .menu-boton__icono::before {
+  transform: translateY(6px) rotate(45deg);
+}
+.menu-boton[aria-expanded="true"] .menu-boton__icono::after {
+  transform: translateY(-6px) rotate(-45deg);
 }
 
 /* el menú principal, va dentro del header, en el aside del catálogo solo
@@ -306,7 +443,7 @@ main {
 
 /* pie de página
 
-   también es el mismo en las cinco páginas, tiene información de kercado,
+   también es el mismo en todas las páginas, tiene información de kercado,
    el contacto de la administración, el reglamento y los integrantes */
 
 .pie {
@@ -352,6 +489,9 @@ main {
   font-size: var(--txt-xs);
   color: var(--arena);
   text-align: center;
+}
+.pie__legal p {
+  margin-inline: auto;              /* centra el párrafo, que tiene ancho máximo */
 }
 
 
@@ -485,6 +625,27 @@ p {
   color: var(--naranja);
   box-shadow: none;
   text-decoration: underline;
+}
+
+/* el botón de borde blanco, es el secundario cuando el fondo es verde,
+   lo usamos para salir en la cabecera */
+.boton--claro {
+  background-color: transparent;
+  color: var(--blanco);
+  border-color: var(--blanco);
+}
+.boton--claro:hover {
+  background-color: var(--blanco);
+  color: var(--verde-oscuro);
+}
+
+/* un botón que no se puede usar, por ejemplo agregar al carrito cuando ya
+   no queda stock */
+.boton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 /* tamaños del botón, se pueden usar con cualquiera de los tres */
@@ -731,8 +892,40 @@ p {
   white-space: nowrap;
 }
 .estado--pendiente { color: var(--estado-pendiente); }
+.estado--aceptado  { color: var(--estado-aceptado); }
+.estado--preparacion { color: var(--estado-preparacion); }
 .estado--entregado { color: var(--estado-entregado); }
 .estado--cancelado { color: var(--estado-cancelado); }
+
+/* el select que va dentro de una tabla, con él el vendedor cambia el
+   estado de un pedido */
+.tabla__control {
+  padding: 0.35rem var(--sp-1);
+  border: 1.5px solid rgba(30, 42, 36, 0.18);
+  border-radius: var(--radio-sm);
+  background-color: var(--blanco);
+  font-family: inherit;
+  font-size: var(--txt-xs);
+  color: var(--texto);
+}
+
+/* la fila que se abre debajo de un pedido con lo que se compró, va con
+   fondo crema para que se note que pertenece a la fila de arriba */
+.tabla tbody tr.tabla__detalle,
+.tabla tbody tr.tabla__detalle:hover {
+  background-color: var(--crema);
+}
+.detalle-pedido {
+  list-style: none;
+  margin-bottom: var(--sp-1);
+}
+.detalle-pedido li {
+  display: flex;
+  justify-content: space-between;   /* el producto a la izquierda y su monto a la derecha */
+  gap: var(--sp-2);
+  max-width: 420px;
+  padding-block: 0.2rem;
+}
 
 /* la tabla de la ficha del producto, tiene dos columnas, a la izquierda el
    dato y a la derecha su valor */
@@ -996,7 +1189,23 @@ p {
   margin-top: var(--sp-1);
 }
 
-/* la galería de la página del producto, una foto grande arriba y cuatro
+/* la ficha del producto en dos columnas, las fotos a la izquierda y los
+   datos con el botón a la derecha, así el precio se ve sin bajar, en
+   pantallas chicas pasa a una columna */
+.ficha {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-4);
+  align-items: start;
+}
+.ficha__precio {
+  font-family: var(--fuente-titulos);
+  font-size: var(--txt-xl);
+  font-weight: 800;
+  color: var(--naranja);
+}
+
+/* la galería de la página del producto, una foto grande arriba y las
    pequeñas debajo */
 .galeria__principal {
   aspect-ratio: 4 / 3;
@@ -1012,8 +1221,25 @@ p {
 }
 .galeria__miniaturas {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: var(--sp-1);
+}
+/* cada foto pequeña va dentro de un botón, así se puede elegir con el
+   teclado, le quitamos el estilo que trae el botón */
+.galeria__boton {
+  padding: 0;
+  border: none;
+  border-radius: var(--radio-sm);
+  background-color: transparent;
+  cursor: pointer;
+}
+.galeria__boton img {
+  width: 100%;
+}
+/* la foto que se está viendo en grande queda marcada */
+.galeria__boton[aria-pressed="true"] img {
+  border-color: var(--naranja);
+  opacity: 1;
 }
 .galeria__miniaturas img {
   aspect-ratio: 1 / 1;
@@ -1086,6 +1312,338 @@ p {
 }
 
 
+/* avisos flotantes
+
+   aparecen abajo a la derecha cuando el vecino hace algo, por ejemplo
+   agregar un producto al carrito, y se van solos a los pocos segundos */
+
+.avisos {
+  position: fixed;                  /* se quedan en su sitio aunque se baje la página */
+  right: var(--sp-2);
+  bottom: var(--sp-2);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  width: min(360px, calc(100% - var(--sp-4)));
+}
+.aviso-flotante {
+  margin: 0;
+  padding: var(--sp-2);
+  border: var(--borde);
+  border-left: 5px solid var(--estado-entregado);
+  border-radius: var(--radio-sm);
+  background-color: var(--blanco);
+  box-shadow: var(--sombra-media);
+  font-size: var(--txt-sm);
+  animation: deslizar-entrada var(--duracion) var(--curva);
+}
+.aviso-flotante--error {
+  border-left-color: var(--estado-cancelado);
+}
+
+
+/* pestañas
+
+   las usamos en el panel para pasar de mis compras a mis ventas sin
+   cambiar de página, la pestaña elegida lleva la barrita naranja */
+
+.pestanas {
+  display: flex;
+  gap: var(--sp-1);
+  border-bottom: 2px solid var(--verde-claro);
+}
+.pestanas__boton {
+  padding: 0.75rem var(--sp-3);
+  border: none;
+  border-bottom: 4px solid transparent;
+  margin-bottom: -2px;              /* la barrita tapa la línea gris de abajo */
+  background-color: transparent;
+  color: var(--texto-suave);
+  font-family: var(--fuente-titulos);
+  font-size: var(--txt-md);
+  font-weight: 800;
+  cursor: pointer;
+  transition: color var(--duracion) var(--curva),
+              border-color var(--duracion) var(--curva);
+}
+.pestanas__boton:hover {
+  color: var(--verde-oscuro);
+}
+.pestanas__boton[aria-selected="true"] {
+  color: var(--verde-oscuro);
+  border-bottom-color: var(--naranja);
+}
+/* el contenido de la pestaña entra con la misma animación de las tarjetas */
+.pestanas__panel {
+  padding-top: var(--sp-3);
+  animation: aparecer var(--duracion) var(--curva);
+}
+
+/* una fila con un título a la izquierda y un botón a la derecha, la usamos
+   encima de las tablas del panel */
+.fila-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-2);
+}
+.fila-titulo .titulo-seccion {
+  margin-bottom: 0;                 /* el espacio de abajo ya lo pone la fila */
+}
+
+
+/* carrito
+
+   a la izquierda van los productos agrupados por vendedor y a la derecha
+   el resumen con el total, en pantallas chicas queda en una columna */
+
+.carrito {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: var(--sp-4);
+  align-items: start;
+}
+
+/* la caja de cada vendedor, porque cada vecino recibe su propio pedido */
+.carrito__grupo {
+  background-color: var(--blanco);
+  border: var(--borde);
+  border-radius: var(--radio-md);
+  box-shadow: var(--sombra-suave);
+  margin-bottom: var(--sp-3);
+  overflow: hidden;
+}
+.carrito__vendedor {
+  margin: 0;
+  padding: var(--sp-2);
+  background-color: var(--verde-claro);
+  font-size: var(--txt-md);
+}
+
+/* una línea del carrito, la foto, el nombre, la cantidad, el subtotal y
+   el botón para quitarla, cada parte tiene su zona en la grilla */
+.linea-carrito {
+  display: grid;
+  grid-template-columns: 72px 1fr auto 6rem auto;
+  grid-template-areas: "imagen datos cantidad subtotal quitar";
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2);
+  border-top: var(--borde);
+}
+.linea-carrito__imagen {
+  grid-area: imagen;
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: var(--radio-sm);
+}
+.linea-carrito__datos    { grid-area: datos; }
+.linea-carrito__cantidad { grid-area: cantidad; }
+.linea-carrito__quitar   { grid-area: quitar; }
+.linea-carrito__titulo {
+  margin: 0;
+  font-size: var(--txt-md);
+}
+.linea-carrito__subtotal {
+  grid-area: subtotal;
+  text-align: right;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* el resumen con el total, el método de pago y el botón para registrar el
+   pedido, baja con el scroll igual que el aside del catálogo */
+.carrito__resumen {
+  background-color: var(--blanco);
+  border: var(--borde);
+  border-radius: var(--radio-md);
+  padding: var(--sp-3);
+  box-shadow: var(--sombra-suave);
+  position: sticky;
+  top: 110px;
+}
+.carrito__total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  padding-block: var(--sp-2);
+  margin-bottom: var(--sp-2);
+  border-top: var(--borde);
+  border-bottom: var(--borde);
+  font-weight: 700;
+}
+.carrito__monto {
+  font-family: var(--fuente-titulos);
+  font-size: var(--txt-xl);
+  font-weight: 800;
+  color: var(--naranja);
+}
+
+/* el selector de cantidad, un botón para restar, el número y un botón
+   para sumar, lo usan la ficha del producto y el carrito */
+.selector-cantidad {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1.5px solid rgba(30, 42, 36, 0.18);
+  border-radius: var(--radio-sm);
+  overflow: hidden;                 /* los botones respetan las esquinas redondeadas */
+  background-color: var(--blanco);
+}
+.selector-cantidad__boton {
+  width: 2.4rem;
+  border: none;
+  background-color: var(--verde-claro);
+  color: var(--verde-oscuro);
+  font-family: inherit;
+  font-size: var(--txt-lg);
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--duracion) var(--curva),
+              color var(--duracion) var(--curva);
+}
+.selector-cantidad__boton:hover {
+  background-color: var(--verde);
+  color: var(--blanco);
+}
+.selector-cantidad__numero {
+  width: 3.4rem;
+  padding: 0.5rem 0.25rem;
+  border: none;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: var(--txt-sm);
+  font-weight: 700;
+  text-align: center;
+  color: var(--texto);
+}
+
+
+/* lista vacía
+
+   el mensaje que sale cuando no hay nada que mostrar, por ejemplo si el
+   filtro no encontró productos o el carrito está vacío, lleva un botón para
+   que el vecino sepa a dónde ir */
+
+.vacio {
+  padding: var(--sp-5) var(--sp-3);
+  border: 2px dashed var(--arena);
+  border-radius: var(--radio-md);
+  background-color: var(--blanco);
+  text-align: center;
+}
+.vacio p {
+  margin-inline: auto;              /* el párrafo queda centrado aunque tenga ancho máximo */
+}
+.vacio__titulo {
+  font-size: var(--txt-lg);
+}
+
+
+/* secciones que aparecen al bajar
+
+   la sección empieza transparente y un poco más abajo, javascript le pone
+   la clase revelar--visible cuando entra en la pantalla y sube a su sitio */
+
+.revelar {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s var(--curva), transform 0.6s var(--curva);
+}
+.revelar--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* diálogo de confirmación
+
+   es el dialog del navegador con nuestros colores, lo usamos antes de
+   hacer algo que no se puede deshacer, como dar de baja una publicación,
+   cancelar un pedido o vaciar el carrito */
+
+dialog.confirmacion {
+  width: min(440px, calc(100% - var(--sp-4)));
+  padding: var(--sp-3);
+  border: none;
+  border-radius: var(--radio-md);
+  background-color: var(--blanco);
+  color: var(--texto);
+  box-shadow: var(--sombra-media);
+}
+dialog.confirmacion[open] {
+  animation: aparecer var(--duracion) var(--curva);
+}
+/* el fondo oscuro que tapa la página mientras el diálogo está abierto */
+dialog.confirmacion::backdrop {
+  background-color: rgba(12, 63, 39, 0.55);
+}
+.confirmacion__titulo {
+  font-size: var(--txt-lg);
+}
+.confirmacion__acciones {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+  margin-top: var(--sp-3);
+}
+
+
+/* animaciones
+
+   las tres que usa el sitio, cada una dice cómo empieza y cómo termina y
+   el navegador calcula lo del medio */
+
+/* las tarjetas del catálogo y las pestañas suben un poco mientras aparecen */
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* los avisos flotantes entran desde la derecha */
+@keyframes deslizar-entrada {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* el contador del carrito crece y vuelve a su tamaño cuando cambia */
+@keyframes latido {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
+/* cada tarjeta del catálogo entra con la animación, y las siguientes
+   esperan un poquito más para que aparezcan una detrás de otra */
+.grilla-productos--animada .tarjeta {
+  animation: aparecer var(--duracion) var(--curva) backwards;
+}
+.grilla-productos--animada .tarjeta:nth-child(2) { animation-delay: 0.05s; }
+.grilla-productos--animada .tarjeta:nth-child(3) { animation-delay: 0.1s; }
+.grilla-productos--animada .tarjeta:nth-child(4) { animation-delay: 0.15s; }
+.grilla-productos--animada .tarjeta:nth-child(5) { animation-delay: 0.2s; }
+.grilla-productos--animada .tarjeta:nth-child(6) { animation-delay: 0.25s; }
+.grilla-productos--animada .tarjeta:nth-child(n + 7) { animation-delay: 0.3s; }
+
+
 /* responsive
 
    casi todo ya se acomoda solo con las grillas, aquí están las cosas que
@@ -1106,6 +1664,16 @@ p {
     grid-template-columns: 1fr;
     gap: var(--sp-4);
   }
+
+  /* la ficha del producto y el carrito también pasan a una columna, y el
+     resumen del carrito deja de bajar con el scroll */
+  .ficha,
+  .carrito {
+    grid-template-columns: 1fr;
+  }
+  .carrito__resumen {
+    position: static;
+  }
 }
 
 /* en celular */
@@ -1117,27 +1685,64 @@ p {
     --txt-xl:  1.45rem;
   }
 
-  /* en la cabecera el logo, el buscador y el botón van uno debajo del otro */
-  .encabezado__fila {
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--sp-2);
+  /* en el celular la cabecera ocupa varias filas, por eso ya no baja con
+     el scroll, taparía media pantalla */
+  .encabezado {
+    position: static;
   }
-  /* en columna los 200px del flex se volvían alto y el buscador salía
-     gigante, con flex none vuelve a su alto normal */
-  .buscador {
-    max-width: none;
-    flex: none;
+  html {
+    scroll-padding-top: var(--sp-2);
   }
 
-  /* el menú queda en una sola fila que se desliza de lado, no usamos menú
-     de hamburguesa porque necesitaría javascript */
-  .menu__lista {
-    flex-wrap: nowrap;
-    overflow-x: auto;
+  /* arriba quedan el logo y el botón del menú, debajo el buscador a todo
+     el ancho y al final el carrito con la cuenta */
+  .encabezado__fila {
+    gap: var(--sp-2);
   }
-  .menu__enlace {
-    white-space: nowrap;
+  .encabezado__fila > .logo {
+    margin-right: auto;             /* empuja el botón del menú a la derecha */
+  }
+  .menu-boton {
+    display: inline-flex;
+  }
+  .buscador {
+    flex: 1 1 100%;
+    max-width: none;
+  }
+  .encabezado__acciones {
+    flex: 1 1 100%;
+    justify-content: space-between;
+    margin-left: 0;
+  }
+
+  /* el menú está cerrado hasta que se toca el botón, y sus enlaces van
+     uno debajo del otro */
+  .menu {
+    display: none;
+  }
+  .menu--abierto {
+    display: block;
+    animation: aparecer var(--duracion) var(--curva);
+  }
+  .menu__lista {
+    flex-direction: column;
+    gap: 0;
+    padding-block: var(--sp-1);
+  }
+
+  /* en la línea del carrito la foto y el nombre van arriba, y abajo la
+     cantidad con el subtotal */
+  .linea-carrito {
+    grid-template-columns: 72px 1fr auto;
+    grid-template-areas:
+      "imagen datos quitar"
+      "cantidad cantidad subtotal";
+  }
+
+  /* las pestañas se reparten el ancho para que sea fácil tocarlas */
+  .pestanas__boton {
+    flex: 1;
+    padding-inline: var(--sp-1);
   }
 
   /* los campos que iban lado a lado pasan uno debajo del otro */
@@ -1151,6 +1756,26 @@ p {
   }
 }
 
+/* hay personas que se marean con el movimiento y lo apagan en su sistema,
+   con esta regla respetamos esa preferencia, las animaciones y las
+   transiciones dejan de moverse y lo que aparece al bajar ya está visible */
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .revelar {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* al imprimir se ocultan la cabecera, el pie, el aside y los botones, y la
    página sale en negro sobre blanco para no gastar tinta, por eso aquí sí
    escribimos los colores directo */
@@ -1159,6 +1784,8 @@ p {
   .encabezado,
   .pie,
   .panel-lateral,
+  .saltar,
+  .avisos,
   .boton {
     display: none;
   }

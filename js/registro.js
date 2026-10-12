@@ -1,37 +1,9 @@
 /*
-  hecho por piero. este es el javascript del sitio, revisa los formularios
-  antes de enviarlos y escribe el año en el pie, lo pusimos en un solo
-  archivo para que las cinco páginas usen el mismo, igual que hacemos con
-  el css
+  el javascript de la página de registro, revisa el formulario para crear
+  la cuenta y el de iniciar sesión antes de enviarlos, las funciones que
+  marcan los errores en los campos están en base.js porque también las
+  usan otros formularios del sitio
 */
-
-/* el año del pie
-
-   antes lo teníamos escrito a mano, ahora lo pone el navegador solo con la
-   fecha del día, así no hay que cambiarlo cuando termine el año */
-function escribirAnio() {
-  let anio = document.getElementById("anio");
-
-  if (anio !== null) {
-    anio.innerHTML = new Date().getFullYear();
-  }
-}
-
-window.onload = escribirAnio;
-
-/* ayudas que usamos en las validaciones
-
-   cada campo tiene debajo un small vacío donde escribimos el error, y el
-   campo se pinta de rojo para que se vea de una cuál es */
-function marcarError(idCampo, idError, mensaje) {
-  document.getElementById(idError).innerHTML = mensaje;
-  document.getElementById(idCampo).className = "campo-malo";
-}
-
-function limpiarCampo(idCampo, idError) {
-  document.getElementById(idError).innerHTML = "";
-  document.getElementById(idCampo).className = "";
-}
 
 /* borra los mensajes de la vez anterior, si no, quedan errores viejos en
    pantalla aunque el vecino ya los haya corregido */
@@ -42,25 +14,8 @@ function limpiarFormulario(campos, idResumen) {
     limpiarCampo(campos[i][0], campos[i][1]);
   }
 
-  document.getElementById(idResumen).innerHTML = "";
+  document.getElementById(idResumen).textContent = "";
   document.getElementById(idResumen).className = "mensaje";
-}
-
-function mostrarResumen(idResumen, errores) {
-  let caja = document.getElementById(idResumen);
-
-  if (errores === 0) {
-    caja.className = "mensaje mensaje--ok";
-    caja.innerHTML =
-      "listo, tus datos están completos, la administración revisa que vivas " +
-      "en el condominio y te avisa cuando tu cuenta quede activa";
-  } else if (errores === 1) {
-    caja.className = "mensaje mensaje--error";
-    caja.innerHTML = "falta corregir 1 dato, está marcado más abajo";
-  } else {
-    caja.className = "mensaje mensaje--error";
-    caja.innerHTML = "faltan corregir " + errores + " datos, están marcados más abajo";
-  }
 }
 
 /* el correo lo revisamos con esta expresión, pide que haya algo, luego una
@@ -178,6 +133,12 @@ function validarRegistro() {
 
   mostrarResumen("aviso-registro", errores);
 
+  if (errores === 0) {
+    document.getElementById("aviso-registro").textContent =
+      "listo, tus datos están completos, la administración revisa que vivas " +
+      "en el condominio y te avisa cuando tu cuenta quede activa";
+  }
+
   /* devolvemos false siempre, aunque los datos estén bien, porque todavía no
      tenemos servidor a dónde mandarlos y si se enviara se borraría todo lo
      que escribió el vecino */
@@ -222,51 +183,5 @@ function validarSesion() {
     caja.innerHTML = "revisa los datos marcados para poder entrar";
   }
 
-  return false;
-}
-
-/* el filtro de precios del catálogo
-
-   los dos precios son opcionales, lo único que revisamos es que no sean
-   negativos y que el mínimo no sea mayor que el máximo, porque así no
-   saldría ningún producto */
-function validarFiltro() {
-  let minimo = document.getElementById("precio-min").value;
-  let maximo = document.getElementById("precio-max").value;
-  let caja = document.getElementById("aviso-filtro");
-  let desde, hasta;
-
-  caja.className = "mensaje";
-  caja.innerHTML = "";
-
-  if (minimo !== "" && parseFloat(minimo) < 0) {
-    caja.className = "mensaje mensaje--error";
-    caja.innerHTML = "el precio mínimo no puede ser negativo";
-    return false;
-  }
-
-  if (maximo !== "" && parseFloat(maximo) < 0) {
-    caja.className = "mensaje mensaje--error";
-    caja.innerHTML = "el precio máximo no puede ser negativo";
-    return false;
-  }
-
-  if (minimo !== "" && maximo !== "") {
-    desde = parseFloat(minimo);
-    hasta = parseFloat(maximo);
-
-    if (desde > hasta) {
-      caja.className = "mensaje mensaje--error";
-      caja.innerHTML = "el precio mínimo es mayor que el máximo, revisa los dos valores";
-      return false;
-    }
-
-    caja.className = "mensaje mensaje--ok";
-    caja.innerHTML = "buscarías productos entre S/ " + desde.toFixed(2) + " y S/ " + hasta.toFixed(2);
-    return false;
-  }
-
-  caja.className = "mensaje mensaje--ok";
-  caja.innerHTML = "los precios están bien, todavía nos falta el servidor para filtrar de verdad";
   return false;
 }

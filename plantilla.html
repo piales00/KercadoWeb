@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <!--
-  esta es la plantilla del grupo, no se entrega, de aquí sacamos las cinco
+  esta es la plantilla del grupo, no se entrega, de aquí sacamos las siete
   páginas
 
   para usarla copia este archivo y ponle el nombre de tu página, cambia el
-  title y la descripción, en el menú marca tu página con la clase
-  menu__enlace--activo, y escribe solo dentro del main, el header y el
-  footer se dejan tal cual
+  title y la descripción, escribe solo dentro del main y al final cambia el
+  último script por el de tu página, el header y el footer se dejan tal
+  cual, la página actual la marca javascript en el menú
 
   este comentario de arriba se cambia por uno tuyo, contando quién hizo la
   página y qué muestra, antes lee GUIA-DE-COMENTARIOS.md
@@ -34,8 +34,13 @@
 
 <body>
 
-  <!-- esta es la cabecera, es la misma en las cinco páginas del sitio,
-       tiene el logo, el buscador, el botón para ingresar y el menú -->
+  <!-- este enlace solo se ve al apretar tab, sirve para que quien navega
+       con el teclado salte directo al contenido sin pasar por el menú -->
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <!-- esta es la cabecera, es la misma en todas las páginas del sitio,
+       tiene el logo, el buscador, el carrito, la cuenta del vecino y el
+       menú -->
   <header class="encabezado">
 
     <div class="contenedor encabezado__fila">
@@ -47,10 +52,17 @@
         </span>
       </a>
 
-      <!-- el buscador todavía no busca nada porque nos falta el servidor
-         que busque los productos, pero lo dejamos para que se vea cómo
-         quedará la cabecera -->
-      <form class="buscador" action="catalogo.html" method="get">
+      <!-- este botón abre y cierra el menú en el celular, en pantallas
+           grandes no se ve, aria-expanded dice si el menú está abierto -->
+      <button class="menu-boton" type="button" id="menu-boton"
+              aria-expanded="false" aria-controls="menu-principal">
+        <span class="menu-boton__icono" aria-hidden="true"></span>
+        Menú
+      </button>
+
+      <!-- el buscador manda al catálogo lo que se escribió y allá se
+           muestran solo los productos que coinciden -->
+      <form class="buscador" action="catalogo.html" method="get" role="search">
         <!-- este label no se ve en pantalla, pero lo leen los lectores de
              pantalla que usan las personas con discapacidad visual -->
         <label class="solo-lectores" for="q">Buscar productos</label>
@@ -59,18 +71,33 @@
         <button class="buscador__boton" type="submit">Buscar</button>
       </form>
 
-      <!-- hay un solo botón para ingresar, porque el vecino usa la misma
-           cuenta para comprar y para vender -->
-      <a class="boton boton--sm" href="registro.html">Ingresar</a>
+      <div class="encabezado__acciones">
+
+        <!-- el enlace al carrito, el globo con la cantidad lo actualiza
+             javascript y se esconde cuando el carrito está vacío -->
+        <a class="encabezado__carrito" href="carrito.html">
+          Carrito
+          <span class="contador" id="contador-carrito" hidden>0</span>
+          <span class="solo-lectores">productos en el carrito</span>
+        </a>
+
+        <!-- hay un solo botón para ingresar, porque el vecino usa la misma
+             cuenta para comprar y para vender, cuando ya entró javascript
+             lo cambia por su nombre y el botón para salir -->
+        <div class="cuenta" id="cuenta">
+          <a class="boton boton--sm" href="registro.html">Ingresar</a>
+        </div>
+      </div>
     </div>
 
-    <!-- este es el menú principal, en cada página marcamos como activo el
-         enlace de la página donde está el vecino -->
-    <nav class="menu" aria-label="Navegación principal">
+    <!-- este es el menú principal, javascript marca el enlace de la página
+         donde está el vecino -->
+    <nav class="menu" id="menu-principal" aria-label="Navegación principal">
       <ul class="contenedor menu__lista">
         <li><a class="menu__enlace" href="index.html">Inicio</a></li>
         <li><a class="menu__enlace" href="catalogo.html">Catálogo</a></li>
         <li><a class="menu__enlace" href="panel.html">Mi panel</a></li>
+        <li><a class="menu__enlace" href="carrito.html">Carrito</a></li>
         <li><a class="menu__enlace" href="registro.html">Registro</a></li>
       </ul>
     </nav>
@@ -78,8 +105,8 @@
 
 
   <!-- aquí dentro va el contenido de cada página, cada parte en su propia
-       section -->
-  <main>
+       section, el id es a donde llega el enlace de saltar al contenido -->
+  <main id="contenido">
 
     <section class="seccion">
       <div class="contenedor">
@@ -91,7 +118,7 @@
   </main>
 
 
-  <!-- este es el pie de página, también es el mismo en las cinco páginas,
+  <!-- este es el pie de página, también es el mismo en todas las páginas,
        tiene información de kercado, el contacto de la administración, el
        reglamento y los integrantes del grupo -->
   <footer class="pie">
@@ -157,8 +184,32 @@
   </footer>
 
 
-  <!-- el javascript del sitio, revisa los formularios y escribe el año
-       del pie -->
-  <script src="js/kercado.js"></script>
+  <!-- el diálogo que pregunta antes de hacer algo que no se puede deshacer,
+       como dar de baja una publicación o vaciar el carrito, javascript le
+       cambia el título y el texto según lo que se esté confirmando -->
+  <dialog class="confirmacion" id="confirmacion" aria-labelledby="confirmacion-titulo">
+    <form method="dialog">
+      <h2 class="confirmacion__titulo" id="confirmacion-titulo">Confirmar</h2>
+      <p id="confirmacion-texto">¿Seguro que quieres continuar?</p>
+      <div class="confirmacion__acciones">
+        <button class="boton boton--linea boton--sm" type="submit" value="no">No, volver</button>
+        <button class="boton boton--sm" type="submit" value="si">Sí, continuar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- aquí javascript pone los avisos flotantes, con aria-live los
+       lectores de pantalla los leen apenas aparecen -->
+  <div class="avisos" id="avisos" aria-live="polite"></div>
+
+
+  <!-- el javascript del sitio, van en este orden porque cada uno usa al
+       anterior, primero los datos iniciales, después el que los guarda en
+       el navegador, luego lo común a todas las páginas y al final el de
+       cada página -->
+  <script src="js/datos.js"></script>
+  <script src="js/almacen.js"></script>
+  <script src="js/base.js"></script>
+  <!-- aquí va el script de tu página, por ejemplo js/catalogo.js -->
 </body>
 </html>

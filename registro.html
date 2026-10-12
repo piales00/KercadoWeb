@@ -33,57 +33,81 @@
   </head>
 
   <body>
-    <!-- esta es la cabecera, es la misma en las cinco páginas del sitio,
-       tiene el logo, el buscador, el botón para ingresar y el menú -->
-    <header class="encabezado">
-      <div class="contenedor encabezado__fila">
-        <!-- el logo lleva a la página de inicio -->
-        <a class="logo" href="index.html">
-          <span
-            >Ker<span class="logo__acento">cado</span>
-            <span class="logo__bajada">Condominio Las Palmas 357</span>
-          </span>
+
+  <!-- este enlace solo se ve al apretar tab, sirve para que quien navega
+       con el teclado salte directo al contenido sin pasar por el menú -->
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <!-- esta es la cabecera, es la misma en todas las páginas del sitio,
+       tiene el logo, el buscador, el carrito, la cuenta del vecino y el
+       menú -->
+  <header class="encabezado">
+
+    <div class="contenedor encabezado__fila">
+
+      <!-- el logo lleva a la página de inicio -->
+      <a class="logo" href="index.html">
+        <span>Ker<span class="logo__acento">cado</span>
+          <span class="logo__bajada">Condominio Las Palmas 357</span>
+        </span>
+      </a>
+
+      <!-- este botón abre y cierra el menú en el celular, en pantallas
+           grandes no se ve, aria-expanded dice si el menú está abierto -->
+      <button class="menu-boton" type="button" id="menu-boton"
+              aria-expanded="false" aria-controls="menu-principal">
+        <span class="menu-boton__icono" aria-hidden="true"></span>
+        Menú
+      </button>
+
+      <!-- el buscador manda al catálogo lo que se escribió y allá se
+           muestran solo los productos que coinciden -->
+      <form class="buscador" action="catalogo.html" method="get" role="search">
+        <!-- este label no se ve en pantalla, pero lo leen los lectores de
+             pantalla que usan las personas con discapacidad visual -->
+        <label class="solo-lectores" for="q">Buscar productos</label>
+        <input class="buscador__campo" type="search" id="q" name="q"
+               placeholder="Buscar postres, menús, abarrotes...">
+        <button class="buscador__boton" type="submit">Buscar</button>
+      </form>
+
+      <div class="encabezado__acciones">
+
+        <!-- el enlace al carrito, el globo con la cantidad lo actualiza
+             javascript y se esconde cuando el carrito está vacío -->
+        <a class="encabezado__carrito" href="carrito.html">
+          Carrito
+          <span class="contador" id="contador-carrito" hidden>0</span>
+          <span class="solo-lectores">productos en el carrito</span>
         </a>
 
-        <!-- el buscador todavía no busca nada porque nos falta el servidor
-           que busque los productos, pero lo dejamos para que se vea cómo
-           quedará la cabecera -->
-        <form class="buscador" action="catalogo.html" method="get">
-          <!-- este label no se ve en pantalla, pero lo leen los lectores de
-             pantalla que usan las personas con discapacidad visual -->
-          <label class="solo-lectores" for="q">Buscar productos</label>
-          <input
-            class="buscador__campo"
-            type="search"
-            id="q"
-            name="q"
-            placeholder="Buscar postres, menús, abarrotes..."
-          />
-          <button class="buscador__boton" type="submit">Buscar</button>
-        </form>
-
         <!-- hay un solo botón para ingresar, porque el vecino usa la misma
-           cuenta para comprar y para vender -->
-        <a class="boton boton--sm" href="registro.html">Ingresar</a>
+             cuenta para comprar y para vender, cuando ya entró javascript
+             lo cambia por su nombre y el botón para salir -->
+        <div class="cuenta" id="cuenta">
+          <a class="boton boton--sm" href="registro.html">Ingresar</a>
+        </div>
       </div>
+    </div>
 
-      <!-- este es el menú principal, en cada página marcamos como activo el
-         enlace de la página donde está el vecino -->
-      <nav class="menu" aria-label="Navegación principal">
-        <ul class="contenedor menu__lista">
-          <li><a class="menu__enlace" href="index.html">Inicio</a></li>
-          <li><a class="menu__enlace" href="catalogo.html">Catálogo</a></li>
-          <li><a class="menu__enlace" href="panel.html">Mi panel</a></li>
-          <li><a class="menu__enlace menu__enlace--activo" href="registro.html">Registro</a></li>
-        </ul>
-      </nav>
-    </header>
+    <!-- este es el menú principal, javascript marca el enlace de la página
+         donde está el vecino -->
+    <nav class="menu" id="menu-principal" aria-label="Navegación principal">
+      <ul class="contenedor menu__lista">
+        <li><a class="menu__enlace" href="index.html">Inicio</a></li>
+        <li><a class="menu__enlace" href="catalogo.html">Catálogo</a></li>
+        <li><a class="menu__enlace" href="panel.html">Mi panel</a></li>
+        <li><a class="menu__enlace" href="carrito.html">Carrito</a></li>
+        <li><a class="menu__enlace" href="registro.html">Registro</a></li>
+      </ul>
+    </nav>
+  </header>
 
     <!-- aquí está el formulario de registro, profesor, lo dividimos en tres
          grupos para que no se vea como una lista larga de campos, primero
          los datos de la persona, después los de su departamento y al final
          los de su cuenta -->
-    <main>
+    <main id="contenido">
       <section class="seccion">
         <div class="contenedor">
           <h1 class="titulo-seccion">Formulario de Registro</h1>
@@ -328,78 +352,98 @@
       </section>
     </main>
 
-    <!-- este es el pie de página, también es el mismo en las cinco páginas,
+    <!-- este es el pie de página, también es el mismo en todas las páginas,
        tiene información de kercado, el contacto de la administración, el
        reglamento y los integrantes del grupo -->
-    <footer class="pie">
-      <div class="contenedor pie__grilla">
-        <!-- aquí contamos qué es kercado, y que no cobra ni hace entregas -->
-        <div>
-          <h3 class="pie__titulo">Kercado</h3>
-          <p class="subtexto">
-            Marketplace hiperlocal del condominio Las Palmas 357, Chorrillos.
-            Los vecinos publican, los vecinos compran.
-          </p>
-          <p class="subtexto">
-            Kercado no cobra comisiones, no procesa pagos y no gestiona la
-            entrega: solo conecta al vecino que vende con el que compra.
-          </p>
-        </div>
+  <footer class="pie">
+    <div class="contenedor pie__grilla">
 
-        <!-- los datos de contacto de la administración del condominio -->
-        <div>
-          <h3 class="pie__titulo">Administración</h3>
-          <ul class="pie__lista">
-            <li>Av. Las Palmas 357, Chorrillos — Lima</li>
-            <li>Oficina: Torre A, primer piso</li>
-            <li>Atención: lunes a sábado, 8:00 a 18:00</li>
-            <li>
-              <a href="mailto:administracion@laspalmas357.pe"
-                >administracion@laspalmas357.pe</a
-              >
-            </li>
-            <li><a href="tel:+5112345678">(01) 234 5678</a></li>
-          </ul>
-        </div>
-
-        <!-- estos enlaces llevan a partes de la página de inicio, donde
-           explicamos cómo funciona kercado y sus reglas -->
-        <div>
-          <h3 class="pie__titulo">Reglamento</h3>
-          <ul class="pie__lista">
-            <li>
-              <a href="index.html#como-funciona">Cómo funciona Kercado</a>
-            </li>
-            <li><a href="index.html#reglas">Reglas de convivencia</a></li>
-            <li><a href="index.html#pagos">Métodos de pago aceptados</a></li>
-            <li><a href="index.html#nosotros">Quiénes somos</a></li>
-          </ul>
-        </div>
-
-        <!-- nuestros nombres -->
-        <div>
-          <h3 class="pie__titulo">Integrantes</h3>
-          <ul class="pie__lista">
-            <li>Piero Alessandro Pérez Izquierdo</li>
-            <li>Edgar Paolo Pérez Román</li>
-            <li>Francys Diego Yareta Cortez</li>
-            <li>Luis Alberto Huánuco Jiménez</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- el año del pie lo escribe javascript con la fecha del día, así
-         no tenemos que cambiarlo a mano cuando empiece el año nuevo -->
-      <div class="pie__legal">
-        <p class="mb-0">
-          Kercado &copy; <span id="anio">2026</span> · Proyecto académico — Taller de Programación Web,
-          Universidad Tecnológica del Perú.
+      <!-- aquí contamos qué es kercado, y que no cobra ni hace entregas -->
+      <div>
+        <h3 class="pie__titulo">Kercado</h3>
+        <p class="subtexto">
+          Marketplace hiperlocal del condominio Las Palmas 357, Chorrillos.
+          Los vecinos publican, los vecinos compran.
+        </p>
+        <p class="subtexto">
+          Kercado no cobra comisiones, no procesa pagos y no gestiona la
+          entrega: solo conecta al vecino que vende con el que compra.
         </p>
       </div>
-    </footer>
 
-    <!-- el javascript del sitio, revisa los formularios y escribe el año
-         del pie -->
-    <script src="js/kercado.js"></script>
-  </body>
+      <!-- los datos de contacto de la administración del condominio -->
+      <div>
+        <h3 class="pie__titulo">Administración</h3>
+        <ul class="pie__lista">
+          <li>Av. Las Palmas 357, Chorrillos — Lima</li>
+          <li>Oficina: Torre A, primer piso</li>
+          <li>Atención: lunes a sábado, 8:00 a 18:00</li>
+          <li><a href="mailto:administracion@laspalmas357.pe">administracion@laspalmas357.pe</a></li>
+          <li><a href="tel:+5112345678">(01) 234 5678</a></li>
+        </ul>
+      </div>
+
+      <!-- estos enlaces llevan a partes de la página de inicio, donde
+           explicamos cómo funciona kercado y sus reglas -->
+      <div>
+        <h3 class="pie__titulo">Reglamento</h3>
+        <ul class="pie__lista">
+          <li><a href="index.html#como-funciona">Cómo funciona Kercado</a></li>
+          <li><a href="index.html#reglas">Reglas de convivencia</a></li>
+          <li><a href="index.html#pagos">Métodos de pago aceptados</a></li>
+          <li><a href="index.html#nosotros">Quiénes somos</a></li>
+        </ul>
+      </div>
+
+      <!-- nuestros nombres -->
+      <div>
+        <h3 class="pie__titulo">Integrantes</h3>
+        <ul class="pie__lista">
+          <li>Piero Alessandro Pérez Izquierdo</li>
+          <li>Edgar Paolo Pérez Román</li>
+          <li>Francys Diego Yareta Cortez</li>
+          <li>Luis Alberto Huánuco Jiménez</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- el año del pie lo escribe javascript con la fecha del día, así
+       no tenemos que cambiarlo a mano cuando empiece el año nuevo -->
+    <div class="pie__legal">
+      <p class="mb-0">
+        Kercado &copy; <span id="anio">2026</span> · Proyecto académico — Taller de Programación Web,
+        Universidad Tecnológica del Perú.
+      </p>
+    </div>
+  </footer>
+
+
+  <!-- el diálogo que pregunta antes de hacer algo que no se puede deshacer,
+       como dar de baja una publicación o vaciar el carrito, javascript le
+       cambia el título y el texto según lo que se esté confirmando -->
+  <dialog class="confirmacion" id="confirmacion" aria-labelledby="confirmacion-titulo">
+    <form method="dialog">
+      <h2 class="confirmacion__titulo" id="confirmacion-titulo">Confirmar</h2>
+      <p id="confirmacion-texto">¿Seguro que quieres continuar?</p>
+      <div class="confirmacion__acciones">
+        <button class="boton boton--linea boton--sm" type="submit" value="no">No, volver</button>
+        <button class="boton boton--sm" type="submit" value="si">Sí, continuar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- aquí javascript pone los avisos flotantes, con aria-live los
+       lectores de pantalla los leen apenas aparecen -->
+  <div class="avisos" id="avisos" aria-live="polite"></div>
+
+
+  <!-- el javascript del sitio, van en este orden porque cada uno usa al
+       anterior, primero los datos iniciales, después el que los guarda en
+       el navegador, luego lo común a todas las páginas y al final el de
+       cada página -->
+  <script src="js/datos.js"></script>
+  <script src="js/almacen.js"></script>
+  <script src="js/base.js"></script>
+  <script src="js/registro.js"></script>
+</body>
 </html>

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <!--
-  hecho por piero. aquí el vecino ve lo que compró y lo que
-  vende, lo pusimos todo en una sola página porque en kercado cada vecino
-  tiene una sola cuenta, y con esa misma cuenta puede comprar y vender,
-  no agregué estilos nuevos, las tablas usan las clases que ya estaban en
-  estilo.css
+  hecho por piero. aquí el vecino ve lo que compró y lo que vende, lo
+  pusimos todo en una sola página porque en kercado cada vecino tiene una
+  sola cuenta, y con esa misma cuenta puede comprar y vender, las tablas ya
+  no están escritas a mano, las llena js/panel.js con los pedidos y las
+  publicaciones guardados en el navegador
 -->
 <html lang="es">
 
@@ -29,8 +29,13 @@
 
 <body>
 
-  <!-- esta es la cabecera, es la misma en las cinco páginas del sitio,
-       tiene el logo, el buscador, el botón para ingresar y el menú -->
+  <!-- este enlace solo se ve al apretar tab, sirve para que quien navega
+       con el teclado salte directo al contenido sin pasar por el menú -->
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <!-- esta es la cabecera, es la misma en todas las páginas del sitio,
+       tiene el logo, el buscador, el carrito, la cuenta del vecino y el
+       menú -->
   <header class="encabezado">
 
     <div class="contenedor encabezado__fila">
@@ -42,10 +47,17 @@
         </span>
       </a>
 
-      <!-- el buscador todavía no busca nada porque nos falta el servidor
-         que busque los productos, pero lo dejamos para que se vea cómo
-         quedará la cabecera -->
-      <form class="buscador" action="catalogo.html" method="get">
+      <!-- este botón abre y cierra el menú en el celular, en pantallas
+           grandes no se ve, aria-expanded dice si el menú está abierto -->
+      <button class="menu-boton" type="button" id="menu-boton"
+              aria-expanded="false" aria-controls="menu-principal">
+        <span class="menu-boton__icono" aria-hidden="true"></span>
+        Menú
+      </button>
+
+      <!-- el buscador manda al catálogo lo que se escribió y allá se
+           muestran solo los productos que coinciden -->
+      <form class="buscador" action="catalogo.html" method="get" role="search">
         <!-- este label no se ve en pantalla, pero lo leen los lectores de
              pantalla que usan las personas con discapacidad visual -->
         <label class="solo-lectores" for="q">Buscar productos</label>
@@ -54,35 +66,49 @@
         <button class="buscador__boton" type="submit">Buscar</button>
       </form>
 
-      <!-- hay un solo botón para ingresar, porque el vecino usa la misma
-           cuenta para comprar y para vender -->
-      <a class="boton boton--sm" href="registro.html">Ingresar</a>
+      <div class="encabezado__acciones">
+
+        <!-- el enlace al carrito, el globo con la cantidad lo actualiza
+             javascript y se esconde cuando el carrito está vacío -->
+        <a class="encabezado__carrito" href="carrito.html">
+          Carrito
+          <span class="contador" id="contador-carrito" hidden>0</span>
+          <span class="solo-lectores">productos en el carrito</span>
+        </a>
+
+        <!-- hay un solo botón para ingresar, porque el vecino usa la misma
+             cuenta para comprar y para vender, cuando ya entró javascript
+             lo cambia por su nombre y el botón para salir -->
+        <div class="cuenta" id="cuenta">
+          <a class="boton boton--sm" href="registro.html">Ingresar</a>
+        </div>
+      </div>
     </div>
 
-    <!-- este es el menú principal, en cada página marcamos como activo el
-         enlace de la página donde está el vecino -->
-    <nav class="menu" aria-label="Navegación principal">
+    <!-- este es el menú principal, javascript marca el enlace de la página
+         donde está el vecino -->
+    <nav class="menu" id="menu-principal" aria-label="Navegación principal">
       <ul class="contenedor menu__lista">
         <li><a class="menu__enlace" href="index.html">Inicio</a></li>
         <li><a class="menu__enlace" href="catalogo.html">Catálogo</a></li>
-        <li><a class="menu__enlace menu__enlace--activo" href="panel.html">Mi panel</a></li>
+        <li><a class="menu__enlace" href="panel.html">Mi panel</a></li>
+        <li><a class="menu__enlace" href="carrito.html">Carrito</a></li>
         <li><a class="menu__enlace" href="registro.html">Registro</a></li>
       </ul>
     </nav>
   </header>
 
 
-  <main>
+  <main id="contenido">
 
-    <!-- primero saludamos al vecino para que sepa con qué cuenta entró, y
-         abajo le damos dos enlaces para que baje directo a sus compras o a
-         sus ventas, no pusimos un botón naranja porque en esta página el
-         vecino solo revisa su información -->
+    <!-- primero saludamos al vecino para que sepa con qué cuenta entró, el
+         nombre y la unidad los escribe javascript con los datos de la
+         sesión, si nadie inició sesión esta página manda al registro -->
     <section class="seccion">
       <div class="contenedor">
         <h1 class="titulo-seccion">Mi panel</h1>
         <p>
-          Hola, <strong>Carmen Rojas</strong> · Torre C, Dpto. 504.
+          Hola, <strong id="panel-nombre"></strong><span id="panel-unidad"></span>.
           Desde aquí revisas lo que le compraste a tus vecinos y lo que
           tú estás vendiendo.
         </p>
@@ -98,222 +124,236 @@
           </p>
         </div>
 
-        <!-- estos enlaces llevan a las secciones de más abajo usando su id -->
-        <nav aria-label="Secciones del panel">
-          <a class="boton boton--linea boton--sm" href="#mis-compras">Mis compras</a>
-          <a class="boton boton--texto boton--sm" href="#mis-ventas">Mis ventas</a>
-        </nav>
+        <!-- las dos pestañas del panel, profesor, comprar y vender están en
+             la misma página porque es la misma cuenta, cada botón dice con
+             aria-controls qué parte muestra y con aria-selected si es la
+             elegida, también se cambia de pestaña con las flechas del
+             teclado -->
+        <div class="pestanas" role="tablist" aria-label="Secciones del panel">
+          <button class="pestanas__boton" type="button" role="tab" id="pestana-compras"
+                  aria-controls="mis-compras" aria-selected="true">Mis compras</button>
+          <button class="pestanas__boton" type="button" role="tab" id="pestana-ventas"
+                  aria-controls="mis-ventas" aria-selected="false" tabindex="-1">Mis ventas</button>
+        </div>
+
+
+        <!-- en esta pestaña se muestran las compras del vecino, cada fila
+             es un pedido que hizo, con la fecha, a quién le compró, cuánto
+             fue y cómo va, y un botón que abre lo que pidió -->
+        <div class="pestanas__panel" id="mis-compras" role="tabpanel"
+             aria-labelledby="pestana-compras" tabindex="0">
+          <h2 class="titulo-seccion">Mis compras</h2>
+          <p class="subtexto">Los pedidos que hiciste a otros vecinos del condominio.</p>
+
+          <!-- pusimos la tabla dentro de este div para que en el celular se
+               pueda deslizar hacia los lados, porque seis columnas no entran
+               en una pantalla pequeña -->
+          <div class="tabla-scroll" id="caja-compras">
+            <table class="tabla">
+
+              <!-- el caption es el título de la tabla -->
+              <caption>Pedidos realizados</caption>
+
+              <!-- en el thead van los títulos de cada columna, y con
+                   scope="col" indicamos que cada título pertenece a su
+                   columna -->
+              <thead>
+                <tr>
+                  <th scope="col">Código</th>
+                  <th scope="col">Fecha</th>
+                  <th scope="col">Vendedor</th>
+                  <th scope="col" class="col-monto">Total</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Detalle</th>
+                </tr>
+              </thead>
+
+              <!-- las filas las pone javascript, una por cada pedido -->
+              <tbody id="filas-compras"></tbody>
+            </table>
+          </div>
+
+          <!-- esto se ve en lugar de la tabla cuando el vecino todavía no
+               compró nada -->
+          <div class="vacio" id="vacio-compras" hidden>
+            <h3 class="vacio__titulo">Todavía no hiciste ningún pedido</h3>
+            <p>Cuando registres un pedido desde tu carrito lo vas a ver aquí.</p>
+            <a class="boton" href="catalogo.html">Ver el catálogo</a>
+          </div>
+        </div>
+
+
+        <!-- en esta pestaña se muestran las ventas del vecino, tiene dos
+             tablas, una con los productos que publicó y otra con los
+             pedidos que le hicieron sus vecinos, empieza escondida y
+             javascript la muestra cuando se elige su pestaña -->
+        <div class="pestanas__panel" id="mis-ventas" role="tabpanel"
+             aria-labelledby="pestana-ventas" tabindex="0" hidden>
+
+          <!-- el botón naranja lleva a la página para publicar un producto -->
+          <div class="fila-titulo">
+            <h2 class="titulo-seccion">Mis ventas</h2>
+            <a class="boton" href="publicar.html">Publicar producto</a>
+          </div>
+          <p class="subtexto">Lo que tienes publicado y los pedidos que te llegaron.</p>
+
+          <!-- esta tabla muestra los productos del vecino, con su precio y
+               cuántas unidades le quedan, con el botón de la última columna
+               puede dar de baja el que ya no vende -->
+          <div class="tabla-scroll mb-3" id="caja-publicaciones">
+            <table class="tabla">
+              <caption>Mis publicaciones</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Código</th>
+                  <th scope="col">Producto</th>
+                  <th scope="col">Categoría</th>
+                  <th scope="col" class="col-monto">Precio</th>
+                  <th scope="col">Stock</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Acción</th>
+                </tr>
+              </thead>
+              <tbody id="filas-publicaciones"></tbody>
+            </table>
+          </div>
+
+          <div class="vacio mb-3" id="vacio-publicaciones" hidden>
+            <h3 class="vacio__titulo">Todavía no publicaste ningún producto</h3>
+            <p>Publica lo que preparas o vendes y tus vecinos lo van a ver en el catálogo.</p>
+            <a class="boton boton--linea" href="publicar.html">Publicar mi primer producto</a>
+          </div>
+
+          <!-- esta tabla muestra los pedidos que le llegaron al vecino, en
+               la columna cambiar estado el vendedor avisa cómo va el pedido,
+               la lista solo ofrece los pasos que siguen, y el comprador lo
+               ve en sus compras -->
+          <div class="tabla-scroll" id="caja-ventas">
+            <table class="tabla">
+              <caption>Pedidos recibidos</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Código</th>
+                  <th scope="col">Fecha</th>
+                  <th scope="col">Comprador</th>
+                  <th scope="col" class="col-monto">Total</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Cambiar estado</th>
+                  <th scope="col">Detalle</th>
+                </tr>
+              </thead>
+              <tbody id="filas-ventas"></tbody>
+            </table>
+          </div>
+
+          <div class="vacio" id="vacio-ventas" hidden>
+            <h3 class="vacio__titulo">Todavía no te llegó ningún pedido</h3>
+            <p class="mb-0">Cuando un vecino te compre algo, su pedido va a aparecer aquí.</p>
+          </div>
+        </div>
+
       </div>
     </section>
 
 
-    <!-- en esta parte se muestran las compras del vecino, profesor, cada fila
-         es un pedido que hizo, con la fecha, a quién le compró, cuánto pagó y
-         cómo va el pedido, usamos los mismos vendedores que salen en el
-         catálogo para que la información coincida entre las páginas -->
-    <section class="seccion seccion--alterna" id="mis-compras">
-      <div class="contenedor">
-        <h2 class="titulo-seccion">Mis compras</h2>
-        <p class="subtexto">Los pedidos que hiciste a otros vecinos del condominio.</p>
+    <!-- estos son los moldes de las filas, lo que está dentro de un
+         template no se ve en la página, javascript lo copia una vez por
+         cada pedido o publicación y le escribe los datos, data-campo es la
+         marca con la que javascript encuentra cada celda -->
+    <template id="plantilla-compra">
+      <tr>
+        <th scope="row" data-campo="codigo"></th>
+        <td data-campo="fecha"></td>
+        <td data-campo="persona"></td>
+        <td class="col-monto" data-campo="total"></td>
+        <td><span data-campo="estado"></span></td>
+        <td>
+          <button class="boton boton--texto boton--sm" type="button"
+                  data-campo="ver" aria-expanded="false">Ver detalle</button>
+        </td>
+      </tr>
+    </template>
 
-        <!-- pusimos la tabla dentro de este div para que en el celular se
-             pueda deslizar hacia los lados, porque cinco columnas no entran
-             en una pantalla pequeña -->
-        <div class="tabla-scroll">
-          <table class="tabla">
+    <template id="plantilla-publicacion">
+      <tr>
+        <th scope="row" data-campo="codigo"></th>
+        <td><a data-campo="producto" href="producto.html"></a></td>
+        <td data-campo="categoria"></td>
+        <td class="col-monto" data-campo="precio"></td>
+        <td data-campo="stock"></td>
+        <td><span data-campo="estado"></span></td>
+        <td>
+          <button class="boton boton--linea boton--sm" type="button"
+                  data-campo="baja">Dar de baja</button>
+        </td>
+      </tr>
+    </template>
 
-            <!-- el caption es el título de la tabla -->
-            <caption>Pedidos realizados</caption>
+    <template id="plantilla-venta">
+      <tr>
+        <th scope="row" data-campo="codigo"></th>
+        <td data-campo="fecha"></td>
+        <td data-campo="persona"></td>
+        <td class="col-monto" data-campo="total"></td>
+        <td><span data-campo="estado"></span></td>
+        <td>
+          <select class="tabla__control" data-campo="cambiar">
+            <option value="">Elige el paso que sigue</option>
+          </select>
+          <span class="subtexto" data-campo="cerrado" hidden>Pedido cerrado</span>
+        </td>
+        <td>
+          <button class="boton boton--texto boton--sm" type="button"
+                  data-campo="ver" aria-expanded="false">Ver detalle</button>
+        </td>
+      </tr>
+    </template>
 
-            <!-- en el thead van los títulos de cada columna, y con scope="col"
-                 indicamos que cada título pertenece a su columna -->
-            <thead>
-              <tr>
-                <th scope="col">Código</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Vendedor</th>
-                <th scope="col" class="col-monto">Total</th>
-                <th scope="col">Estado</th>
-              </tr>
-            </thead>
+    <!-- la fila que se abre debajo de un pedido, con los productos, cómo
+         se acordó pagar y con quién coordinar la entrega -->
+    <template id="plantilla-detalle">
+      <tr class="tabla__detalle" hidden>
+        <td data-campo="celda">
+          <ul class="detalle-pedido" data-campo="productos"></ul>
+          <p class="subtexto mb-0" data-campo="pago"></p>
+          <p class="subtexto mb-0" data-campo="contacto"></p>
+          <p class="subtexto mb-0" data-campo="motivo" hidden></p>
+        </td>
+      </tr>
+    </template>
 
-            <!-- en el tbody van los pedidos, el código lo pusimos como th con
-                 scope="row" porque es lo que identifica a cada pedido -->
-            <tbody>
-              <tr>
-                <th scope="row">KC-0101</th>
-                <td>01/09/2026</td>
-                <td>María Torres · Torre B, Dpto. 402</td>
-                <td class="col-monto">S/ 24.00</td>
-                <td><span class="estado estado--entregado">Entregado</span></td>
-              </tr>
-              <tr>
-                <th scope="row">KC-0107</th>
-                <td>02/09/2026</td>
-                <td>Micaela Jimenez · Torre A, Dpto. 111</td>
-                <td class="col-monto">S/ 10.00</td>
-                <td><span class="estado estado--entregado">Entregado</span></td>
-              </tr>
-              <tr>
-                <th scope="row">KC-0115</th>
-                <td>04/09/2026</td>
-                <td>Nicolás Medina · Torre A, Dpto. 106</td>
-                <td class="col-monto">S/ 60.00</td>
-                <td><span class="estado estado--cancelado">Cancelado</span></td>
-              </tr>
-              <tr>
-                <th scope="row">KC-0122</th>
-                <td>06/09/2026</td>
-                <td>Luis Castro · Torre B, Dpto. 115</td>
-                <td class="col-monto">S/ 15.00</td>
-                <td><span class="estado estado--entregado">Entregado</span></td>
-              </tr>
-              <tr>
-                <th scope="row">KC-0130</th>
-                <td>08/09/2026</td>
-                <td>Rafael Ramirez · Torre D, Dpto. 215</td>
-                <td class="col-monto">S/ 12.00</td>
-                <td><span class="estado estado--pendiente">Pendiente</span></td>
-              </tr>
-              <tr>
-                <th scope="row">KC-0134</th>
-                <td>09/09/2026</td>
-                <td>Ana López · Torre A, Dpto. 108</td>
-                <td class="col-monto">S/ 8.00</td>
-                <td><span class="estado estado--pendiente">Pendiente</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+    <template id="plantilla-producto-pedido">
+      <li>
+        <span data-campo="producto"></span>
+        <strong data-campo="subtotal"></strong>
+      </li>
+    </template>
 
 
-    <!-- en esta parte se muestran las ventas del vecino, está en la misma
-         página que sus compras porque es la misma cuenta, tiene dos tablas,
-         una con los productos que tiene publicados y otra con los pedidos
-         que le hicieron sus vecinos -->
-    <section class="seccion" id="mis-ventas">
-      <div class="contenedor">
-        <h2 class="titulo-seccion">Mis ventas</h2>
-        <p class="subtexto">Lo que tienes publicado y los pedidos que te llegaron.</p>
+    <!-- este diálogo sale cuando el vendedor cancela un pedido, le pedimos
+         el motivo porque el comprador lo va a leer en sus compras -->
+    <dialog class="confirmacion" id="dialogo-cancelar" aria-labelledby="cancelar-titulo">
+      <form id="form-cancelar" novalidate>
+        <h2 class="confirmacion__titulo" id="cancelar-titulo">Cancelar el pedido</h2>
+        <p id="cancelar-texto"></p>
 
-        <!-- esta tabla muestra los productos que el vecino está vendiendo
-             ahora, con su precio y cuántas unidades le quedan -->
-        <div class="tabla-scroll mb-3">
-          <table class="tabla">
-            <caption>Publicaciones activas</caption>
-            <thead>
-              <tr>
-                <th scope="col">Código</th>
-                <th scope="col">Producto</th>
-                <th scope="col">Categoría</th>
-                <th scope="col" class="col-monto">Precio</th>
-                <th scope="col">Stock</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">PB-0021</th>
-                <td>Empanadas de carne (unidad)</td>
-                <td>Panadería</td>
-                <td class="col-monto">S/ 4.50</td>
-                <td>18 unidades</td>
-              </tr>
-              <tr>
-                <th scope="row">PB-0022</th>
-                <td>Alfajores de maicena (caja x6)</td>
-                <td>Postres</td>
-                <td class="col-monto">S/ 12.00</td>
-                <td>7 cajas</td>
-              </tr>
-              <tr>
-                <th scope="row">PB-0025</th>
-                <td>Ají de gallina con arroz</td>
-                <td>Comida preparada</td>
-                <td class="col-monto">S/ 16.00</td>
-                <td>10 porciones</td>
-              </tr>
-              <tr>
-                <th scope="row">PB-0027</th>
-                <td>Queque de naranja (entero)</td>
-                <td>Postres</td>
-                <td class="col-monto">S/ 22.00</td>
-                <td>3 unidades</td>
-              </tr>
-              <tr>
-                <th scope="row">PB-0030</th>
-                <td>Limonada frozen (1 litro)</td>
-                <td>Bebidas</td>
-                <td class="col-monto">S/ 9.50</td>
-                <td>12 botellas</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="campo">
+          <label for="cancelar-motivo">Motivo de la cancelación <span class="obligatorio">*</span></label>
+          <textarea id="cancelar-motivo" name="motivo"></textarea>
+          <small class="campo__error" id="e-cancelar-motivo"></small>
         </div>
 
-        <!-- esta tabla muestra los pedidos que le llegaron al vecino, en la
-             columna de unidad de entrega va la torre y el departamento
-             adonde tiene que llevar el pedido, porque la entrega la hacen
-             los mismos vecinos dentro del condominio -->
-        <div class="tabla-scroll">
-          <table class="tabla">
-            <caption>Pedidos recibidos</caption>
-            <thead>
-              <tr>
-                <th scope="col">Código</th>
-                <th scope="col">Comprador</th>
-                <th scope="col">Unidad de entrega</th>
-                <th scope="col" class="col-monto">Total</th>
-                <th scope="col">Estado</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">KC-0098</th>
-                <td>Jorge Salazar</td>
-                <td>Torre A, Dpto. 203</td>
-                <td class="col-monto">S/ 27.00</td>
-                <td><span class="estado estado--entregado">Entregado</span></td>
-              </tr>
-              <tr>
-                <th scope="row">KC-0110</th>
-                <td>Rosa Quispe</td>
-                <td>Torre D, Dpto. 601</td>
-                <td class="col-monto">S/ 32.00</td>
-                <td><span class="estado estado--entregado">Entregado</span></td>
-              </tr>
-              <tr>
-                <th scope="row">KC-0118</th>
-                <td>Diego Vargas</td>
-                <td>Torre B, Dpto. 307</td>
-                <td class="col-monto">S/ 22.00</td>
-                <td><span class="estado estado--cancelado">Cancelado</span></td>
-              </tr>
-              <tr>
-                <th scope="row">KC-0127</th>
-                <td>Lucía Fernández</td>
-                <td>Torre C, Dpto. 110</td>
-                <td class="col-monto">S/ 19.00</td>
-                <td><span class="estado estado--pendiente">Pendiente</span></td>
-              </tr>
-              <tr>
-                <th scope="row">KC-0133</th>
-                <td>Martín Paredes</td>
-                <td>Torre A, Dpto. 502</td>
-                <td class="col-monto">S/ 48.00</td>
-                <td><span class="estado estado--pendiente">Pendiente</span></td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="confirmacion__acciones">
+          <button class="boton boton--linea boton--sm" type="button" id="cancelar-volver">No, volver</button>
+          <button class="boton boton--sm" type="submit">Sí, cancelar el pedido</button>
         </div>
-      </div>
-    </section>
+      </form>
+    </dialog>
 
   </main>
 
 
-  <!-- este es el pie de página, también es el mismo en las cinco páginas,
+  <!-- este es el pie de página, también es el mismo en todas las páginas,
        tiene información de kercado, el contacto de la administración, el
        reglamento y los integrantes del grupo -->
   <footer class="pie">
@@ -379,8 +419,32 @@
   </footer>
 
 
-  <!-- el javascript del sitio, revisa los formularios y escribe el año
-       del pie -->
-  <script src="js/kercado.js"></script>
+  <!-- el diálogo que pregunta antes de hacer algo que no se puede deshacer,
+       como dar de baja una publicación o vaciar el carrito, javascript le
+       cambia el título y el texto según lo que se esté confirmando -->
+  <dialog class="confirmacion" id="confirmacion" aria-labelledby="confirmacion-titulo">
+    <form method="dialog">
+      <h2 class="confirmacion__titulo" id="confirmacion-titulo">Confirmar</h2>
+      <p id="confirmacion-texto">¿Seguro que quieres continuar?</p>
+      <div class="confirmacion__acciones">
+        <button class="boton boton--linea boton--sm" type="submit" value="no">No, volver</button>
+        <button class="boton boton--sm" type="submit" value="si">Sí, continuar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- aquí javascript pone los avisos flotantes, con aria-live los
+       lectores de pantalla los leen apenas aparecen -->
+  <div class="avisos" id="avisos" aria-live="polite"></div>
+
+
+  <!-- el javascript del sitio, van en este orden porque cada uno usa al
+       anterior, primero los datos iniciales, después el que los guarda en
+       el navegador, luego lo común a todas las páginas y al final el de
+       cada página -->
+  <script src="js/datos.js"></script>
+  <script src="js/almacen.js"></script>
+  <script src="js/base.js"></script>
+  <script src="js/panel.js"></script>
 </body>
 </html>
