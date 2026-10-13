@@ -103,7 +103,84 @@
     <section class="seccion">
       <div class="contenedor">
         <h1 class="titulo-seccion">Publicar producto</h1>
-        <p>Cuéntales a tus vecinos qué vendes, cuánto cuesta y en qué horario lo entregas.</p>
+        <p class="subtexto">Cuéntales a tus vecinos qué vendes, cuánto cuesta y en qué horario lo entregas.</p>
+
+        <!-- Layout de dos columnas: formulario a la izquierda, tarjeta de vista previa a la derecha -->
+        <div class="layout-catalogo mt-3">
+
+          <!-- Formulario armado con los componentes estándar de formulario -->
+          <form class="formulario" id="form-publicar" novalidate>
+            <fieldset>
+              <legend>Detalles de la publicación</legend>
+
+              <div class="campo">
+                <label for="p-titulo">Título del producto <span class="obligatorio">*</span></label>
+                <input type="text" id="p-titulo" name="titulo" required placeholder="Ej. Torta de chocolate casera">
+              </div>
+
+              <div class="campo">
+                <label for="p-categoria">Categoría <span class="obligatorio">*</span></label>
+                <select id="p-categoria" name="idCategoria" required>
+                  <option value="">Selecciona una categoría</option>
+                </select>
+              </div>
+
+              <div class="campo-fila">
+                <div class="campo">
+                  <label for="p-precio">Precio (S/) <span class="obligatorio">*</span></label>
+                  <input type="number" id="p-precio" name="precio" min="0" step="0.5" required placeholder="0.00">
+                </div>
+                <div class="campo">
+                  <label for="p-stock">Stock disponible <span class="obligatorio">*</span></label>
+                  <input type="number" id="p-stock" name="stock" min="1" value="1" required>
+                </div>
+              </div>
+
+              <div class="campo">
+                <label for="p-horario">Horario de atención <span class="obligatorio">*</span></label>
+                <input type="text" id="p-horario" name="horario" required placeholder="Ej. 09:00 a 18:00">
+              </div>
+
+              <div class="campo">
+                <label for="p-imagen">Imagen de referencia <span class="obligatorio">*</span></label>
+                <select id="p-imagen" name="imagen" required>
+                  <option value="">Selecciona una foto del catálogo</option>
+                </select>
+              </div>
+
+              <div class="campo">
+                <label for="p-descripcion">Descripción <span class="obligatorio">*</span></label>
+                <textarea id="p-descripcion" name="descripcion" required placeholder="Cuéntanos detalles de tu producto..."></textarea>
+              </div>
+            </fieldset>
+
+            <button class="boton boton--full mt-3" type="submit">Publicar producto</button>
+          </form>
+
+          <!-- Tarjeta de vista previa en tiempo real -->
+          <aside class="panel-lateral" aria-label="Vista previa de la publicación">
+            <h3 class="panel-lateral__titulo">Vista previa</h3>
+            <article class="tarjeta" id="tarjeta-preview">
+              <figure class="tarjeta__figura">
+                <img class="tarjeta__imagen" id="prev-img" src="assets/img/kercado.png" alt="Vista previa del producto">
+              </figure>
+              <div class="tarjeta__cuerpo">
+                <span class="etiqueta" id="prev-categoria">Categoría</span>
+                <h3 class="tarjeta__titulo">
+                  <span id="prev-titulo">Nombre del producto</span>
+                </h3>
+                <p class="tarjeta__vendedor mb-0">
+                  Vendido por <strong id="prev-vendedor">Nombre del vecino</strong> · <span id="prev-ubicacion">Torre X, Dpto. 000</span>
+                </p>
+              </div>
+              <div class="tarjeta__pie">
+                <span class="tarjeta__precio" id="prev-precio">S/ 00.00</span>
+                <span class="boton boton--sm">Ver</span>
+              </div>
+            </article>
+          </aside>
+
+        </div>
       </div>
     </section>
 
@@ -149,6 +226,7 @@
           <li><a href="index.html#como-funciona">Cómo funciona Kercado</a></li>
           <li><a href="index.html#reglas">Reglas de convivencia</a></li>
           <li><a href="index.html#pagos">Métodos de pago aceptados</a></li>
+          <li><a href="index.html#faq">Preguntas frecuentes</a></li>
           <li><a href="index.html#nosotros">Quiénes somos</a></li>
         </ul>
       </div>
