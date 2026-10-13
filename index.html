@@ -98,27 +98,52 @@
 
 
   <main id="contenido">
-
-    <!-- esto es lo primero que ve el vecino al entrar, profesor, la foto del
+  <!-- esto es lo primero que ve el vecino al entrar, profesor, la foto del
          condominio ocupa todo el ancho para que reconozca dónde está, y
          encima van el nombre y una frase corta, pusimos un solo botón para
          que vaya directo al catálogo, si hubiera varios no sabría cuál tocar -->
+    <!-- el template para clonar las tarjetas con javascript -->
+    <template id="plantilla-tarjeta">
+      <article class="tarjeta">
+        <figure class="tarjeta__figura">
+          <img class="tarjeta__imagen" src="assets/img/kercado.png" alt="">
+        </figure>
+        <div class="tarjeta__cuerpo">
+          <span class="etiqueta"></span>
+          <h3 class="tarjeta__titulo"><a href="producto.html"></a></h3>
+          <p class="tarjeta__vendedor mb-0">
+            Vendido por <strong></strong> · <span></span>
+          </p>
+        </div>
+        <div class="tarjeta__pie">
+          <span class="tarjeta__precio"></span>
+          <a class="boton boton--sm" href="producto.html">Ver</a>
+        </div>
+      </article>
+    </template>
+
+    <!-- esto es lo primero que ve el vecino al entrar, la portada NO lleva clase revelar -->
     <section class="portada">
       <img src="assets/img/condominiofachada.jpg" alt="Condominio Las Palmas 357" class="portada__imagen">
       <div class="contenedor portada__contenido">
         <h1 class="portada__titulo">Ker<span class="logo__acento">cado</span></h1>
         <p class="portada__frase">El mercado interno de nuestra comunidad, donde comprar y vender es más cercano y seguro.</p>
         <div>
-          <a href="catalogo.html" class="boton boton--lg">Ver el catálogo</a>
+          <a href="catalogo.html" class="boton boton--lg" id="boton-portada">Ver el catálogo</a>
         </div>
       </div>
     </section>
 
-    <!-- estos párrafos cuentan que kercado es solo para los residentes, y
-         dejamos claro que se compra y se vende con la misma cuenta, así
-         nadie busca un registro aparte para vender, al lado va una foto de
-         algo que venden los vecinos para que se entienda de qué se trata -->
-    <section class="seccion">
+    <!-- grilla de lo más reciente -->
+    <section class="seccion revelar">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Lo más reciente</h2>
+        <div class="grilla-productos grilla-productos--animada" id="ultimas-publicaciones"></div>
+      </div>
+    </section>
+
+    <!-- estos párrafos cuentan qué es kercado -->
+    <section class="seccion revelar">
       <div class="contenedor dos-columnas">
         <div>
           <h2 class="titulo-seccion">Qué es Kercado</h2>
@@ -130,12 +155,8 @@
       </div>
     </section>
 
-    <!-- los tres pasos para usar kercado, desde que un vecino publica hasta
-         que se ponen de acuerdo, cada paso va en una caja y la grilla las
-         acomoda solas, en la computadora salen lado a lado y en el celular
-         una debajo de otra, la sección tiene id porque el enlace del pie de
-         página baja hasta aquí -->
-    <section class="seccion" id="como-funciona">
+    <!-- los tres pasos para usar kercado -->
+    <section class="seccion revelar" id="como-funciona">
       <div class="contenedor">
         <h2 class="titulo-seccion">Cómo funciona</h2>
         <div class="grilla-auto">
@@ -155,11 +176,8 @@
       </div>
     </section>
 
-    <!-- aquí dejamos claro que kercado es solo para los vecinos del
-         condominio y no para cualquier persona, le pusimos el fondo verde
-         clarito para que se note que es otra parte, y en cada caja contamos
-         cómo lo usa cada tipo de vecino -->
-    <section class="seccion seccion--alterna">
+    <!-- para quién es -->
+    <section class="seccion seccion--alterna revelar">
       <div class="contenedor">
         <h2 class="titulo-seccion">Para quién es</h2>
         <p class="mb-3">Kercado es solo para los residentes del condominio Las Palmas 357, así cada compra y cada venta queda entre vecinos que se conocen.</p>
@@ -183,11 +201,8 @@
       </div>
     </section>
 
-    <!-- las formas de pago que pueden acordar los vecinos, las pusimos en
-         una lista porque son solo tres y así se leen rápido, abajo
-         aclaramos que kercado no cobra, y el id es para el enlace del pie
-         de página -->
-    <section class="seccion" id="pagos">
+    <!-- las formas de pago -->
+    <section class="seccion revelar" id="pagos">
       <div class="contenedor">
         <h2 class="titulo-seccion">Métodos de pago</h2>
         <ul>
@@ -199,10 +214,27 @@
       </div>
     </section>
 
-    <!-- las reglas de convivencia para comprar y vender entre vecinos, van
-         en lista para que cada regla se lea por separado, esta sección
-         también tiene id porque el pie de página enlaza aquí -->
-    <section class="seccion" id="reglas">
+    <!-- preguntas frecuentes con details y summary dentro de una caja -->
+    <section class="seccion revelar" id="faq">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Preguntas frecuentes</h2>
+        <div class="caja mb-3">
+          <details>
+            <summary><strong>¿Tiene algún costo publicar en Kercado?</strong></summary>
+            <p class="mt-2 mb-0">No, Kercado es totalmente gratuito y creado por la administración para fomentar el comercio interno entre vecinos.</p>
+          </details>
+        </div>
+        <div class="caja mb-3">
+          <details>
+            <summary><strong>¿Cómo valida la administración mi cuenta?</strong></summary>
+            <p class="mt-2 mb-0">Al registrarte indicas tu torre y departamento; la administración corrobora que estés al día con el condominio antes de activar tu acceso.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- las reglas de convivencia -->
+    <section class="seccion revelar" id="reglas">
       <div class="contenedor">
         <h2 class="titulo-seccion">Reglas de convivencia</h2>
         <ul>
@@ -215,11 +247,8 @@
       </div>
     </section>
 
-    <!-- aquí nos presentamos los cuatro integrantes, cada uno en su caja con
-         su foto y lo que hizo en el proyecto, usamos la misma grilla que en
-         los pasos, y el id es para el enlace quiénes somos del pie de
-         página -->
-    <section class="seccion" id="nosotros">
+    <!-- nosotros -->
+    <section class="seccion revelar" id="nosotros">
       <div class="contenedor">
         <h2 class="titulo-seccion">Nosotros</h2>
         <div class="grilla-auto">
@@ -247,9 +276,8 @@
       </div>
     </section>
 
-    <!-- el audio de presentación de kercado, usa los controles que ya trae
-         el navegador, así no necesitamos javascript -->
-    <section class="seccion">
+    <!-- el audio de presentación de kercado -->
+    <section class="seccion revelar">
       <div class="contenedor">
         <h2 class="titulo-seccion">Presentación en audio</h2>
         <div class="audio-caja">
@@ -263,13 +291,10 @@
   </main>
 
 
-  <!-- este es el pie de página, también es el mismo en todas las páginas,
-       tiene información de kercado, el contacto de la administración, el
-       reglamento y los integrantes del grupo -->
+  <!-- este es el pie de página -->
   <footer class="pie">
     <div class="contenedor pie__grilla">
 
-      <!-- aquí contamos qué es kercado, y que no cobra ni hace entregas -->
       <div>
         <h3 class="pie__titulo">Kercado</h3>
         <p class="subtexto">
@@ -282,7 +307,6 @@
         </p>
       </div>
 
-      <!-- los datos de contacto de la administración del condominio -->
       <div>
         <h3 class="pie__titulo">Administración</h3>
         <ul class="pie__lista">
@@ -294,19 +318,17 @@
         </ul>
       </div>
 
-      <!-- estos enlaces llevan a partes de la página de inicio, donde
-           explicamos cómo funciona kercado y sus reglas -->
       <div>
         <h3 class="pie__titulo">Reglamento</h3>
         <ul class="pie__lista">
           <li><a href="index.html#como-funciona">Cómo funciona Kercado</a></li>
           <li><a href="index.html#reglas">Reglas de convivencia</a></li>
           <li><a href="index.html#pagos">Métodos de pago aceptados</a></li>
+          <li><a href="index.html#faq">Preguntas frecuentes</a></li>
           <li><a href="index.html#nosotros">Quiénes somos</a></li>
         </ul>
       </div>
 
-      <!-- nuestros nombres -->
       <div>
         <h3 class="pie__titulo">Integrantes</h3>
         <ul class="pie__lista">
@@ -318,8 +340,6 @@
       </div>
     </div>
 
-    <!-- el año del pie lo escribe javascript con la fecha del día, así
-       no tenemos que cambiarlo a mano cuando empiece el año nuevo -->
     <div class="pie__legal">
       <p class="mb-0">
         Kercado &copy; <span id="anio">2026</span> · Proyecto académico — Taller de Programación Web,
@@ -329,9 +349,6 @@
   </footer>
 
 
-  <!-- el diálogo que pregunta antes de hacer algo que no se puede deshacer,
-       como dar de baja una publicación o vaciar el carrito, javascript le
-       cambia el título y el texto según lo que se esté confirmando -->
   <dialog class="confirmacion" id="confirmacion" aria-labelledby="confirmacion-titulo">
     <form method="dialog">
       <h2 class="confirmacion__titulo" id="confirmacion-titulo">Confirmar</h2>
@@ -343,15 +360,9 @@
     </form>
   </dialog>
 
-  <!-- aquí javascript pone los avisos flotantes, con aria-live los
-       lectores de pantalla los leen apenas aparecen -->
   <div class="avisos" id="avisos" aria-live="polite"></div>
 
 
-  <!-- el javascript del sitio, van en este orden porque cada uno usa al
-       anterior, primero los datos iniciales, después el que los guarda en
-       el navegador, luego lo común a todas las páginas y al final el de
-       cada página -->
   <script src="js/datos.js"></script>
   <script src="js/almacen.js"></script>
   <script src="js/base.js"></script>
