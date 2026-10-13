@@ -1798,3 +1798,30 @@ dialog.confirmacion::backdrop {
     box-shadow: none;
   }
 }
+.revelar {
+  animation: aparecerConScroll linear both;
+  /* Esto hace que la animación se sincronice con el desplazamiento de la página, Pueden modificarlo a gusto(velocidad con la que aparece la opacidad)*/
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+}
+
+@keyframes aparecerConScroll {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Accesibilidad: si el usuario tiene desactivadas las animaciones en su sistema, 
+   la sección aparece de golpe sin movimiento brusco */
+@media (prefers-reduced-motion: reduce) {
+  .revelar {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
