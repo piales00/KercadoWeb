@@ -98,20 +98,19 @@
 
 
   <main id="contenido">
-    <!-- Nuevo -->
     <section class="seccion">
     <div class="contenedor">
 
       <!-- Contenedor principal de la ficha -->
       <div class="ficha">
         
-        <!-- Columna de la galería (fotos dinámicas) -->
+        <!-- Columna de la galería de fotos -->
         <div class="mb-3">
           <figure class="galeria__principal">
             <img id="imagen-principal" src="" alt="">
           </figure>
           <div class="galeria__miniaturas" id="galeria-miniaturas">
-            <!-- El JS insertará aquí los botones de miniatura -->
+            <!-- el javascript insertará los botones de miniatura -->
           </div>
         </div>
 
@@ -121,7 +120,7 @@
           <p class="ficha__precio" id="producto-precio"></p>
           <p class="ficha__descripcion" id="producto-descripcion"></p>
 
-          <!-- Tu tabla de datos original con los ID que busca el JS -->
+          <!-- la tabla de datos original con los ID que busca el JS -->
           <h3 class="mt-3">Ficha del producto</h3>
           <div class="tabla-scroll mb-3">
             <table class="tabla tabla--ficha">
@@ -135,14 +134,14 @@
             </table>
           </div>
 
-          <!-- Selector de cantidad -->
+          <!-- selector de cantidad -->
           <div class="selector-cantidad mb-3" id="bloque-cantidad">
             <button class="boton boton--sm" type="button" id="btn-menos" aria-label="Disminuir cantidad">-</button>
             <input class="input-cantidad" type="number" id="input-cantidad" value="1" min="1" max="1">
             <button class="boton boton--sm" type="button" id="btn-mas" aria-label="Aumentar cantidad">+</button>
           </div>
 
-          <!-- Botón de acción y aviso de producto propio -->
+          <!-- boton de accion y aviso de producto propio -->
           <div class="ficha__acciones">
             <button class="boton boton--lg" type="button" id="btn-agregar-carrito">Agregar al carrito</button>
             <p class="mensaje" id="mensaje-propio" hidden>Esta es tu publicación</p>
@@ -151,14 +150,14 @@
 
       </div>
 
-      <!-- Bloque vacío si el ID no existe -->
+      <!-- cuando haya un bloque vacío es porque el ID no existe -->
       <div class="vacio" id="producto-vacio" hidden>
         <h3 class="vacio__titulo">Producto no encontrado</h3>
         <p>El producto que buscas no existe o ya no está disponible.</p>
         <a class="boton" href="catalogo.html">Ir al catálogo</a>
       </div>
 
-      <!-- Sección de relacionados -->
+      <!-- Sección de relacionados, 3 productos como sugerencias -->
       <section class="seccion-relacionados mt-4">
         <h2><br>También te puede interesar</h2>
         <div class="grilla-productos" id="grilla-relacionados"></div>
@@ -186,56 +185,6 @@
 
     </div>
   </section>
-
-    <!-- Anterior, aquí está la ficha del producto, profesor, arriba van las fotos,
-         después una tabla con los datos y al final el botón para pedirlo
-    <section class="seccion">
-      <div class="contenedor">
-
-        <h1>Torta de Chocolate Casera</h1>
-
-         la galería, una foto grande y cuatro pequeñas debajo
-        <div class="mb-3">
-            <figure class="galeria__principal">
-                <img src="assets/img/catalogos/torta-chocolate.jpg" alt="Torta de chocolate entera vista desde arriba">
-            </figure>
-            <div class="galeria__miniaturas">
-                <img src="assets/img/catalogos/torta-mini-1.jpg" alt="Porción de torta de chocolate">
-                <img src="assets/img/catalogos/torta-mini-2.jpg" alt="Detalle del fudge de chocolate">
-                <img src="assets/img/catalogos/torta-mini-3.jpg" alt="Torta en caja lista para entrega">
-                <img src="assets/img/catalogos/torta-mini-4.jpg" alt="Ingredientes de la torta">
-            </div>
-        </div>
-
-        la tabla con los datos del producto, a la izquierda el dato y a
-             la derecha su valor, como el stock, el horario y dónde vive el
-             vecino que lo vende
-        <h3>Ficha del producto</h3>
-        <div class="tabla-scroll mb-3">
-            <table class="tabla tabla--ficha">
-                <caption>Información de la publicación</caption>
-                <tbody>
-                    <tr><th scope="row">Stock disponible</th><td>12 unidades</td></tr>
-                    <tr><th scope="row">Horario de atención</th><td>9:00 a 20:00</td></tr>
-                    <tr><th scope="row">Torre y departamento</th><td>Torre B, Dpto. 402</td></tr>
-                    <tr><th scope="row">Categoría</th><td>Postres</td></tr>
-                    <tr><th scope="row">Métodos de pago aceptados</th><td>Efectivo contra entrega · Yape · Plin</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        este aviso le dice al vecino que para pedir necesita una cuenta,
-             y que el pago y la entrega los coordina con quien vende
-        <div class="aviso mb-3">
-            <p><strong>Para pedir necesitas una cuenta.</strong> Kercado no procesa pagos en línea ni realiza envíos; la entrega y el pago se coordinan directamente entre residentes</p>
-        </div>
-
-        el botón para pedir, lleva al registro porque primero hay que
-             tener una cuenta
-        <a class="boton boton--lg" href="registro.html">Pedir</a>
-
-      </div>
-    </section> -->
 
   </main>
 

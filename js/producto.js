@@ -30,14 +30,14 @@ function iniciarFicha() {
   let contenedorFicha = document.querySelector(".ficha");
   let bloqueVacio = document.getElementById("producto-vacio");
 
-  /* Si no existe el id o la publicación, mostramos el estado vacío */
+  /* si no existe el id o la publicación, mostramos el estado vacío */
   if (!publicacion) {
     if (contenedorFicha) contenedorFicha.hidden = true;
     if (bloqueVacio) bloqueVacio.hidden = false;
     return;
   }
 
-  /* Rellenar los datos básicos */
+  /* rellenar los datos básicos */
   document.getElementById("producto-titulo").textContent = publicacion.titulo;
   document.getElementById("producto-precio").textContent = formatearPrecio(publicacion.precio);
   document.getElementById("producto-descripcion").textContent = publicacion.descripcion;
@@ -50,7 +50,7 @@ function iniciarFicha() {
   document.getElementById("detalle-categoria").textContent = categoria ? categoria.nombre : "";
   document.getElementById("detalle-vendedor").textContent = nombreCompleto(vendedor) + " (" + textoUnidad(vendedor) + ")";
 
-  /* Configurar la galería de imágenes */
+  /* configurar la galería de imágenes */
   let imagenes = publicacion.imagenes;
   let imgPrincipal = document.getElementById("imagen-principal");
   let contenedorMiniaturas = document.getElementById("galeria-miniaturas");
@@ -67,7 +67,7 @@ function iniciarFicha() {
     }
     contenedorMiniaturas.innerHTML = htmlMiniaturas;
 
-    /* Manejar clics en las miniaturas para cambiar la imagen principal */
+    /* manejar clics en las miniaturas para cambiar la imagen principal */
     let botonesMini = contenedorMiniaturas.querySelectorAll(".galeria__boton");
     for (let i = 0; i < botonesMini.length; i++) {
       botonesMini[i].addEventListener("click", function() {
@@ -80,7 +80,7 @@ function iniciarFicha() {
     }
   }
 
-  /* Configurar el selector de cantidad */
+  /* configurar el selector de cantidad */
   let inputCantidad = document.getElementById("input-cantidad");
   inputCantidad.max = publicacion.stock;
   inputCantidad.value = 1;
@@ -99,7 +99,7 @@ function iniciarFicha() {
     }
   });
 
-  /* Manejar botón de agregar al carrito o validar si es producto propio */
+  /* manejar boton de agregar al carrito o validar si es producto propio */
   let btnAgregar = document.getElementById("btn-agregar-carrito");
   let mensajePropio = document.getElementById("mensaje-propio");
   let sesion = sesionActual();
@@ -109,7 +109,7 @@ function iniciarFicha() {
     mensajePropio.hidden = false;
   } else {
     btnAgregar.addEventListener("click", function() {
-      /* Exigir sesión redirige al registro si no ha iniciado sesión */
+      /* exigir sesión redirige al registro si no ha iniciado sesión */
       if (!exigirSesion()) {
         return;
       }
@@ -122,7 +122,7 @@ function iniciarFicha() {
     });
   }
 
-  /* Cargar productos relacionados (misma categoría, excluyendo el actual) */
+  /* cargar productos relacionados, misma categoría, excluyendo el actual. */
   let grillaRelacionados = document.getElementById("grilla-relacionados");
   let todas = listarPublicaciones({ idCategoria: publicacion.idCategoria });
   let relacionados = [];
@@ -133,7 +133,7 @@ function iniciarFicha() {
     }
   }
 
-  /* Mostrar máximo 3 relacionados */
+  /* mostrar máximo 3 relacionados */
   let htmlRelacionados = "";
   let limite = relacionados.length > 3 ? 3 : relacionados.length;
   grillaRelacionados.innerHTML = "";
@@ -142,5 +142,5 @@ function iniciarFicha() {
   }
 }
 
-/* Ejecutar al cargar la página */
+/* ejecutar al cargar la página */
 iniciarFicha();

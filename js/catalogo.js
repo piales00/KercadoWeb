@@ -1,23 +1,13 @@
-/* anterior
-  el javascript del catálogo
-*/
-
-/* el filtro de precios del catálogo
-
-   los dos precios son opcionales, lo único que revisamos es que no sean
-   negativos y que el mínimo no sea mayor que el máximo, porque así no
-   saldría ningún producto */
-
-/* nuevo
-  actualizacion, el javascript del catalogo genera las tarjetas desde
-  los datos de almacen.js en vez de escribirlas a mano en el html
+/*
+  el javascript del catalogo,
+  genera las tarjetas desde los datos de almacen.js en vez de escribirlas a mano en el html
 */
 
 /*
-  se copió el molde de la tarjeta (el template creado en catalogo.html) y
-  escribimos los datos de una publicación, devolviendo la tarjeta lista para
-  agregar.
+  se copió el molde de la tarjeta, el template creado en catalogo.html y
+  escribimos los datos de una publicación, devolviendo la tarjeta lista para agregar.
 */
+
 /* crear tarjeta */
 function crearTarjeta(publicacion) {
   let molde = document.getElementById("plantilla-tarjeta");
@@ -102,11 +92,11 @@ function aplicarFiltrosYMostrar() {
   let texto = leerParametro("q") || "";
   let idCategoria = leerParametro("categoria") || "";
   
-  // Leemos tanto de la URL (si recargó) como de los inputs directamente
+  // leemos tanto de la URL, si recargó, como de los inputs directamente.
   let minUrl = leerParametro("precioMin") || document.getElementById("precio-min").value;
   let maxUrl = leerParametro("precioMax") || document.getElementById("precio-max").value;
 
-  // Sincronizamos los inputs con los valores actuales
+  // sincronizamos los inputs con los valores actuales.
   if (minUrl !== "") document.getElementById("precio-min").value = minUrl;
   if (maxUrl !== "") document.getElementById("precio-max").value = maxUrl;
 
@@ -135,7 +125,7 @@ if (formFiltro) {
   });
 }
 
-/* botón para limpiar filtros y volver al catálogo completo */
+/* boton para limpiar filtros y volver al catálogo completo */
 let btnQuitar = document.getElementById("quitar-filtros");
 if (btnQuitar) {
   btnQuitar.addEventListener("click", function() {
@@ -145,48 +135,3 @@ if (btnQuitar) {
     aplicarFiltrosYMostrar();
   });
 }
-
-/* ¿descartado? al abrir la página mostramos todos los productos activos
-pintarProductos(listarPublicaciones()); */
-
-/* anterior (eliminar luego, no nos sirve)
-function validarFiltro() {
-  let minimo = document.getElementById("precio-min").value;
-  let maximo = document.getElementById("precio-max").value;
-  let caja = document.getElementById("aviso-filtro");
-  let desde, hasta;
-
-  caja.className = "mensaje";
-  caja.innerHTML = "";
-
-  if (minimo !== "" && parseFloat(minimo) < 0) {
-    caja.className = "mensaje mensaje--error";
-    caja.innerHTML = "el precio mínimo no puede ser negativo";
-    return false;
-  }
-
-  if (maximo !== "" && parseFloat(maximo) < 0) {
-    caja.className = "mensaje mensaje--error";
-    caja.innerHTML = "el precio máximo no puede ser negativo";
-    return false;
-  }
-
-  if (minimo !== "" && maximo !== "") {
-    desde = parseFloat(minimo);
-    hasta = parseFloat(maximo);
-
-    if (desde > hasta) {
-      caja.className = "mensaje mensaje--error";
-      caja.innerHTML = "el precio mínimo es mayor que el máximo, revisa los dos valores";
-      return false;
-    }
-
-    caja.className = "mensaje mensaje--ok";
-    caja.innerHTML = "buscarías productos entre S/ " + desde.toFixed(2) + " y S/ " + hasta.toFixed(2);
-    return false;
-  }
-
-  caja.className = "mensaje mensaje--ok";
-  caja.innerHTML = "los precios están bien, todavía nos falta el servidor para filtrar de verdad";
-  return false;
-} */
