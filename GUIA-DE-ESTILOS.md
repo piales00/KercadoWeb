@@ -8,6 +8,15 @@ Si necesitas algo que no existe, lo avisas al grupo y se agrega a
 `estilo.css` una sola vez. Cuatro personas escribiendo CSS en paralelo es
 exactamente como un sitio termina con siete verdes distintos.
 
+Nota Adicional:
+
+Piero, en carrito.html la lista de códigos de la confirmación (.lista-codigos) tiene la viñeta pegada al borde de la caja porque el reset deja los ul sin relleno. ¿Puedes agregar esto en estilo.css?
+
+/* la lista de códigos que sale al registrar el pedido en el carrito */
+.lista-codigos {
+  padding-left: var(--sp-3);
+}
+
 ---
 
 ## 1. La idea del diseño

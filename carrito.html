@@ -104,8 +104,80 @@
       <div class="contenedor">
         <h1 class="titulo-seccion">Mi carrito</h1>
         <p>Los productos que elegiste, agrupados por el vecino que los vende.</p>
+
+        <!-- el carrito con productos, a la izquierda un grupo por vendedor y a
+             la derecha el resumen, javascript lo muestra solo si hay productos -->
+        <div class="carrito" id="carrito-lleno" hidden>
+          <div id="grupos-carrito"></div>
+
+          <aside class="carrito__resumen" aria-label="Resumen del pedido">
+            <h2>Resumen</h2>
+            <p class="carrito__total" aria-live="polite">
+              <span>Total</span>
+              <span class="carrito__monto" id="carrito-total">S/ 0.00</span>
+            </p>
+            <div class="campo">
+              <label for="metodo-pago">Método de pago acordado</label>
+              <select id="metodo-pago" name="pago">
+                <option value="Efectivo contra entrega">Efectivo contra entrega</option>
+                <option value="Yape">Yape</option>
+                <option value="Plin">Plin</option>
+              </select>
+            </div>
+            <button class="boton boton--full" type="button" id="boton-registrar">Registrar pedido</button>
+            <button class="boton boton--texto boton--full" type="button" id="boton-vaciar">Vaciar carrito</button>
+          </aside>
+        </div>
+
+        <!-- el carrito vacío, con un botón que lleva al catálogo -->
+        <div class="vacio" id="carrito-vacio" hidden>
+          <h2 class="vacio__titulo">Tu carrito está vacío</h2>
+          <p>Agrega productos desde el catálogo y van a aparecer aquí.</p>
+          <a class="boton" href="catalogo.html">Ver el catálogo</a>
+        </div>
+
+        <!-- la confirmación que aparece después de registrar el pedido, con un
+             código por cada vendedor -->
+        <div class="aviso" id="carrito-confirmacion" hidden>
+          <h2>Pedido registrado</h2>
+          <p>Cada vecino recibió su pedido. Estos son los códigos:</p>
+          <ul class="lista-codigos mb-3" id="lista-codigos"></ul>
+          <!--cambiado, originalmente : <ul id="lista-codigos"></ul> -->
+          <a class="boton" href="panel.html#mis-compras">Ver mis compras</a>
+        </div>
       </div>
     </section>
+
+    <!-- los moldes, el navegador no los dibuja, javascript los copia por cada
+         vendedor y por cada producto del carrito -->
+    <template id="plantilla-grupo">
+      <section class="carrito__grupo">
+        <h2 class="carrito__vendedor">Vendido por Nombre del vecino · Torre B, Dpto. 402</h2>
+      </section>
+    </template>
+
+    <template id="plantilla-linea">
+      <article class="linea-carrito">
+        <img class="linea-carrito__imagen" src="assets/img/kercado.png" alt="Nombre del producto">
+        <div class="linea-carrito__datos">
+          <h3 class="linea-carrito__titulo">Nombre del producto</h3>
+          <p class="subtexto mb-0">S/ 00.00 cada uno</p>
+        </div>
+
+        <div class="selector-cantidad linea-carrito__cantidad">
+          <button class="selector-cantidad__boton" type="button"
+                  aria-label="Quitar una unidad de Nombre del producto">−</button>
+          <input class="selector-cantidad__numero" type="number" min="1" max="12" value="1"
+                 aria-label="Cantidad de Nombre del producto">
+          <button class="selector-cantidad__boton" type="button"
+                  aria-label="Agregar una unidad de Nombre del producto">+</button>
+        </div>
+
+        <span class="linea-carrito__subtotal">S/ 00.00</span>
+        <button class="boton boton--texto boton--sm linea-carrito__quitar" type="button"
+                aria-label="Quitar Nombre del producto del carrito">Quitar</button>
+      </article>
+    </template>
 
   </main>
 

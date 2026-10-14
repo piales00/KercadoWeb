@@ -47,12 +47,15 @@ function validarRegistro() {
     ["c-torre", "e-torre"],
     ["c-depa", "e-depa"],
     ["c-clave", "e-clave"],
-    ["c-repetirclave", "e-repetirclave"]
+    ["c-repetirclave", "e-repetirclave"],
   ];
   let errores = 0;
   let pisoMarcado = false;
   let numeroDepa;
   let i;
+
+  let resultado;
+  let caja = document.getElementById("aviso-registro");
 
   limpiarFormulario(campos, "aviso-registro");
   document.getElementById("e-piso").innerHTML = "";
@@ -72,7 +75,11 @@ function validarRegistro() {
     marcarError("c-correo", "e-correo", "escribe tu correo");
     errores = errores + 1;
   } else if (!correoValido(correo)) {
-    marcarError("c-correo", "e-correo", "ese correo no tiene la forma vecino@correo.com");
+    marcarError(
+      "c-correo",
+      "e-correo",
+      "ese correo no tiene la forma vecino@correo.com",
+    );
     errores = errores + 1;
   }
 
@@ -82,7 +89,11 @@ function validarRegistro() {
   if (telefono !== "") {
     telefono = telefono.split(" ").join("");
     if (isNaN(telefono) || telefono.length !== 9) {
-      marcarError("c-tel", "e-tel", "el celular tiene nueve dígitos, por ejemplo 987654321");
+      marcarError(
+        "c-tel",
+        "e-tel",
+        "el celular tiene nueve dígitos, por ejemplo 987654321",
+      );
       errores = errores + 1;
     }
   }
@@ -116,12 +127,20 @@ function validarRegistro() {
   }
 
   if (clave.length < 8) {
-    marcarError("c-clave", "e-clave", "la contraseña necesita ocho caracteres o más");
+    marcarError(
+      "c-clave",
+      "e-clave",
+      "la contraseña necesita ocho caracteres o más",
+    );
     errores = errores + 1;
   }
 
   if (repetir !== clave) {
-    marcarError("c-repetirclave", "e-repetirclave", "las dos contraseñas tienen que ser iguales");
+    marcarError(
+      "c-repetirclave",
+      "e-repetirclave",
+      "las dos contraseñas tienen que ser iguales",
+    );
     errores = errores + 1;
   }
 
@@ -132,17 +151,43 @@ function validarRegistro() {
   }
 
   mostrarResumen("aviso-registro", errores);
+  //CAMBIOS DESDE AQUÍ
+  /* si hay errores de forma, nos detenemos aqui */
+  if (errores > 0) {
+    return;
+  }
+  
+  /* los datos tiene buena forma, ahora se los entragamos al almacén, que
+  guarda la solicitud con estado Pendiente */
 
-  if (errores === 0) {
-    document.getElementById("aviso-registro").textContent =
-      "listo, tus datos están completos, la administración revisa que vivas " +
-      "en el condominio y te avisa cuando tu cuenta quede activa";
+  resultado = registrarSolicitud({
+    nombres : nombre,
+    apellidos: apellidos,
+    correo: correo,
+    clave: clave,
+    telefono: telefono,
+    torre: torre,
+    numeroDepartamento: depa
+  });
+
+
+  /* si el almacén la rechaza es porque ese correo ya tiene cuenta, el error
+  se escribe debajo del campo del correo*/
+  if (!resultado.ok) {
+    marcarError("c-correo", "e-correo", resultado.mensaje);
+    caja.className = "mensaje mensaje--error";
+    caja.textContent = "revisa los datos marcados para poder registrarte";
+    caja.scrollIntoView({ block: "center"})
+    return;
   }
 
-  /* devolvemos false siempre, aunque los datos estén bien, porque todavía no
-     tenemos servidor a dónde mandarlos y si se enviara se borraría todo lo
-     que escribió el vecino */
-  return false;
+  /* quedo guardada: mostramos el mensaje, que explica que la cuenta queda
+  pendiente, y vaciamos el formulario */
+  caja.className = "mensaje mensaje--ok";
+  caja.textContent = resultado.mensaje;
+  document.getElementById("form-registro").reset();
+  caja.scrollIntoView({ block: "center"})
+ //HASTA AQUÍ
 }
 
 /* el inicio de sesión
@@ -154,18 +199,29 @@ function validarSesion() {
   let clave = document.getElementById("s-clave").value;
   let campos = [
     ["s-correo", "e-scorreo"],
-    ["s-clave", "e-sclave"]
+    ["s-clave", "e-sclave"],
   ];
   let caja = document.getElementById("aviso-sesion");
   let errores = 0;
-
+  //CAMBIOS DESDE AQUÍ
+  let resultado;
+  let volver;
+  // HASTA AQUÍ
   limpiarFormulario(campos, "aviso-sesion");
 
   if (correo === "") {
-    marcarError("s-correo", "e-scorreo", "escribe el correo con el que te registraste");
+    marcarError(
+      "s-correo",
+      "e-scorreo",
+      "escribe el correo con el que te registraste",
+    );
     errores = errores + 1;
   } else if (!correoValido(correo)) {
-    marcarError("s-correo", "e-scorreo", "ese correo no tiene la forma vecino@correo.com");
+    marcarError(
+      "s-correo",
+      "e-scorreo",
+      "ese correo no tiene la forma vecino@correo.com",
+    );
     errores = errores + 1;
   }
 
@@ -173,15 +229,72 @@ function validarSesion() {
     marcarError("s-clave", "e-sclave", "escribe tu contraseña");
     errores = errores + 1;
   }
-
-  if (errores === 0) {
-    caja.className = "mensaje mensaje--ok";
-    caja.innerHTML =
-      "tus datos están completos, cuando tengamos el servidor acá entrarías a tu panel";
-  } else {
+  //CAMBIOS DESDE AQUÍ
+  /* si hay errores de forma, avisamos y paramos aqui */
+  if (errores > 0) {
     caja.className = "mensaje mensaje--error";
-    caja.innerHTML = "revisa los datos marcados para poder entrar";
+    caja.textContent = "revisa los datos marcados para poder entrar";
+    return;
   }
-
-  return false;
+  /* los datos tienen forma correcta, ahora preguntamos al almacén si la
+     cuenta existe, está activa y la clave coincide */
+  resultado = iniciarSesion(correo, clave);
+  if (!resultado.ok) {
+    caja.className = "mensaje mensaje--error";
+    caja.textContent = resultado.mensaje;
+    return;
+  }
+  /* entró bien, volvemos a la página de donde venía o vamos al panel */
+  volver = leerParametro("volver");
+  if (volver === null) {
+    window.location.href = "panel.html";
+  } else {
+    window.location.href = volver;
+  }
+  //HASTA AQUÍ
 }
+//CAMBIOS DESDE AQUÍ
+
+/* cambia una contraseña entre puntitos y texto, el botón dice en data-mostrar
+   el id del campo que le toca y también cambia su texto y su aria-label para
+   que quien usa lector de pantalla sepa qué hará el botón la próxima vez */
+function alternarClave(evento) {
+  let boton = evento.currentTarget;
+  let campo = document.getElementById(boton.dataset.mostrar);
+
+  if (campo.type === "password") {
+    campo.type = "text";
+    boton.textContent = "Ocultar";
+    boton.setAttribute("aria-label", "Ocultar contraseña");
+  } else {
+    campo.type = "password";
+    boton.textContent = "Mostrar";
+    boton.setAttribute("aria-label", "Mostrar contraseña");
+  }
+}
+
+/* conecta los dos formularios y los botones de mostrar contraseña, así el
+   HTML no lleva código JavaScript adentro */
+function conectarFormularios() {
+  let formRegistro = document.getElementById("form-registro");
+  let formSesion = document.getElementById("form-sesion");
+  let botonesClave = document.querySelectorAll("[data-mostrar]");
+  let i;
+
+  formRegistro.addEventListener("submit", function (evento) {
+    evento.preventDefault();
+    validarRegistro();
+  });
+
+  formSesion.addEventListener("submit", function (evento) {
+    evento.preventDefault();
+    validarSesion();
+  });
+
+  for (i = 0; i < botonesClave.length; i++) {
+    botonesClave[i].addEventListener("click", alternarClave);
+  }
+}
+
+conectarFormularios();
+//HASTA AQUÍ
