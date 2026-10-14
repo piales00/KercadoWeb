@@ -112,14 +112,15 @@ aquí está el catálogo, a la izquierda van las
 
             <!-- la lista de categorías, la que tiene la clase activo es la que
                  se está viendo ahora, que es todos los productos -->
-            <ul class="lista-categorias">
+            <ul class="lista-categorias" id="lista-categorias"></ul>
+            <!-- Descartado:
               <li><a class="activo" href="catalogo.html">Todos los productos</a></li>
               <li><a href="catalogo.html">Comida preparada</a></li>
               <li><a href="catalogo.html">Postres</a></li>
               <li><a href="catalogo.html">Panadería</a></li>
               <li><a href="catalogo.html">Bebidas</a></li>
               <li><a href="catalogo.html">Abarrotes</a></li>
-            </ul>
+            </ul> -->
           </div>
 
           <!-- el filtro por precio, cada campo tiene su label unido con el id,
@@ -128,18 +129,19 @@ aquí está el catálogo, a la izquierda van las
                productos porque para eso nos falta el servidor -->
           <div class="panel-lateral__bloque">
             <h3 class="panel-lateral__titulo">Filtrar por precio</h3>
-            <form action="catalogo.html" method="get" novalidate
-                  onsubmit="return validarFiltro()">
+            <!-- se agrego id="filtro-precio" para implementarlo en js -->
+            <form id="filtro-precio" action="catalogo.html" method="get" novalidate>
+                  <!-- anterior descartado; onsubmit="return validarFiltro()"> -->
               <!-- acá javascript avisa si los precios quedaron mal -->
               <p class="mensaje" id="aviso-filtro"></p>
 
               <div class="campo">
                 <label for="precio-min">Desde (S/)</label>
-                <input type="number" id="precio-min" name="min" min="0" step="0.5" placeholder="0">
+                <input type="number" id="precio-min" name="precioMin" min="0" step="0.5" placeholder="0">
               </div>
               <div class="campo">
                 <label for="precio-max">Hasta (S/)</label>
-                <input type="number" id="precio-max" name="max" min="0" step="0.5" placeholder="100">
+                <input type="number" id="precio-max" name="precioMax" min="0" step="0.5" placeholder="100">
               </div>
               <button class="boton boton--linea boton--full boton--sm" type="submit">Aplicar filtro</button>
             </form>
@@ -147,16 +149,49 @@ aquí está el catálogo, a la izquierda van las
 
         </aside>
 
+        <!-- template agregado -->
+        <!-- la lista de categorias y los productos de la columna
+             derecha aparecen vacíos hasta que se ingresen en el javascript -->
+        <template id="plantilla-tarjeta">
+          <article class="tarjeta">
+            <figure class="tarjeta__figura">
+              <img class="tarjeta__imagen" src="assets/img/kercado.png" alt="">
+            </figure>
+            <div class="tarjeta__cuerpo">
+              <span class="etiqueta"></span>
+              <h3 class="tarjeta__titulo"><a href="producto.html"></a></h3>
+              <p class="tarjeta__vendedor mb-0">
+                Vendido por <strong></strong> · <span></span>
+              </p>
+            </div>
+            <div class="tarjeta__pie">
+              <span class="tarjeta__precio"></span>
+              <a class="boton boton--sm" href="producto.html">Ver</a>
+            </div>
+          </article>
+        </template>
+
         <!-- la columna de la derecha con los productos -->
         <div>
           <h1>Catálogo de Productos</h1>
-          <!-- la grilla con las nueve tarjetas, se acomoda sola y en el
+          <!-- Anterior, la grilla con las nueve tarjetas, se acomoda sola y en el
                celular queda en una sola columna -->
-          <div class="grilla-productos">
-            <!-- cada tarjeta tiene la foto, la categoría, el nombre, quién lo
+          <!-- Nuevo, aqui va el javascript, escribamos cuantos productos se mostraran,
+               por ejemplo 6 productos en postres -->
+          <p class="subtexto" id="conteo-productos" aria-live="polite"></p> <!-- lector de pantalla al filtrar -->
+
+          <div class="grilla-productos grilla-productos--animada" id="grilla-catalogo"></div>
+            <!-- Anterior, cada tarjeta tiene la foto, la categoría, el nombre, quién lo
                  vende y el precio, los precios siempre van con dos decimales
                  para que se vean parejos -->
-            <!-- producto 1 -->
+            <!-- Nuevo, este bloque se muestra solo cuando el filtro no deja ningún
+                 producto, el botón borra los filtros y vuelve a mostrar todo -->
+            <div class="vacio" id="catalogo-vacio" hidden> <!-- hidden oculta el bloque desde el inicio -->
+              <h3 class="vacio__titulo">No encontramos productos</h3>
+              <p>Prueba con otra búsqueda o cambia los filtros.</p>
+              <button class="boton" type="button" id="quitar-filtros">Quitar filtros</button> <!-- No navega solo borra los filtros con js -->
+            </div>
+            <!-- Descartado: producto 1 hasta el 9.
             <article class="tarjeta">
               <figure class="tarjeta__figura">
                 <img class="tarjeta__imagen" src="assets/img/catalogos/torta-chocolate.jpg" alt="Torta de chocolate artesanal decorada">
@@ -176,7 +211,7 @@ aquí está el catálogo, a la izquierda van las
               </div>
             </article>
 
-            <!-- producto 2 -->
+            producto 2
             <article class="tarjeta">
               <figure class="tarjeta__figura">
                 <img class="tarjeta__imagen" src="assets/img/catalogos/torta-tresleches.jpg" alt="Torta de 3 leches">
@@ -196,7 +231,7 @@ aquí está el catálogo, a la izquierda van las
               </div>
             </article>
 
-            <!-- producto 3 -->
+            producto 3
             <article class="tarjeta">
               <figure class="tarjeta__figura">
                 <img class="tarjeta__imagen" src="assets/img/catalogos/pan-baguette.jpg" alt="Pan Baguette">
@@ -216,7 +251,7 @@ aquí está el catálogo, a la izquierda van las
               </div>
             </article>
 
-            <!-- producto 4 -->
+            producto 4
             <article class="tarjeta">
               <figure class="tarjeta__figura">
                 <img class="tarjeta__imagen" src="assets/img/catalogos/galletas-chocolate.jpg" alt="Galletas con Chispas de Chocolate">
@@ -236,7 +271,7 @@ aquí está el catálogo, a la izquierda van las
               </div>
             </article>
 
-            <!-- producto 5 -->
+            producto 5
             <article class="tarjeta">
               <figure class="tarjeta__figura">
                 <img class="tarjeta__imagen" src="assets/img/catalogos/chicha-morada.jpg" alt="Refresco Chicha Morada">
@@ -256,7 +291,7 @@ aquí está el catálogo, a la izquierda van las
               </div>
             </article>
 
-            <!-- producto 6 -->
+            producto 6
             <article class="tarjeta">
               <figure class="tarjeta__figura">
                 <img class="tarjeta__imagen" src="assets/img/catalogos/camu-camu.jpg" alt="Refresco Camu-Camu">
@@ -276,7 +311,7 @@ aquí está el catálogo, a la izquierda van las
               </div>
             </article>
 
-            <!-- producto 7 -->
+            producto 7
             <article class="tarjeta">
               <figure class="tarjeta__figura">
                 <img class="tarjeta__imagen" src="assets/img/catalogos/lomo-saltado.jpg" alt="Lomo Saltado de Res">
@@ -296,7 +331,7 @@ aquí está el catálogo, a la izquierda van las
               </div>
             </article>
 
-            <!-- producto 8 -->
+            producto 8
             <article class="tarjeta">
               <figure class="tarjeta__figura">
                 <img class="tarjeta__imagen" src="assets/img/catalogos/pollo-a-la-brasa-entero.jpg" alt="Pollo A la Brasa: Entero">
@@ -316,7 +351,7 @@ aquí está el catálogo, a la izquierda van las
               </div>
             </article>
 
-            <!-- producto 9 -->
+            producto 9
             <article class="tarjeta">
               <figure class="tarjeta__figura">
                 <img class="tarjeta__imagen" src="assets/img/catalogos/arroz-superior-BP-10Kg.jpg" alt="Arroz Superior - Blanco de Primera: 10 Kg">
@@ -334,7 +369,7 @@ aquí está el catálogo, a la izquierda van las
                 <span class="tarjeta__precio">S/ 25.50</span>
                 <a class="boton boton--sm" href="producto.html">Ver</a>
               </div>
-            </article>
+            </article> -->
 
           </div>
         </div>
