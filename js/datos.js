@@ -78,7 +78,12 @@ const DATOS_INICIALES = {
       precio: 28.00,
       stock: 6,
       horario: "10:00 a 19:00",
-      imagenes: ["assets/img/catalogos/torta-tresleches.jpg"],
+      imagenes: [
+        "assets/img/catalogos/torta-tresleches.jpg",
+        "assets/img/catalogos/tortatresleches-mini-1.jpg",
+        "assets/img/catalogos/tortatresleches-mini-2.jpg",
+        "assets/img/catalogos/tortatresleches-mini-3.jpg"
+      ],
       idCategoria: "postres",
       idResidente: "R-003",
       estado: "Activa",
