@@ -1,136 +1,222 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // 7. Exigir sesión: si no hay usuario, redirige al registro y vuelve luego
+/*
+  hecho por edgar. el javascript de publicar producto, llena los select de
+  categoría y de foto, va cambiando la tarjeta de vista previa mientras el
+  vecino escribe, revisa el formulario y guarda la publicación con
+  crearPublicacion(), que la deja primera en el catálogo
+*/
+
+/* las fotos que el vecino puede elegir, son las que ya están en la
+   carpeta del catálogo, el valor de cada opción es la ruta completa */
+const FOTOS_DISPONIBLES = [
+  { nombre: "Ají de gallina", ruta: "assets/img/catalogos/aji-de-gallina.jpg" },
+  { nombre: "Alfajores", ruta: "assets/img/catalogos/alfajores-maicena.jpg" },
+  { nombre: "Arroz en saco", ruta: "assets/img/catalogos/arroz-superior-BP-10Kg.jpg" },
+  { nombre: "Camu camu", ruta: "assets/img/catalogos/camu-camu.jpg" },
+  { nombre: "Chicha morada", ruta: "assets/img/catalogos/chicha-morada.jpg" },
+  { nombre: "Empanadas", ruta: "assets/img/catalogos/empanadas-carne.jpg" },
+  { nombre: "Galletas de chocolate", ruta: "assets/img/catalogos/galletas-chocolate.jpg" },
+  { nombre: "Limonada", ruta: "assets/img/catalogos/limonada-frozen.jpg" },
+  { nombre: "Lomo saltado", ruta: "assets/img/catalogos/lomo-saltado.jpg" },
+  { nombre: "Pan", ruta: "assets/img/catalogos/pan-baguette.jpg" },
+  { nombre: "Pollo a la brasa", ruta: "assets/img/catalogos/pollo-a-la-brasa-entero.jpg" },
+  { nombre: "Queque", ruta: "assets/img/catalogos/queque-naranja.jpg" },
+  { nombre: "Torta de chocolate", ruta: "assets/img/catalogos/torta-chocolate.jpg" },
+  { nombre: "Torta tres leches", ruta: "assets/img/catalogos/torta-tresleches.jpg" },
+  { nombre: "Otro producto (logo de Kercado)", ruta: "assets/img/kercado.png" }
+];
+
+/* los campos del formulario junto con el small donde sale su error */
+const CAMPOS_PUBLICAR = [
+  ["p-titulo", "e-titulo"],
+  ["p-categoria", "e-categoria"],
+  ["p-precio", "e-precio"],
+  ["p-stock", "e-stock"],
+  ["p-horario", "e-horario"],
+  ["p-imagen", "e-imagen"],
+  ["p-descripcion", "e-descripcion"]
+];
+
+/* agrega una opción a un select, el texto va con textContent */
+function agregarOpcion(select, valor, texto) {
+  let opcion = document.createElement("option");
+
+  opcion.value = valor;
+  opcion.textContent = texto;
+  select.appendChild(opcion);
+}
+
+/* llena el select de categorías con las guardadas y el de fotos con la
+   lista de arriba */
+function llenarSelects() {
+  let selectCategoria = document.getElementById("p-categoria");
+  let selectImagen = document.getElementById("p-imagen");
+  let categorias = listarCategorias();
+  let i;
+
+  for (i = 0; i < categorias.length; i++) {
+    agregarOpcion(selectCategoria, categorias[i].idCategoria, categorias[i].nombre);
+  }
+
+  for (i = 0; i < FOTOS_DISPONIBLES.length; i++) {
+    agregarOpcion(selectImagen, FOTOS_DISPONIBLES[i].ruta, FOTOS_DISPONIBLES[i].nombre);
+  }
+}
+
+/* reescribe la tarjeta de vista previa con lo que hay en el formulario,
+   si un campo está vacío deja un texto de ejemplo para que la tarjeta no
+   quede en blanco */
+function actualizarVistaPrevia() {
+  let titulo = document.getElementById("p-titulo").value.trim();
+  let precio = parseFloat(document.getElementById("p-precio").value);
+  let selectCategoria = document.getElementById("p-categoria");
+  let ruta = document.getElementById("p-imagen").value;
+  let imagen = document.getElementById("prev-imagen");
+
+  if (titulo === "") {
+    titulo = "Nombre del producto";
+  }
+  document.getElementById("prev-titulo").textContent = titulo;
+
+  if (isNaN(precio) || precio < 0) {
+    precio = 0;
+  }
+  document.getElementById("prev-precio").textContent = formatearPrecio(precio);
+
+  if (selectCategoria.value === "") {
+    document.getElementById("prev-categoria").textContent = "Categoría";
+  } else {
+    document.getElementById("prev-categoria").textContent =
+      selectCategoria.options[selectCategoria.selectedIndex].textContent;
+  }
+
+  if (ruta === "") {
+    imagen.src = "assets/img/kercado.png";
+    imagen.alt = "Foto de ejemplo para la vista previa";
+  } else {
+    imagen.src = ruta;
+    imagen.alt = "Vista previa de " + titulo;
+  }
+}
+
+/* revisa campo por campo y cuenta los errores, igual que el registro,
+   devuelve cuántos encontró */
+function validarPublicacion() {
+  let titulo = document.getElementById("p-titulo").value.trim();
+  let categoria = document.getElementById("p-categoria").value;
+  let textoPrecio = document.getElementById("p-precio").value;
+  let textoStock = document.getElementById("p-stock").value;
+  let horario = document.getElementById("p-horario").value.trim();
+  let imagen = document.getElementById("p-imagen").value;
+  let descripcion = document.getElementById("p-descripcion").value.trim();
+  let precio = parseFloat(textoPrecio);
+  let stock = Number(textoStock);
+  let errores = 0;
+  let i;
+
+  for (i = 0; i < CAMPOS_PUBLICAR.length; i++) {
+    limpiarCampo(CAMPOS_PUBLICAR[i][0], CAMPOS_PUBLICAR[i][1]);
+  }
+
+  if (titulo.length < 5) {
+    marcarError("p-titulo", "e-titulo", "el nombre necesita al menos 5 letras");
+    errores = errores + 1;
+  }
+
+  if (categoria === "") {
+    marcarError("p-categoria", "e-categoria", "elige en qué categoría sale tu producto");
+    errores = errores + 1;
+  }
+
+  if (textoPrecio === "" || isNaN(precio) || precio <= 0) {
+    marcarError("p-precio", "e-precio", "el precio tiene que ser mayor a 0");
+    errores = errores + 1;
+  }
+
+  /* el stock tiene que ser un número entero, no se venden media torta */
+  if (textoStock === "" || !Number.isInteger(stock) || stock < 1) {
+    marcarError("p-stock", "e-stock", "escribe cuántas unidades tienes, un número entero desde 1");
+    errores = errores + 1;
+  }
+
+  if (horario === "") {
+    marcarError("p-horario", "e-horario", "escribe en qué horario entregas");
+    errores = errores + 1;
+  }
+
+  if (imagen === "") {
+    marcarError("p-imagen", "e-imagen", "elige la foto que más se parezca a tu producto");
+    errores = errores + 1;
+  }
+
+  if (descripcion === "") {
+    marcarError("p-descripcion", "e-descripcion", "cuéntales a tus vecinos cómo es tu producto");
+    errores = errores + 1;
+  }
+
+  mostrarResumen("aviso-publicar", errores);
+  return errores;
+}
+
+/* al enviar, si no hay errores guardamos la publicación y cambiamos el
+   formulario por el bloque con el enlace a la ficha nueva */
+function alPublicar(evento) {
+  let publicacion;
+  let enlace;
+
+  evento.preventDefault();
+
+  if (validarPublicacion() > 0) {
+    document.getElementById("aviso-publicar").scrollIntoView({ block: "center" });
+    return;
+  }
+
+  publicacion = crearPublicacion({
+    titulo: document.getElementById("p-titulo").value,
+    descripcion: document.getElementById("p-descripcion").value,
+    precio: document.getElementById("p-precio").value,
+    stock: document.getElementById("p-stock").value,
+    horario: document.getElementById("p-horario").value,
+    idCategoria: document.getElementById("p-categoria").value,
+    imagenes: [document.getElementById("p-imagen").value]
+  });
+
+  if (publicacion === null) {
+    mostrarAviso("no pudimos guardar tu publicación, revisa los datos e inténtalo otra vez", "error");
+    return;
+  }
+
+  enlace = document.getElementById("publicado-enlace");
+  enlace.href = "producto.html?id=" + publicacion.idPublicacion;
+  document.getElementById("publicado-texto").textContent =
+    "Tus vecinos ya ven " + publicacion.titulo + " en el catálogo, con el código " +
+    publicacion.idPublicacion + ".";
+
+  document.querySelector(".layout-publicar").hidden = true;
+  document.getElementById("publicado").hidden = false;
+  enlace.focus();
+  mostrarAviso("publicaste " + publicacion.titulo, "ok");
+}
+
+/* aquí arranca la página, sin sesión exigirSesion manda al registro y
+   anota que vuelva aquí después de entrar */
+function iniciarPublicar() {
+  let residente;
+  let formulario;
+
   if (!exigirSesion()) {
     return;
   }
 
-  const residente = sesionActual();
+  residente = sesionActual();
+  document.getElementById("prev-vendedor").textContent = nombreCompleto(residente);
+  document.getElementById("prev-unidad").textContent = textoUnidad(residente);
 
-  // Llenar el select de categorías usando listarCategorias()
-  const selectCategoria = document.getElementById("p-categoria");
-  if (selectCategoria && typeof listarCategorias === "function") {
-    const categorias = listarCategorias();
-    categorias.forEach(cat => {
-      const option = document.createElement("option");
-      option.value = cat.idCategoria;
-      option.textContent = cat.nombre;
-      selectCategoria.appendChild(option);
-    });
-  }
+  llenarSelects();
 
-  // 8. Llenar el select de imagen con fotos de assets/img/catalogos/
-  const selectImagen = document.getElementById("p-imagen");
-  const fotosDisponibles = [
-    { nombre: "Torta de chocolate", ruta: "assets/img/catalogos/torta-chocolate.jpg" },
-    { nombre: "Torta miniatura 1", ruta: "assets/img/catalogos/torta-mini-1.jpg" },
-    { nombre: "Torta miniatura 2", ruta: "assets/img/catalogos/torta-mini-2.jpg" },
-    { nombre: "Kercado genérico", ruta: "assets/img/kercado.png" }
-  ];
+  formulario = document.getElementById("form-publicar");
+  formulario.addEventListener("input", actualizarVistaPrevia);
+  formulario.addEventListener("change", actualizarVistaPrevia);
+  formulario.addEventListener("submit", alPublicar);
+}
 
-  if (selectImagen) {
-    fotosDisponibles.forEach(foto => {
-      const opt = document.createElement("option");
-      opt.value = foto.ruta;
-      opt.textContent = foto.nombre;
-      selectImagen.appendChild(opt);
-    });
-  }
-
-  // Elementos de la tarjeta de vista previa
-  const inputTitulo = document.getElementById("p-titulo");
-  const inputPrecio = document.getElementById("p-precio");
-  const selectCatElem = document.getElementById("p-categoria");
-  const selectImgElem = document.getElementById("p-imagen");
-
-  const prevTitulo = document.getElementById("prev-titulo");
-  const prevPrecio = document.getElementById("prev-precio");
-  const prevCategoria = document.getElementById("prev-categoria");
-  const prevImg = document.getElementById("prev-img");
-  const prevVendedor = document.getElementById("prev-vendedor");
-  const prevUbicacion = document.getElementById("prev-ubicacion");
-
-  // Rellenar datos del residente actual en la vista previa
-  if (residente) {
-    prevVendedor.textContent = residente.nombres;
-    prevUbicacion.textContent = `Torre ${residente.torre}, Dpto. ${residente.departamento}`;
-  }
-
-  // 9. Escuchar el evento input para actualizar la vista previa con textContent
-  const formPublicar = document.getElementById("form-publicar");
-  if (formPublicar) {
-    formPublicar.addEventListener("input", () => {
-      prevTitulo.textContent = inputTitulo.value.trim() || "Nombre del producto";
-      
-      const precioVal = parseFloat(inputPrecio.value);
-      prevPrecio.textContent = !isNaN(precioVal) ? `S/ ${precioVal.toFixed(2)}` : "S/ 00.00";
-
-      if (selectCatElem.selectedIndex > 0) {
-        prevCategoria.textContent = selectCatElem.options[selectCatElem.selectedIndex].text;
-      } else {
-        prevCategoria.textContent = "Categoría";
-      }
-
-      if (selectImgElem.value) {
-        prevImg.src = selectImgElem.value;
-      }
-    });
-
-    // 9 & 10. Validación y creación de la publicación al enviar
-    formPublicar.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      // Limpiar errores visuales previos
-      formPublicar.querySelectorAll("input, select, textarea").forEach(el => {
-        el.classList.remove("campo-malo");
-      });
-      formPublicar.querySelectorAll(".campo__error").forEach(el => el.remove());
-
-      let hayErrores = false;
-      const camposRequeridos = formPublicar.querySelectorAll("[required]");
-
-      camposRequeridos.forEach(campo => {
-        if (!campo.value.trim()) {
-          hayErrores = true;
-          if (typeof marcarError === "function") {
-            marcarError(campo, "Este campo es obligatorio");
-          } else {
-            campo.classList.add("campo-malo");
-          }
-        }
-      });
-
-      if (hayErrores) {
-        if (typeof mostrarAviso === "function") {
-          mostrarAviso("Faltan corregir datos obligatorios, están marcados abajo.", "error");
-        }
-        return;
-      }
-
-      // 10. Objeto con los datos para crearPublicacion
-      const nuevaPubData = {
-        titulo: inputTitulo.value.trim(),
-        descripcion: document.getElementById("p-descripcion").value.trim(),
-        precio: parseFloat(inputPrecio.value),
-        stock: parseInt(document.getElementById("p-stock").value, 10),
-        horario: document.getElementById("p-horario").value.trim(),
-        idCategoria: selectCategoria.value,
-        imagenes: [selectImagen.value || "assets/img/kercado.png"]
-      };
-
-      const pubCreada = crearPublicacion(nuevaPubData);
-
-      if (pubCreada && pubCreada.idPublicacion) {
-        if (typeof mostrarAviso === "function") {
-          mostrarAviso("¡Producto publicado con éxito!", "ok");
-        }
-        setTimeout(() => {
-          window.location.href = `producto.html?id=${pubCreada.idPublicacion}`;
-        }, 1200);
-      } else {
-        if (typeof mostrarAviso === "function") {
-          mostrarAviso("No se pudo registrar la publicación. Intenta nuevamente.", "error");
-        }
-      }
-    });
-  }
-});
+iniciarPublicar();

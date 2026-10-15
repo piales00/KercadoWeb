@@ -11,7 +11,7 @@ const DATOS_INICIALES = {
   /* si cambiamos algo de estos datos subimos este número, así almacen.js
      se da cuenta de que lo guardado en el navegador quedó viejo y lo vuelve
      a cargar */
-  version: 2,
+  version: 3,
 
   /* las cinco categorías del catálogo, el id es corto y sin tildes porque
      viaja en la dirección de la página, por ejemplo

@@ -101,27 +101,31 @@
     <section class="seccion">
       <div class="contenedor">
 
-        <!-- Contenedor principal de la ficha en dos columnas -->
+        <!-- la ficha va en dos columnas, la galería a la izquierda y los datos
+             con el botón de compra a la derecha, así en la computadora el
+             precio y el botón se ven sin bajar -->
         <div class="ficha">
           
-          <!-- Galería de imágenes (izquierda) -->
+          <!-- la foto grande y debajo las miniaturas, producto.js pone las fotos
+               de la publicación que se está viendo -->
           <div class="galeria">
             <figure class="galeria__principal">
-              <img id="imagen-principal" src="" alt="">
+              <img id="imagen-principal" src="assets/img/kercado.png" alt="">
             </figure>
             <div class="galeria__miniaturas" id="galeria-miniaturas">
-              <!-- el javascript insertará los botones de miniatura -->
+              <!-- aquí producto.js agrega un botón por cada foto -->
             </div>
           </div>
 
-          <!-- Datos y compra (derecha) -->
+          <!-- el nombre, el precio, la descripción y la compra -->
           <div class="ficha__datos">
             <h1 class="ficha__titulo" id="producto-titulo"></h1>
             <p class="ficha__precio" id="producto-precio"></p>
             <p class="ficha__descripcion" id="producto-descripcion"></p>
 
-            <!-- Ficha / Tabla de detalles -->
-            <h3 class="mt-3">Ficha del producto</h3>
+            <!-- la tabla con los datos de la publicación, th con scope="row"
+                 porque cada fila tiene su propio encabezado -->
+            <h2 class="mt-3">Ficha del producto</h2>
             <div class="tabla-scroll mb-3">
               <table class="tabla tabla--ficha">
                 <caption>Información de la publicación</caption>
@@ -134,14 +138,16 @@
               </table>
             </div>
 
-            <!-- Selector de cantidad (según componentes.html) -->
+            <!-- el selector de cantidad, no deja bajar de 1 ni pasar del stock -->
             <div class="selector-cantidad mb-3" id="bloque-cantidad">
-              <button class="boton boton--sm" type="button" id="btn-menos" aria-label="Disminuir cantidad">-</button>
-              <input class="input-cantidad" type="number" id="input-cantidad" value="1" min="1" max="1">
-              <button class="boton boton--sm" type="button" id="btn-mas" aria-label="Aumentar cantidad">+</button>
+              <button class="selector-cantidad__boton" type="button" id="btn-menos" aria-label="Quitar una unidad">−</button>
+              <input class="selector-cantidad__numero" type="number" id="input-cantidad" value="1" min="1" max="1"
+                     aria-label="Cantidad">
+              <button class="selector-cantidad__boton" type="button" id="btn-mas" aria-label="Agregar una unidad">+</button>
             </div>
 
-            <!-- Botones de acción y aviso de producto propio -->
+            <!-- si el producto es del mismo vecino no se puede comprar a sí mismo,
+                 por eso producto.js cambia el botón por un mensaje -->
             <div class="ficha__acciones">
               <button class="boton boton--lg" type="button" id="btn-agregar-carrito">Agregar al carrito</button>
               <p class="mensaje" id="mensaje-propio" hidden>Esta es tu publicación</p>
@@ -150,20 +156,21 @@
 
         </div>
 
-        <!-- Bloque vacío si el ID no existe -->
+        <!-- este bloque sale solo si el id de la dirección no existe o la
+             publicación ya se dio de baja -->
         <div class="vacio" id="producto-vacio" hidden>
-          <h3 class="vacio__titulo">Producto no encontrado</h3>
+          <h1 class="vacio__titulo">Producto no encontrado</h1>
           <p>El producto que buscas no existe o ya no está disponible.</p>
           <a class="boton" href="catalogo.html">Ir al catálogo</a>
         </div>
 
-        <!-- Sección de relacionados -->
-        <section class="seccion-relacionados mt-4">
-          <h2>También te puede interesar</h2>
+        <!-- hasta tres productos de la misma categoría -->
+        <section class="mt-4" id="relacionados" aria-labelledby="titulo-relacionados">
+          <h2 class="titulo-seccion" id="titulo-relacionados">También te puede interesar</h2>
           <div class="grilla-productos" id="grilla-relacionados"></div>
         </section>
 
-        <!-- Template para los relacionados -->
+        <!-- el molde de las tarjetas de relacionados, el navegador no lo dibuja -->
         <template id="plantilla-tarjeta">
           <article class="tarjeta">
             <figure class="tarjeta__figura">
@@ -227,6 +234,7 @@
           <li><a href="index.html#como-funciona">Cómo funciona Kercado</a></li>
           <li><a href="index.html#reglas">Reglas de convivencia</a></li>
           <li><a href="index.html#pagos">Métodos de pago aceptados</a></li>
+          <li><a href="index.html#faq">Preguntas frecuentes</a></li>
           <li><a href="index.html#nosotros">Quiénes somos</a></li>
         </ul>
       </div>

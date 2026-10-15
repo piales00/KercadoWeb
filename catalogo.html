@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <!--
-  hecho por francys. 
-aquí está el catálogo, a la izquierda van las
+  hecho por francys. aquí está el catálogo, a la izquierda van las
   categorías y el filtro por precio, y a la derecha todos los productos que
   venden los vecinos, cada tarjeta lleva a la ficha del producto
 -->
@@ -108,23 +107,22 @@ aquí está el catálogo, a la izquierda van las
              aquí porque ya está arriba en la cabecera -->
         <aside class="panel-lateral" aria-label="Categorías y filtros">
           <div class="panel-lateral__bloque">
-            <h3 class="panel-lateral__titulo">Categorías</h3>
+            <h2 class="panel-lateral__titulo">Categorías</h2>
 
-            <!-- la lista de categorías, la que tiene la clase activo es la que
-                 se está viendo ahora, que es todos los productos -->
+            <!-- la lista de categorías la arma catalogo.js con las categorías
+                 guardadas, la que se está viendo lleva la clase activo -->
             <ul class="lista-categorias" id="lista-categorias"></ul>
           </div>
 
           <!-- el filtro por precio, cada campo tiene su label unido con el id,
-               javascript revisa que los precios no sean negativos y que el
-               mínimo no sea mayor que el máximo, todavía no filtra los
-               productos porque para eso nos falta el servidor -->
+               catalogo.js revisa que los precios no sean negativos y que el
+               mínimo no sea mayor que el máximo, y después filtra los
+               productos sin recargar la página -->
           <div class="panel-lateral__bloque">
-            <h3 class="panel-lateral__titulo">Filtrar por precio</h3>
-            <!-- se agrego id="filtro-precio" para implementarlo en js -->
+            <h2 class="panel-lateral__titulo">Filtrar por precio</h2>
             <form id="filtro-precio" action="catalogo.html" method="get" novalidate>
               <!-- acá javascript avisa si los precios quedaron mal -->
-              <p class="mensaje" id="aviso-filtro"></p>
+              <p class="mensaje" id="aviso-filtro" aria-live="polite"></p>
 
               <div class="campo">
                 <label for="precio-min">Desde (S/)</label>
@@ -140,9 +138,8 @@ aquí está el catálogo, a la izquierda van las
 
         </aside>
 
-        <!-- template agregado -->
-        <!-- la lista de categorias y los productos de la columna
-             derecha aparecen vacíos hasta que se ingresen en el javascript -->
+        <!-- el molde de cada tarjeta, el navegador no lo dibuja, catalogo.js
+             lo copia una vez por cada producto que pasa el filtro -->
         <template id="plantilla-tarjeta">
           <article class="tarjeta">
             <figure class="tarjeta__figura">
@@ -165,19 +162,20 @@ aquí está el catálogo, a la izquierda van las
         <!-- la columna de la derecha con los productos -->
         <div>
           <h1>Catálogo de Productos</h1>
-          <!-- aqui va el javascript, escribamos cuantos productos se mostraran,
-               por ejemplo 6 productos en postres -->
-          <p class="subtexto" id="conteo-productos" aria-live="polite"></p> <!-- lector de pantalla al filtrar -->
+          <!-- aquí catalogo.js escribe cuántos productos se ven, por ejemplo
+               4 productos en postres, con aria-live el lector de pantalla lo
+               lee cada vez que cambia el filtro -->
+          <p class="subtexto" id="conteo-productos" aria-live="polite"></p>
+          <h2 class="solo-lectores">Productos</h2>
 
           <div class="grilla-productos grilla-productos--animada" id="grilla-catalogo"></div>
-            <!-- este bloque se muestra solo cuando el filtro no deja ningún
-                 producto, el botón borra los filtros y vuelve a mostrar todo -->
-            <div class="vacio" id="catalogo-vacio" hidden> <!-- hidden oculta el bloque desde el inicio -->
-              <h3 class="vacio__titulo">No encontramos productos</h3>
-              <p>Prueba con otra búsqueda o cambia los filtros.</p>
-              <button class="boton" type="button" id="quitar-filtros">Quitar filtros</button> <!-- No navega solo borra los filtros con js -->
-            </div>
 
+          <!-- este bloque se muestra solo cuando el filtro no deja ningún
+               producto, el botón borra los filtros y vuelve a mostrar todo -->
+          <div class="vacio" id="catalogo-vacio" hidden>
+            <h2 class="vacio__titulo">No encontramos productos</h2>
+            <p>Prueba con otra búsqueda o cambia los filtros.</p>
+            <button class="boton" type="button" id="quitar-filtros">Quitar filtros</button>
           </div>
         </div>
 
@@ -226,6 +224,7 @@ aquí está el catálogo, a la izquierda van las
           <li><a href="index.html#como-funciona">Cómo funciona Kercado</a></li>
           <li><a href="index.html#reglas">Reglas de convivencia</a></li>
           <li><a href="index.html#pagos">Métodos de pago aceptados</a></li>
+          <li><a href="index.html#faq">Preguntas frecuentes</a></li>
           <li><a href="index.html#nosotros">Quiénes somos</a></li>
         </ul>
       </div>

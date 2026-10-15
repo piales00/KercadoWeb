@@ -58,8 +58,8 @@ function validarRegistro() {
   let caja = document.getElementById("aviso-registro");
 
   limpiarFormulario(campos, "aviso-registro");
-  document.getElementById("e-piso").innerHTML = "";
-  document.getElementById("e-terminos").innerHTML = "";
+  document.getElementById("e-piso").textContent = "";
+  document.getElementById("e-terminos").textContent = "";
 
   if (nombre === "") {
     marcarError("c-nombre", "e-nombre", "escribe tus nombres");
@@ -122,7 +122,7 @@ function validarRegistro() {
   }
 
   if (!pisoMarcado) {
-    document.getElementById("e-piso").innerHTML = "marca en qué piso vives";
+    document.getElementById("e-piso").textContent = "marca en qué piso vives";
     errores = errores + 1;
   }
 
@@ -145,23 +145,22 @@ function validarRegistro() {
   }
 
   if (!terminos) {
-    document.getElementById("e-terminos").innerHTML =
+    document.getElementById("e-terminos").textContent =
       "para crear la cuenta hay que aceptar el reglamento";
     errores = errores + 1;
   }
 
   mostrarResumen("aviso-registro", errores);
-  //CAMBIOS DESDE AQUÍ
-  /* si hay errores de forma, nos detenemos aqui */
+  /* si hay errores de forma, nos detenemos aquí */
   if (errores > 0) {
     return;
   }
   
-  /* los datos tiene buena forma, ahora se los entragamos al almacén, que
+  /* los datos tienen buena forma, ahora se los entregamos al almacén, que
   guarda la solicitud con estado Pendiente */
 
   resultado = registrarSolicitud({
-    nombres : nombre,
+    nombres: nombre,
     apellidos: apellidos,
     correo: correo,
     clave: clave,
@@ -172,22 +171,21 @@ function validarRegistro() {
 
 
   /* si el almacén la rechaza es porque ese correo ya tiene cuenta, el error
-  se escribe debajo del campo del correo*/
+  se escribe debajo del campo del correo */
   if (!resultado.ok) {
     marcarError("c-correo", "e-correo", resultado.mensaje);
     caja.className = "mensaje mensaje--error";
     caja.textContent = "revisa los datos marcados para poder registrarte";
-    caja.scrollIntoView({ block: "center"})
+    caja.scrollIntoView({ block: "center" });
     return;
   }
 
-  /* quedo guardada: mostramos el mensaje, que explica que la cuenta queda
+  /* quedó guardada, mostramos el mensaje, que explica que la cuenta queda
   pendiente, y vaciamos el formulario */
   caja.className = "mensaje mensaje--ok";
   caja.textContent = resultado.mensaje;
   document.getElementById("form-registro").reset();
-  caja.scrollIntoView({ block: "center"})
- //HASTA AQUÍ
+  caja.scrollIntoView({ block: "center" });
 }
 
 /* el inicio de sesión
@@ -203,10 +201,8 @@ function validarSesion() {
   ];
   let caja = document.getElementById("aviso-sesion");
   let errores = 0;
-  //CAMBIOS DESDE AQUÍ
   let resultado;
   let volver;
-  // HASTA AQUÍ
   limpiarFormulario(campos, "aviso-sesion");
 
   if (correo === "") {
@@ -229,8 +225,7 @@ function validarSesion() {
     marcarError("s-clave", "e-sclave", "escribe tu contraseña");
     errores = errores + 1;
   }
-  //CAMBIOS DESDE AQUÍ
-  /* si hay errores de forma, avisamos y paramos aqui */
+  /* si hay errores de forma, avisamos y paramos aquí */
   if (errores > 0) {
     caja.className = "mensaje mensaje--error";
     caja.textContent = "revisa los datos marcados para poder entrar";
@@ -246,14 +241,15 @@ function validarSesion() {
   }
   /* entró bien, volvemos a la página de donde venía o vamos al panel */
   volver = leerParametro("volver");
-  if (volver === null) {
+
+  /* solo volvemos a páginas de nuestro sitio, si alguien arma un enlace con
+     otra dirección en volver lo mandamos al panel */
+  if (volver === null || volver.indexOf(":") !== -1 || volver.indexOf("//") !== -1) {
     window.location.href = "panel.html";
   } else {
     window.location.href = volver;
   }
-  //HASTA AQUÍ
 }
-//CAMBIOS DESDE AQUÍ
 
 /* cambia una contraseña entre puntitos y texto, el botón dice en data-mostrar
    el id del campo que le toca y también cambia su texto y su aria-label para
@@ -297,4 +293,3 @@ function conectarFormularios() {
 }
 
 conectarFormularios();
-//HASTA AQUÍ

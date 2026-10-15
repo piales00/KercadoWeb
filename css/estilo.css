@@ -19,8 +19,9 @@
   --verde:           #14603C;  /* cabecera, pie y títulos */
   --verde-oscuro:    #0C3F27;  /* el menú y el hover del verde */
   --verde-claro:     #E4EFE7;  /* fondos suaves y filas alternas de las tablas */
-  --naranja:         #E8622A;  /* solo para botones y precios */
-  --naranja-oscuro:  #C44E1D;  /* hover del naranja */
+  --naranja:         #B8460F;  /* solo para botones y precios, así de oscuro para que el texto blanco se lea bien */
+  --naranja-oscuro:  #943A0E;  /* hover del naranja */
+  --naranja-claro:   #FFA36E;  /* el naranja que va sobre el verde, en el logo y en el pie */
   --crema:           #F5EFE0;  /* fondo de la página, no usamos blanco puro */
   --arena:           #B7A29C;  /* bordes y texto de apoyo */
   --blanco:          #FFFDF8;  /* fondo de tarjetas, es un blanco más cálido */
@@ -30,7 +31,7 @@
   --texto-suave:     #5C6A63;  /* subtítulos y ayudas de los formularios */
 
   /* colores para el estado de los pedidos en las tablas del panel */
-  --estado-pendiente: #B8860B; /* mostaza, el vendedor todavía no lo acepta */
+  --estado-pendiente: #8A6508; /* mostaza, el vendedor todavía no lo acepta */
   --estado-aceptado:  #1F5F8B; /* azul, el vendedor ya lo aceptó */
   --estado-preparacion: #6B4A9B; /* morado, el vendedor lo está preparando */
   --estado-entregado: #14603C; /* verde, el pedido ya llegó */
@@ -255,7 +256,7 @@ main {
 }
 /* la parte cado del logo va en naranja */
 .logo__acento {
-  color: var(--naranja);
+  color: var(--naranja-claro);
 }
 /* el texto pequeño debajo del logo con el nombre del condominio */
 .logo__bajada {
@@ -265,7 +266,7 @@ main {
   font-weight: 400;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--arena);
+  color: var(--verde-claro);        /* claro para que se lea sobre el verde */
 }
 
 /* el buscador, lleva al catálogo con lo que se escribió y allá se filtran
@@ -467,7 +468,7 @@ main {
   font-size: var(--txt-md);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--naranja);
+  color: var(--naranja-claro);
   margin-bottom: var(--sp-2);
 }
 .pie__lista {
@@ -479,7 +480,7 @@ main {
   color: var(--crema);
 }
 .pie__lista a:hover {
-  color: var(--naranja);
+  color: var(--naranja-claro);
 }
 
 /* la última línea del pie con el copyright */
@@ -545,6 +546,10 @@ p {
 .subtexto {
   color: var(--texto-suave);
   font-size: var(--txt-sm);
+}
+/* en el pie el fondo es verde oscuro, así que el texto de apoyo va claro */
+.pie .subtexto {
+  color: var(--arena);
 }
 
 /* etiqueta pequeña con forma de píldora, la usamos para las categorías de
@@ -1407,6 +1412,15 @@ p {
   align-items: start;
 }
 
+/* publicar producto, el formulario a la izquierda y la vista previa a la
+   derecha, del ancho de una tarjeta del catálogo */
+.layout-publicar {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: var(--sp-4);
+  align-items: start;
+}
+
 /* la caja de cada vendedor, porque cada vecino recibe su propio pedido */
 .carrito__grupo {
   background-color: var(--blanco);
@@ -1476,6 +1490,11 @@ p {
   border-top: var(--borde);
   border-bottom: var(--borde);
   font-weight: 700;
+}
+/* la lista de códigos que sale al registrar el pedido, con relleno para
+   que la viñeta no quede pegada al borde de la caja */
+.lista-codigos {
+  padding-left: var(--sp-3);
 }
 .carrito__monto {
   font-family: var(--fuente-titulos);
@@ -1665,10 +1684,11 @@ dialog.confirmacion::backdrop {
     gap: var(--sp-4);
   }
 
-  /* la ficha del producto y el carrito también pasan a una columna, y el
-     resumen del carrito deja de bajar con el scroll */
+  /* la ficha del producto, el carrito y publicar también pasan a una
+     columna, y el resumen del carrito deja de bajar con el scroll */
   .ficha,
-  .carrito {
+  .carrito,
+  .layout-publicar {
     grid-template-columns: 1fr;
   }
   .carrito__resumen {
@@ -1796,32 +1816,5 @@ dialog.confirmacion::backdrop {
   .tabla-scroll {
     overflow: visible;
     box-shadow: none;
-  }
-}
-.revelar {
-  animation: aparecerConScroll linear both;
-  /* Esto hace que la animación se sincronice con el desplazamiento de la página, Pueden modificarlo a gusto(velocidad con la que aparece la opacidad)*/
-  animation-timeline: view();
-  animation-range: entry 0% cover 30%;
-}
-
-@keyframes aparecerConScroll {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Accesibilidad: si el usuario tiene desactivadas las animaciones en su sistema, 
-   la sección aparece de golpe sin movimiento brusco */
-@media (prefers-reduced-motion: reduce) {
-  .revelar {
-    animation: none;
-    opacity: 1;
-    transform: none;
   }
 }

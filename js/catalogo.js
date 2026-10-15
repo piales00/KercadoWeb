@@ -1,14 +1,12 @@
 /*
-  el javascript del catalogo,
-  genera las tarjetas desde los datos de almacen.js en vez de escribirlas a mano en el html
+  hecho por francys. el javascript del catálogo, genera las tarjetas desde
+  los datos guardados en vez de escribirlas a mano en el html, y filtra por
+  categoría, por precio y por lo que se escribió en el buscador de la
+  cabecera, todo sin recargar la página
 */
 
-/*
-  se copió el molde de la tarjeta, el template creado en catalogo.html y
-  escribimos los datos de una publicación, devolviendo la tarjeta lista para agregar.
-*/
-
-/* crear tarjeta */
+/* copia el molde de la tarjeta que está en catalogo.html, le escribe los
+   datos de una publicación con textContent y la devuelve lista */
 function crearTarjeta(publicacion) {
   let molde = document.getElementById("plantilla-tarjeta");
   let tarjeta = molde.content.cloneNode(true);
@@ -18,20 +16,22 @@ function crearTarjeta(publicacion) {
 
   tarjeta.querySelector(".tarjeta__imagen").src = publicacion.imagenes[0];
   tarjeta.querySelector(".tarjeta__imagen").alt = publicacion.titulo;
-  tarjeta.querySelector(".etiqueta").textContent = categoria.nombre;
+  if (categoria !== null) {
+    tarjeta.querySelector(".etiqueta").textContent = categoria.nombre;
+  }
   tarjeta.querySelector(".tarjeta__titulo a").textContent = publicacion.titulo;
   tarjeta.querySelector(".tarjeta__titulo a").href = enlace;
   tarjeta.querySelector(".tarjeta__vendedor strong").textContent = nombreCompleto(vendedor);
   tarjeta.querySelector(".tarjeta__vendedor span").textContent = textoUnidad(vendedor);
   tarjeta.querySelector(".tarjeta__precio").textContent = formatearPrecio(publicacion.precio);
   tarjeta.querySelector(".tarjeta__pie a").href = enlace;
+  tarjeta.querySelector(".tarjeta__pie a").setAttribute("aria-label", "Ver " + publicacion.titulo);
 
   return tarjeta;
 }
-/* 
-  vacía la grilla y la vuelve a llenar con la lista filtrada,
-  como la grilla tiene la clase animada, las tarjetas entran solas.
-*/
+
+/* vacía la grilla y la vuelve a llenar con la lista filtrada, como la
+   grilla tiene la clase animada, las tarjetas entran solas */
 function pintarProductos(lista) {
   let grilla = document.getElementById("grilla-catalogo");
   let i;
@@ -43,95 +43,158 @@ function pintarProductos(lista) {
   }
 }
 
-/* genera la lista de categorias en el aside y marca la activa */
+/* arma un enlace de la lista de categorías, el activo lleva la clase que
+   lo pinta y aria-current para el lector de pantalla */
+function crearEnlaceCategoria(texto, direccion, activo) {
+  let item = document.createElement("li");
+  let enlace = document.createElement("a");
+
+  enlace.href = direccion;
+  enlace.textContent = texto;
+  if (activo) {
+    enlace.className = "activo";
+    enlace.setAttribute("aria-current", "true");
+  }
+
+  item.appendChild(enlace);
+  return item;
+}
+
+/* genera la lista de categorías del aside, primero "Todas" y después una
+   por cada categoría guardada, cada una con su enlace real */
 function pintarCategorias(idCategoriaActiva) {
-  let listaCat = document.getElementById("lista-categorias");
+  let lista = document.getElementById("lista-categorias");
   let categorias = listarCategorias();
-  let html = '<li><a href="catalogo.html"';
-  if (!idCategoriaActiva) {
-    html += ' class="activo"';
-  }
-  html += '>Todas</a></li>';
+  let i;
 
-  for (let i = 0; i < categorias.length; i++) {
-    let cat = categorias[i];
-    html += '<li><a href="catalogo.html?categoria=' + cat.idCategoria + '"';
-    if (cat.idCategoria === idCategoriaActiva) {
-      html += ' class="activo"';
-    }
-    html += '>' + cat.nombre + '</a></li>';
-  }
-  listaCat.innerHTML = html;
-}
+  lista.innerHTML = "";
+  lista.appendChild(crearEnlaceCategoria("Todas", "catalogo.html", idCategoriaActiva === ""));
 
-/* actualiza el texto de conteo y muestra el bloque vacío si no hay resultados. */
-function actualizarInterfaz(lista, nombreCategoria) {
-  let conteo = document.getElementById("conteo-productos");
-  let bloqueVacio = document.getElementById("catalogo-vacio");
-  let grilla = document.getElementById("grilla-catalogo");
-
-  let total = lista.length;
-  let mensaje = total + " producto" + (total === 1 ? "" : "s");
-  if (nombreCategoria) {
-    mensaje += " en " + nombreCategoria;
-  }
-  conteo.textContent = mensaje;
-
-  if (total === 0) {
-    bloqueVacio.hidden = false;
-    grilla.hidden = true;
-  } else {
-    bloqueVacio.hidden = true;
-    grilla.hidden = false;
-    pintarProductos(lista);
+  for (i = 0; i < categorias.length; i++) {
+    lista.appendChild(crearEnlaceCategoria(
+      categorias[i].nombre,
+      "catalogo.html?categoria=" + categorias[i].idCategoria,
+      categorias[i].idCategoria === idCategoriaActiva
+    ));
   }
 }
 
-/* lee los parámetros de la URL y los inputs, aplica el filtro y actualiza la vista */
-function aplicarFiltrosYMostrar() {
+/* revisa los dos precios del filtro, que no sean negativos y que el mínimo
+   no pase al máximo, devuelve true si se puede filtrar */
+function validarFiltro() {
+  let textoMin = document.getElementById("precio-min").value;
+  let textoMax = document.getElementById("precio-max").value;
+  let minimo = parseFloat(textoMin);
+  let maximo = parseFloat(textoMax);
+  let aviso = document.getElementById("aviso-filtro");
+
+  aviso.className = "mensaje";
+  aviso.textContent = "";
+  document.getElementById("precio-min").classList.remove("campo-malo");
+  document.getElementById("precio-max").classList.remove("campo-malo");
+
+  if (textoMin !== "" && minimo < 0) {
+    document.getElementById("precio-min").classList.add("campo-malo");
+    aviso.className = "mensaje mensaje--error";
+    aviso.textContent = "el precio mínimo no puede ser negativo";
+    return false;
+  }
+
+  if (textoMax !== "" && maximo < 0) {
+    document.getElementById("precio-max").classList.add("campo-malo");
+    aviso.className = "mensaje mensaje--error";
+    aviso.textContent = "el precio máximo no puede ser negativo";
+    return false;
+  }
+
+  if (textoMin !== "" && textoMax !== "" && minimo > maximo) {
+    document.getElementById("precio-min").classList.add("campo-malo");
+    document.getElementById("precio-max").classList.add("campo-malo");
+    aviso.className = "mensaje mensaje--error";
+    aviso.textContent = "el precio mínimo no puede ser mayor que el máximo";
+    return false;
+  }
+
+  return true;
+}
+
+/* escribe cuántos productos se ven y muestra el bloque vacío si el filtro
+   no dejó ninguno */
+function actualizarConteo(lista, categoria, texto) {
+  let mensaje = lista.length + " producto";
+
+  if (lista.length !== 1) {
+    mensaje = mensaje + "s";
+  }
+  if (categoria !== null) {
+    mensaje = mensaje + " en " + categoria.nombre;
+  }
+  if (texto !== "") {
+    mensaje = mensaje + " para \"" + texto + "\"";
+  }
+  document.getElementById("conteo-productos").textContent = mensaje;
+
+  document.getElementById("catalogo-vacio").hidden = lista.length > 0;
+  document.getElementById("grilla-catalogo").hidden = lista.length === 0;
+}
+
+/* junta la categoría y el texto de la dirección con los precios del
+   formulario, pide la lista filtrada al almacén y la pinta */
+function aplicarFiltros() {
   let texto = leerParametro("q") || "";
   let idCategoria = leerParametro("categoria") || "";
-  
-  // leemos tanto de la URL, si recargó, como de los inputs directamente.
-  let minUrl = leerParametro("precioMin") || document.getElementById("precio-min").value;
-  let maxUrl = leerParametro("precioMax") || document.getElementById("precio-max").value;
+  let textoMin = document.getElementById("precio-min").value;
+  let textoMax = document.getElementById("precio-max").value;
+  let filtro = {};
+  let lista;
 
-  // sincronizamos los inputs con los valores actuales.
-  if (minUrl !== "") document.getElementById("precio-min").value = minUrl;
-  if (maxUrl !== "") document.getElementById("precio-max").value = maxUrl;
+  if (texto !== "") {
+    filtro.texto = texto;
+  }
+  if (idCategoria !== "") {
+    filtro.idCategoria = idCategoria;
+  }
+  if (textoMin !== "") {
+    filtro.precioMin = parseFloat(textoMin);
+  }
+  if (textoMax !== "") {
+    filtro.precioMax = parseFloat(textoMax);
+  }
 
-  let filtros = {};
-  if (texto !== "") filtros.texto = texto;
-  if (idCategoria !== "") filtros.idCategoria = idCategoria;
-  if (minUrl !== "") filtros.precioMin = parseFloat(minUrl);
-  if (maxUrl !== "") filtros.precioMax = parseFloat(maxUrl);
-
-  let lista = listarPublicaciones(filtros);
-  let categoriaObj = idCategoria !== "" ? obtenerCategoria(idCategoria) : null;
-
+  lista = listarPublicaciones(filtro);
   pintarCategorias(idCategoria);
-  actualizarInterfaz(lista, categoriaObj ? categoriaObj.nombre : null);
+  actualizarConteo(lista, obtenerCategoria(idCategoria), texto);
+  pintarProductos(lista);
 }
 
-/* al cargar la página, aplicamos los filtros iniciales de la URL */
-aplicarFiltrosYMostrar();
+/* el formulario de precio filtra al enviarlo y también al cambiar un
+   número, sin recargar, solo si los precios están bien */
+function alCambiarPrecio(evento) {
+  evento.preventDefault();
 
-/* manejador para filtrar al enviar el formulario de precio sin recargar */
-let formFiltro = document.getElementById("filtro-precio");
-if (formFiltro) {
-  formFiltro.addEventListener("submit", function(evento) {
-    evento.preventDefault();
-    aplicarFiltrosYMostrar();
-  });
+  if (validarFiltro()) {
+    aplicarFiltros();
+  }
 }
 
-/* boton para limpiar filtros y volver al catálogo completo */
-let btnQuitar = document.getElementById("quitar-filtros");
-if (btnQuitar) {
-  btnQuitar.addEventListener("click", function() {
-    document.getElementById("precio-min").value = "";
-    document.getElementById("precio-max").value = "";
-    window.history.pushState({}, "", "catalogo.html");
-    aplicarFiltrosYMostrar();
-  });
+/* el botón quitar filtros borra los precios, limpia la dirección y el
+   buscador, y vuelve a mostrar todo el catálogo */
+function quitarFiltros() {
+  document.getElementById("precio-min").value = "";
+  document.getElementById("precio-max").value = "";
+  document.getElementById("q").value = "";
+  window.history.pushState({}, "", "catalogo.html");
+  validarFiltro();
+  aplicarFiltros();
 }
+
+function iniciarCatalogo() {
+  let formulario = document.getElementById("filtro-precio");
+
+  formulario.addEventListener("submit", alCambiarPrecio);
+  formulario.addEventListener("change", alCambiarPrecio);
+  document.getElementById("quitar-filtros").addEventListener("click", quitarFiltros);
+  aplicarFiltros();
+}
+
+iniciarCatalogo();

@@ -98,11 +98,39 @@
 
 
   <main id="contenido">
-  <!-- esto es lo primero que ve el vecino al entrar, profesor, la foto del
+
+    <!-- esto es lo primero que ve el vecino al entrar, profesor, la foto del
          condominio ocupa todo el ancho para que reconozca dónde está, y
          encima van el nombre y una frase corta, pusimos un solo botón para
-         que vaya directo al catálogo, si hubiera varios no sabría cuál tocar -->
-    <!-- el template para clonar las tarjetas con javascript -->
+         que vaya directo al catálogo, si ya entró con su cuenta inicio.js lo
+         cambia por uno que lleva a su panel, la portada no lleva la clase
+         revelar porque tiene que verse apenas carga la página -->
+    <section class="portada">
+      <img src="assets/img/condominiofachada.jpg" alt="Fachada del condominio Las Palmas 357" class="portada__imagen">
+      <div class="contenedor portada__contenido">
+        <h1 class="portada__titulo">Ker<span class="logo__acento">cado</span></h1>
+        <p class="portada__frase">El mercado interno de nuestra comunidad, donde comprar y vender es más cercano y seguro.</p>
+        <div>
+          <a href="catalogo.html" class="boton boton--lg" id="boton-portada">Ver el catálogo</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- las cuatro publicaciones más nuevas del condominio, la grilla empieza
+         vacía y inicio.js la llena con los datos guardados, así lo que un
+         vecino acaba de publicar aparece aquí sin tocar el html -->
+    <section class="seccion revelar" aria-labelledby="titulo-recientes">
+      <div class="contenedor">
+        <div class="fila-titulo">
+          <h2 class="titulo-seccion" id="titulo-recientes">Lo más reciente</h2>
+          <a class="boton boton--linea boton--sm" href="catalogo.html">Ver todo el catálogo</a>
+        </div>
+        <div class="grilla-productos grilla-productos--animada" id="ultimas-publicaciones"></div>
+      </div>
+    </section>
+
+    <!-- el molde de cada tarjeta, el navegador no lo dibuja, inicio.js lo
+         copia una vez por cada publicación -->
     <template id="plantilla-tarjeta">
       <article class="tarjeta">
         <figure class="tarjeta__figura">
@@ -121,71 +149,6 @@
         </div>
       </article>
     </template>
-
-    <!-- esto es lo primero que ve el vecino al entrar, la portada NO lleva clase revelar -->
-    <section class="portada">
-      <img src="assets/img/condominiofachada.jpg" alt="Condominio Las Palmas 357" class="portada__imagen">
-      <div class="contenedor portada__contenido">
-        <h1 class="portada__titulo">Ker<span class="logo__acento">cado</span></h1>
-        <p class="portada__frase">El mercado interno de nuestra comunidad, donde comprar y vender es más cercano y seguro.</p>
-        <div>
-          <a href="catalogo.html" class="boton boton--lg" id="boton-portada">Ver el catálogo</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- grilla de lo más reciente -->
-<section class="seccion revelar"> 
-    <div class="contenedor"> 
-        <h2 class="titulo-seccion">Lo más reciente</h2> 
-        
-        <div class="grilla-productos grilla-productos--animada" id="ultimas-publicaciones">
-            
-            <!-- Producto torta 3 leches -->
-            <article class="producto-card">
-                <div class="producto-tag">Postres</div>
-                <img src="assets/img/catalogos/torta-tresleches.jpg" alt="Pastel Tres Leches" class="producto-img">
-                <div class="producto-info">
-                    <h3>Porción de Tres Leches</h3>
-                    <p class="producto-autor">Por: Vecino de la Torre B - Dep. 402</p>
-                    <div class="producto-footer">
-                        <span class="producto-precio">S/ 10.50</span>
-                        <span class="producto-pago">Yape / Plin</span>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Producto pan -->
-            <article class="producto-card">
-                <div class="producto-tag">Panaderia</div>
-                <img src="assets/img/catalogos/pan-baguette.jpg" alt="baguette" class="producto-img">
-                <div class="producto-info">
-                    <h3>Baguette</h3>
-                    <p class="producto-autor">Por: Vecina de la Torre A - Dep. 105</p>
-                    <div class="producto-footer">
-                        <span class="producto-precio">S/ 7.00</span>
-                        <span class="producto-pago">Efectivo / Yape</span>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Producto bebida -->
-            <article class="producto-card">
-                <div class="producto-tag">Bebidas</div>
-                <img src="assets/img/catalogos/chicha-morada.jpg" alt="Chicha morada" class="producto-img">
-                <div class="producto-info">
-                    <h3>Chicha morada</h3>
-                    <p class="producto-autor">Por: Vecino de la Torre C - Dep. 201</p>
-                    <div class="producto-footer">
-                        <span class="producto-precio">S/ 16.50</span>
-                        <span class="producto-pago">Plin / Yape</span>
-                    </div>
-                </div>
-            </article>
-
-        </div> 
-    </div> 
-</section>
 
     <!-- estos párrafos cuentan qué es kercado -->
     <section class="seccion revelar">
@@ -211,7 +174,7 @@
           </div>
           <div class="caja">
             <h3>2. Otro vecino pide</h3>
-            <p>Revisa las publicaciones disponibles y contacta al vendedor directamente para solicitar el artículo.</p>
+            <p>Revisa el catálogo, agrega lo que quiere a su carrito y registra el pedido, el vendedor lo ve al instante en su panel.</p>
           </div>
           <div class="caja">
             <h3>3. Acuerdan pago y entrega entre ellos</h3>
@@ -259,7 +222,8 @@
       </div>
     </section>
 
-    <!-- preguntas frecuentes con details y summary dentro de una caja -->
+    <!-- las preguntas frecuentes, cada una es un details con su summary, se
+         abren y se cierran solas y funcionan con el teclado sin javascript -->
     <section class="seccion revelar" id="faq">
       <div class="contenedor">
         <h2 class="titulo-seccion">Preguntas frecuentes</h2>
@@ -273,6 +237,24 @@
           <details>
             <summary><strong>¿Cómo valida la administración mi cuenta?</strong></summary>
             <p class="mt-2 mb-0">Al registrarte indicas tu torre y departamento; la administración corrobora que estés al día con el condominio antes de activar tu acceso.</p>
+          </details>
+        </div>
+        <div class="caja mb-3">
+          <details>
+            <summary><strong>¿Cómo sé en qué va mi pedido?</strong></summary>
+            <p class="mt-2 mb-0">En tu panel, en la pestaña Mis compras, ves cada pedido con su código y su estado: pendiente, aceptado, en preparación, entregado o cancelado. El vendedor lo va cambiando desde su propio panel.</p>
+          </details>
+        </div>
+        <div class="caja mb-3">
+          <details>
+            <summary><strong>¿Puedo comprar y vender con la misma cuenta?</strong></summary>
+            <p class="mt-2 mb-0">Sí, cada vecino tiene una sola cuenta. En tu panel están juntas tus compras y tus ventas, y desde ahí publicas tus productos.</p>
+          </details>
+        </div>
+        <div class="caja mb-3">
+          <details>
+            <summary><strong>¿Kercado cobra o reparte los pedidos?</strong></summary>
+            <p class="mt-2 mb-0">No. Kercado solo registra el pedido y el método de pago que acuerdan, efectivo contra entrega, Yape o Plin. El pago y la entrega los coordinan entre vecinos.</p>
           </details>
         </div>
       </div>
@@ -300,22 +282,22 @@
           <div class="caja">
             <img src="assets/img/integrante1.jpg" alt="Piero Alessandro Pérez Izquierdo" class="imagen-marco">
             <h3>Piero Alessandro Pérez Izquierdo</h3>
-            <p>A cargo del panel.html y la integración general, tablas, estructura de página, funcionamiento y orden del repositorio.</p>
+            <p>A cargo de la base del sitio, los estilos, los datos guardados en el navegador, el panel con sus pestañas y la integración de todas las páginas.</p>
           </div>
           <div class="caja">
             <img src="assets/img/integrante2.jpg" alt="Edgar Paolo Pérez Román" class="imagen-marco">
             <h3>Edgar Paolo Pérez Román</h3>
-            <p>A cargo de index.html, la sección multimedia, las anclas del footer y la estructura general del inicio.</p>
+            <p>A cargo de la página de inicio, la página para publicar productos con su vista previa y el documento del avance.</p>
           </div>
           <div class="caja">
             <img src="assets/img/integrante3.jpg" alt="Francys Diego Yareta Cortez" class="imagen-marco">
             <h3>Francys Diego Yareta Cortez</h3>
-            <p>A cargo de catalogo.html, producto.html, la tabla ficha y la estructura de la página con el aside.</p>
+            <p>A cargo del catálogo con sus filtros por categoría, precio y búsqueda, y de la ficha de cada producto con su galería.</p>
           </div>
           <div class="caja">
             <img src="assets/img/integrante4.jpg" alt="Luis Alberto Huánuco Jiménez" class="imagen-marco">
             <h3>Luis Alberto Huánuco Jiménez</h3>
-            <p>A cargo de registro.html, el formulario completo y la gestión de todos los archivos multimedia del proyecto.</p>
+            <p>A cargo del registro y el inicio de sesión, el carrito que arma un pedido por vecino y los archivos multimedia del proyecto.</p>
           </div>
         </div>
       </div>
@@ -336,7 +318,9 @@
   </main>
 
 
-  <!-- este es el pie de página -->
+  <!-- este es el pie de página, también es el mismo en todas las páginas,
+       tiene información de kercado, el contacto de la administración, el
+       reglamento y los integrantes del grupo -->
   <footer class="pie">
     <div class="contenedor pie__grilla">
 
