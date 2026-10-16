@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<!--
+  hecho por edgar. en esta página el vecino publica un producto para que
+  salga en el catálogo
+-->
+<html lang="es">
+
+<head>
+  <!-- con esto las tildes y las eñes se ven bien en el navegador -->
+  <meta charset="UTF-8">
+
+  <!-- esta línea hace que en el celular la página use el ancho real de la
+       pantalla, así el diseño se acomoda bien -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- la descripción de la página y los autores -->
+  <meta name="description" content="Publica un producto en Kercado para que tus vecinos del condominio lo vean en el catálogo.">
+  <meta name="author" content="Equipo Kercado — Taller de Programación Web, UTP">
+
+  <!-- el título que sale en la pestaña del navegador -->
+  <title>Publicar producto · Kercado</title>
+
+  <!-- enlazamos la misma hoja de estilos que usan todas las páginas -->
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+
+<body>
+
+  <!-- este enlace solo se ve al apretar tab, sirve para que quien navega
+       con el teclado salte directo al contenido sin pasar por el menú -->
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <!-- esta es la cabecera, es la misma en todas las páginas del sitio,
+       tiene el logo, el buscador, el carrito, la cuenta del vecino y el
+       menú -->
+  <header class="encabezado">
+
+    <div class="contenedor encabezado__fila">
+
+      <!-- el logo lleva a la página de inicio -->
+      <a class="logo" href="index.html">
+        <span>Ker<span class="logo__acento">cado</span>
+          <span class="logo__bajada">Condominio Las Palmas 357</span>
+        </span>
+      </a>
+
+      <!-- este botón abre y cierra el menú en el celular, en pantallas
+           grandes no se ve, aria-expanded dice si el menú está abierto -->
+      <button class="menu-boton" type="button" id="menu-boton"
+              aria-expanded="false" aria-controls="menu-principal">
+        <span class="menu-boton__icono" aria-hidden="true"></span>
+        Menú
+      </button>
+
+      <!-- el buscador manda al catálogo lo que se escribió y allá se
+           muestran solo los productos que coinciden -->
+      <form class="buscador" action="catalogo.html" method="get" role="search">
+        <!-- este label no se ve en pantalla, pero lo leen los lectores de
+             pantalla que usan las personas con discapacidad visual -->
+        <label class="solo-lectores" for="q">Buscar productos</label>
+        <input class="buscador__campo" type="search" id="q" name="q"
+               placeholder="Buscar postres, menús, abarrotes...">
+        <button class="buscador__boton" type="submit">Buscar</button>
+      </form>
+
+      <div class="encabezado__acciones">
+
+        <!-- el enlace al carrito, el globo con la cantidad lo actualiza
+             javascript y se esconde cuando el carrito está vacío -->
+        <a class="encabezado__carrito" href="carrito.html">
+          Carrito
+          <span class="contador" id="contador-carrito" hidden>0</span>
+          <span class="solo-lectores">productos en el carrito</span>
+        </a>
+
+        <!-- hay un solo botón para ingresar, porque el vecino usa la misma
+             cuenta para comprar y para vender, cuando ya entró javascript
+             lo cambia por su nombre y el botón para salir -->
+        <div class="cuenta" id="cuenta">
+          <a class="boton boton--sm" href="registro.html">Ingresar</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- este es el menú principal, javascript marca el enlace de la página
+         donde está el vecino -->
+    <nav class="menu" id="menu-principal" aria-label="Navegación principal">
+      <ul class="contenedor menu__lista">
+        <li><a class="menu__enlace" href="index.html">Inicio</a></li>
+        <li><a class="menu__enlace" href="catalogo.html">Catálogo</a></li>
+        <li><a class="menu__enlace" href="panel.html">Mi panel</a></li>
+        <li><a class="menu__enlace" href="carrito.html">Carrito</a></li>
+        <li><a class="menu__enlace" href="registro.html">Registro</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+  <!-- aquí dentro va el contenido de cada página, cada parte en su propia
+       section, el id es a donde llega el enlace de saltar al contenido -->
+  <main id="contenido">
+
+    <section class="seccion">
+      <div class="contenedor">
+        <h1 class="titulo-seccion">Publicar producto</h1>
+        <p class="subtexto">Cuéntales a tus vecinos qué vendes, cuánto cuesta y en qué horario lo entregas.</p>
+
+        <!-- el formulario va a la izquierda y la vista previa a la derecha,
+             así el vecino ve cómo va a quedar su tarjeta en el catálogo
+             mientras escribe -->
+        <div class="layout-publicar mt-3">
+
+          <!-- novalidate para que los errores los muestre publicar.js debajo
+               de cada campo, igual que en el registro -->
+          <form class="formulario" id="form-publicar" action="#" method="post" novalidate>
+            <!-- aquí javascript escribe cuántos datos faltan corregir -->
+            <p class="mensaje" id="aviso-publicar" aria-live="polite"></p>
+
+            <fieldset>
+              <legend>Detalles de la publicación</legend>
+
+              <div class="campo">
+                <label for="p-titulo">Nombre del producto <span class="obligatorio">*</span></label>
+                <input type="text" id="p-titulo" name="titulo" maxlength="60" required
+                       aria-describedby="e-titulo a-titulo">
+                <small class="campo__error" id="e-titulo"></small>
+                <small class="campo__ayuda" id="a-titulo">Por ejemplo, Torta de chocolate casera. Mínimo 5 letras.</small>
+              </div>
+
+              <div class="campo">
+                <label for="p-categoria">Categoría <span class="obligatorio">*</span></label>
+                <!-- las opciones las agrega publicar.js con las categorías guardadas -->
+                <select id="p-categoria" name="idCategoria" required aria-describedby="e-categoria">
+                  <option value="">Elige una categoría</option>
+                </select>
+                <small class="campo__error" id="e-categoria"></small>
+              </div>
+
+              <div class="campo-fila">
+                <div class="campo">
+                  <label for="p-precio">Precio en soles <span class="obligatorio">*</span></label>
+                  <input type="number" id="p-precio" name="precio" min="0.5" step="0.5" required
+                         aria-describedby="e-precio">
+                  <small class="campo__error" id="e-precio"></small>
+                </div>
+                <div class="campo">
+                  <label for="p-stock">Unidades disponibles <span class="obligatorio">*</span></label>
+                  <input type="number" id="p-stock" name="stock" min="1" step="1" value="1" required
+                         aria-describedby="e-stock">
+                  <small class="campo__error" id="e-stock"></small>
+                </div>
+              </div>
+
+              <div class="campo">
+                <label for="p-horario">Horario de entrega <span class="obligatorio">*</span></label>
+                <input type="text" id="p-horario" name="horario" maxlength="40" required
+                       aria-describedby="e-horario a-horario">
+                <small class="campo__error" id="e-horario"></small>
+                <small class="campo__ayuda" id="a-horario">Por ejemplo, 10:00 a 18:00.</small>
+              </div>
+
+              <!-- la foto se elige de las que ya tenemos en el sitio, no se
+                   sube un archivo porque una foto guardada en el navegador
+                   ocupa casi todo el espacio que tenemos -->
+              <div class="campo">
+                <label for="p-imagen">Foto del producto <span class="obligatorio">*</span></label>
+                <select id="p-imagen" name="imagen" required aria-describedby="e-imagen">
+                  <option value="">Elige una foto</option>
+                </select>
+                <small class="campo__error" id="e-imagen"></small>
+              </div>
+
+              <div class="campo">
+                <label for="p-descripcion">Descripción <span class="obligatorio">*</span></label>
+                <textarea id="p-descripcion" name="descripcion" maxlength="300" required
+                          aria-describedby="e-descripcion"></textarea>
+                <small class="campo__error" id="e-descripcion"></small>
+              </div>
+            </fieldset>
+
+            <button class="boton boton--full mt-3" type="submit">Publicar producto</button>
+          </form>
+
+          <!-- la vista previa es una tarjeta igual a la del catálogo, la
+               cambia publicar.js con cada letra que escribe el vecino -->
+          <aside class="panel-lateral" aria-labelledby="titulo-vista-previa">
+            <h2 class="panel-lateral__titulo" id="titulo-vista-previa">Así se verá en el catálogo</h2>
+            <article class="tarjeta">
+              <figure class="tarjeta__figura">
+                <img class="tarjeta__imagen" id="prev-imagen" src="assets/img/kercado.png"
+                     alt="Foto de ejemplo para la vista previa">
+              </figure>
+              <div class="tarjeta__cuerpo">
+                <span class="etiqueta" id="prev-categoria">Categoría</span>
+                <h3 class="tarjeta__titulo" id="prev-titulo">Nombre del producto</h3>
+                <p class="tarjeta__vendedor mb-0">
+                  Vendido por <strong id="prev-vendedor">Tu nombre</strong> · <span id="prev-unidad">Tu torre</span>
+                </p>
+              </div>
+              <div class="tarjeta__pie">
+                <span class="tarjeta__precio" id="prev-precio">S/ 0.00</span>
+              </div>
+            </article>
+          </aside>
+        </div>
+
+        <!-- cuando la publicación se guarda, el formulario se esconde y sale
+             este bloque con el enlace a la ficha del producto nuevo -->
+        <div class="aviso mt-3" id="publicado" hidden>
+          <h2>Tu producto ya está publicado</h2>
+          <p id="publicado-texto">Tus vecinos ya lo ven en el catálogo.</p>
+          <div class="fila-titulo">
+            <a class="boton" id="publicado-enlace" href="catalogo.html">Verla en el catálogo</a>
+            <a class="boton boton--linea" href="publicar.html">Publicar otro producto</a>
+            <a class="boton boton--texto" href="panel.html#mis-ventas">Ir a mis ventas</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- este es el pie de página, también es el mismo en todas las páginas,
+       tiene información de kercado, el contacto de la administración, el
+       reglamento y los integrantes del grupo -->
+  <footer class="pie">
+    <div class="contenedor pie__grilla">
+
+      <!-- aquí contamos qué es kercado, y que no cobra ni hace entregas -->
+      <div>
+        <h3 class="pie__titulo">Kercado</h3>
+        <p class="subtexto">
+          Marketplace hiperlocal del condominio Las Palmas 357, Chorrillos.
+          Los vecinos publican, los vecinos compran.
+        </p>
+        <p class="subtexto">
+          Kercado no cobra comisiones, no procesa pagos y no gestiona la
+          entrega: solo conecta al vecino que vende con el que compra.
+        </p>
+      </div>
+
+      <!-- los datos de contacto de la administración del condominio -->
+      <div>
+        <h3 class="pie__titulo">Administración</h3>
+        <ul class="pie__lista">
+          <li>Av. Las Palmas 357, Chorrillos — Lima</li>
+          <li>Oficina: Torre A, primer piso</li>
+          <li>Atención: lunes a sábado, 8:00 a 18:00</li>
+          <li><a href="mailto:administracion@laspalmas357.pe">administracion@laspalmas357.pe</a></li>
+          <li><a href="tel:+5112345678">(01) 234 5678</a></li>
+        </ul>
+      </div>
+
+      <!-- estos enlaces llevan a partes de la página de inicio, donde
+           explicamos cómo funciona kercado y sus reglas -->
+      <div>
+        <h3 class="pie__titulo">Reglamento</h3>
+        <ul class="pie__lista">
+          <li><a href="index.html#como-funciona">Cómo funciona Kercado</a></li>
+          <li><a href="index.html#reglas">Reglas de convivencia</a></li>
+          <li><a href="index.html#pagos">Métodos de pago aceptados</a></li>
+          <li><a href="index.html#faq">Preguntas frecuentes</a></li>
+          <li><a href="index.html#nosotros">Quiénes somos</a></li>
+        </ul>
+      </div>
+
+      <!-- nuestros nombres -->
+      <div>
+        <h3 class="pie__titulo">Integrantes</h3>
+        <ul class="pie__lista">
+          <li>Piero Alessandro Pérez Izquierdo</li>
+          <li>Edgar Paolo Pérez Román</li>
+          <li>Francys Diego Yareta Cortez</li>
+          <li>Luis Alberto Huánuco Jiménez</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- el año del pie lo escribe javascript con la fecha del día, así
+       no tenemos que cambiarlo a mano cuando empiece el año nuevo -->
+    <div class="pie__legal">
+      <p class="mb-0">
+        Kercado &copy; <span id="anio">2026</span> · Proyecto académico — Taller de Programación Web,
+        Universidad Tecnológica del Perú.
+      </p>
+    </div>
+  </footer>
+
+
+  <!-- el diálogo que pregunta antes de hacer algo que no se puede deshacer,
+       como dar de baja una publicación o vaciar el carrito, javascript le
+       cambia el título y el texto según lo que se esté confirmando -->
+  <dialog class="confirmacion" id="confirmacion" aria-labelledby="confirmacion-titulo">
+    <form method="dialog">
+      <h2 class="confirmacion__titulo" id="confirmacion-titulo">Confirmar</h2>
+      <p id="confirmacion-texto">¿Seguro que quieres continuar?</p>
+      <div class="confirmacion__acciones">
+        <button class="boton boton--linea boton--sm" type="submit" value="no">No, volver</button>
+        <button class="boton boton--sm" type="submit" value="si">Sí, continuar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- aquí javascript pone los avisos flotantes, con aria-live los
+       lectores de pantalla los leen apenas aparecen -->
+  <div class="avisos" id="avisos" aria-live="polite"></div>
+
+
+  <!-- el javascript del sitio, van en este orden porque cada uno usa al
+       anterior, primero los datos iniciales, después el que los guarda en
+       el navegador, luego lo común a todas las páginas y al final el de
+       cada página -->
+  <script src="js/datos.js"></script>
+  <script src="js/almacen.js"></script>
+  <script src="js/base.js"></script>
+  <script src="js/publicar.js"></script>
+</body>
+</html>

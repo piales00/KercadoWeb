@@ -33,71 +33,96 @@
   </head>
 
   <body>
-    <!-- esta es la cabecera, es la misma en las cinco páginas del sitio,
-       tiene el logo, el buscador, el botón para ingresar y el menú -->
-    <header class="encabezado">
-      <div class="contenedor encabezado__fila">
-        <!-- el logo lleva a la página de inicio -->
-        <a class="logo" href="index.html">
-          <span
-            >Ker<span class="logo__acento">cado</span>
-            <span class="logo__bajada">Condominio Las Palmas 357</span>
-          </span>
+
+  <!-- este enlace solo se ve al apretar tab, sirve para que quien navega
+       con el teclado salte directo al contenido sin pasar por el menú -->
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <!-- esta es la cabecera, es la misma en todas las páginas del sitio,
+       tiene el logo, el buscador, el carrito, la cuenta del vecino y el
+       menú -->
+  <header class="encabezado">
+
+    <div class="contenedor encabezado__fila">
+
+      <!-- el logo lleva a la página de inicio -->
+      <a class="logo" href="index.html">
+        <span>Ker<span class="logo__acento">cado</span>
+          <span class="logo__bajada">Condominio Las Palmas 357</span>
+        </span>
+      </a>
+
+      <!-- este botón abre y cierra el menú en el celular, en pantallas
+           grandes no se ve, aria-expanded dice si el menú está abierto -->
+      <button class="menu-boton" type="button" id="menu-boton"
+              aria-expanded="false" aria-controls="menu-principal">
+        <span class="menu-boton__icono" aria-hidden="true"></span>
+        Menú
+      </button>
+
+      <!-- el buscador manda al catálogo lo que se escribió y allá se
+           muestran solo los productos que coinciden -->
+      <form class="buscador" action="catalogo.html" method="get" role="search">
+        <!-- este label no se ve en pantalla, pero lo leen los lectores de
+             pantalla que usan las personas con discapacidad visual -->
+        <label class="solo-lectores" for="q">Buscar productos</label>
+        <input class="buscador__campo" type="search" id="q" name="q"
+               placeholder="Buscar postres, menús, abarrotes...">
+        <button class="buscador__boton" type="submit">Buscar</button>
+      </form>
+
+      <div class="encabezado__acciones">
+
+        <!-- el enlace al carrito, el globo con la cantidad lo actualiza
+             javascript y se esconde cuando el carrito está vacío -->
+        <a class="encabezado__carrito" href="carrito.html">
+          Carrito
+          <span class="contador" id="contador-carrito" hidden>0</span>
+          <span class="solo-lectores">productos en el carrito</span>
         </a>
 
-        <!-- el buscador todavía no busca nada porque nos falta el servidor
-           que busque los productos, pero lo dejamos para que se vea cómo
-           quedará la cabecera -->
-        <form class="buscador" action="catalogo.html" method="get">
-          <!-- este label no se ve en pantalla, pero lo leen los lectores de
-             pantalla que usan las personas con discapacidad visual -->
-          <label class="solo-lectores" for="q">Buscar productos</label>
-          <input
-            class="buscador__campo"
-            type="search"
-            id="q"
-            name="q"
-            placeholder="Buscar postres, menús, abarrotes..."
-          />
-          <button class="buscador__boton" type="submit">Buscar</button>
-        </form>
-
         <!-- hay un solo botón para ingresar, porque el vecino usa la misma
-           cuenta para comprar y para vender -->
-        <a class="boton boton--sm" href="registro.html">Ingresar</a>
+             cuenta para comprar y para vender, cuando ya entró javascript
+             lo cambia por su nombre y el botón para salir -->
+        <div class="cuenta" id="cuenta">
+          <a class="boton boton--sm" href="registro.html">Ingresar</a>
+        </div>
       </div>
+    </div>
 
-      <!-- este es el menú principal, en cada página marcamos como activo el
-         enlace de la página donde está el vecino -->
-      <nav class="menu" aria-label="Navegación principal">
-        <ul class="contenedor menu__lista">
-          <li><a class="menu__enlace" href="index.html">Inicio</a></li>
-          <li><a class="menu__enlace" href="catalogo.html">Catálogo</a></li>
-          <li><a class="menu__enlace" href="panel.html">Mi panel</a></li>
-          <li><a class="menu__enlace menu__enlace--activo" href="registro.html">Registro</a></li>
-        </ul>
-      </nav>
-    </header>
+    <!-- este es el menú principal, javascript marca el enlace de la página
+         donde está el vecino -->
+    <nav class="menu" id="menu-principal" aria-label="Navegación principal">
+      <ul class="contenedor menu__lista">
+        <li><a class="menu__enlace" href="index.html">Inicio</a></li>
+        <li><a class="menu__enlace" href="catalogo.html">Catálogo</a></li>
+        <li><a class="menu__enlace" href="panel.html">Mi panel</a></li>
+        <li><a class="menu__enlace" href="carrito.html">Carrito</a></li>
+        <li><a class="menu__enlace" href="registro.html">Registro</a></li>
+      </ul>
+    </nav>
+  </header>
 
     <!-- aquí está el formulario de registro, profesor, lo dividimos en tres
          grupos para que no se vea como una lista larga de campos, primero
          los datos de la persona, después los de su departamento y al final
          los de su cuenta -->
-    <main>
+        <main id="contenido">
       <section class="seccion">
         <div class="contenedor">
           <h1 class="titulo-seccion">Formulario de Registro</h1>
           <section class="seccion seccion--alterna">
             <div class="contenedor">
-              <!-- le pusimos novalidate y un onsubmit para que los errores los
-                   muestre nuestro javascript y no el cartel del navegador, así
-                   el vecino ve todo lo que le falta de una sola vez y los
-                   mensajes se ven iguales en cualquier navegador -->
-              <form class="formulario" action="#" method="post" novalidate
-                    onsubmit="return validarRegistro()">
+              <!-- le pusimos novalidate para que los errores los muestre
+                   nuestro javascript y no el cartel del navegador, así el
+                   vecino ve todo lo que le falta de una sola vez y los
+                   mensajes se ven iguales en cualquier navegador, el submit
+                   lo escucha registro.js con addEventListener -->
+              <form class="formulario" id="form-registro" action="#" method="post" novalidate>
                 <!-- acá javascript escribe si el registro quedó bien o cuántos
-                     datos faltan corregir -->
-                <p class="mensaje" id="aviso-registro"></p>
+                     datos faltan corregir, aria-live hace que el lector de
+                     pantalla lea el mensaje cuando aparece -->
+                <p class="mensaje" id="aviso-registro" aria-live="polite"></p>
 
                 <!-- el fieldset agrupa los campos que van juntos y el legend le
                      pone nombre al grupo, este primero es para los datos de
@@ -106,48 +131,37 @@
                   <legend>Datos Personales</legend>
 
                   <!-- cada campo tiene su label unido con el id, así al hacer
-                       clic en el texto se activa el campo, y el asterisco
-                       naranja marca los que son obligatorios -->
+                       clic en el texto se activa el campo, el asterisco
+                       naranja marca los que son obligatorios, aria-describedby
+                       une el campo con el small donde sale su error para que
+                       el lector de pantalla lo lea al entrar al campo y
+                       autocomplete le dice al navegador qué dato es -->
                   <div class="campo">
-                    <label for="c-nombre"
-                      >Nombres<span class="obligatorio">*</span></label
-                    >
-                    <input type="text" id="c-nombre" name="nombre" required />
+                    <label for="c-nombre">Nombres<span class="obligatorio">*</span></label>
+                    <input type="text" id="c-nombre" name="nombre" required
+                           autocomplete="given-name" aria-describedby="e-nombre" />
                     <small class="campo__error" id="e-nombre"></small>
                   </div>
 
                   <div class="campo">
-                    <label for="c-apellidos"
-                      >Apellidos<span class="obligatorio">*</span></label
-                    >
-                    <input
-                      type="text"
-                      id="c-apellidos"
-                      name="apellidos"
-                      required
-                    />
+                    <label for="c-apellidos">Apellidos<span class="obligatorio">*</span></label>
+                    <input type="text" id="c-apellidos" name="apellidos" required
+                           autocomplete="family-name" aria-describedby="e-apellidos" />
                     <small class="campo__error" id="e-apellidos"></small>
                   </div>
 
                   <div class="campo">
-                    <label for="c-correo"
-                      >Correo electrónico<span class="obligatorio"
-                        >*</span
-                      ></label
-                    >
-                    <input type="email" id="c-correo" name="correo" required />
+                    <label for="c-correo">Correo electrónico<span class="obligatorio">*</span></label>
+                    <input type="email" id="c-correo" name="correo" required
+                           autocomplete="email" aria-describedby="e-correo" />
                     <small class="campo__error" id="e-correo"></small>
                   </div>
 
                   <div class="campo">
                     <label for="c-tel">Teléfono</label>
                     <!-- con type="tel" en el celular sale el teclado de números -->
-                    <input
-                      type="tel"
-                      id="c-tel"
-                      name="telefono"
-                      placeholder="987 654 321"
-                    />
+                    <input type="tel" id="c-tel" name="telefono" placeholder="987 654 321"
+                           autocomplete="tel" aria-describedby="e-tel" />
                     <small class="campo__error" id="e-tel"></small>
                   </div>
                 </fieldset>
@@ -159,10 +173,8 @@
                   <legend>Datos de tu Unidad</legend>
 
                   <div class="campo">
-                    <label for="c-torre"
-                      >Torre <span class="obligatorio">*</span></label
-                    >
-                    <select id="c-torre" name="torre" required>
+                    <label for="c-torre">Torre <span class="obligatorio">*</span></label>
+                    <select id="c-torre" name="torre" required aria-describedby="e-torre">
                       <option value="">Selecciona tu torre</option>
                       <option value="A">Torre A</option>
                       <option value="B">Torre B</option>
@@ -173,34 +185,24 @@
 
                   <div class="campo">
                     <label for="c-depa">Número de departamento</label>
-                    <input
-                      type="number"
-                      id="c-depa"
-                      name="departamento"
-                      min="101"
-                      max="1204"
-                    />
+                    <input type="number" id="c-depa" name="departamento" min="101" max="1204"
+                           aria-describedby="e-depa" />
                     <small class="campo__error" id="e-depa"></small>
                   </div>
 
                   <!-- el piso se elige con radios porque son pocas opciones,
                        todos tienen el mismo name y por eso solo se puede
-                       marcar uno -->
-                  <div class="campo">
-                    <label>Piso<span class="obligatorio">*</span></label>
+                       marcar uno, como el label de arriba no pertenece a un
+                       solo campo, el div hace de grupo con role="group" y
+                       aria-labelledby le da el nombre "Piso", así el lector
+                       de pantalla dice "Piso, grupo" antes de leer las
+                       opciones -->
+                  <div class="campo" role="group" aria-labelledby="l-piso" aria-describedby="e-piso">
+                    <label id="l-piso">Piso<span class="obligatorio">*</span></label>
                     <div class="opciones">
-                      <label
-                        ><input type="radio" name="piso" value="1" /> Piso
-                        1</label
-                      >
-                      <label
-                        ><input type="radio" name="piso" value="2" /> Piso
-                        2</label
-                      >
-                      <label
-                        ><input type="radio" name="piso" value="3" /> Piso
-                        3</label
-                      >
+                      <label><input type="radio" name="piso" value="1" /> Piso 1</label>
+                      <label><input type="radio" name="piso" value="2" /> Piso 2</label>
+                      <label><input type="radio" name="piso" value="3" /> Piso 3</label>
                     </div>
                     <small class="campo__error" id="e-piso"></small>
                   </div>
@@ -213,48 +215,42 @@
                   <legend>Tu Cuenta</legend>
 
                   <div class="campo">
-                    <label for="c-clave"
-                      >Contraseña <span class="obligatorio">*</span></label
-                    >
-                    <input type="password" id="c-clave" name="clave" required />
+                    <label for="c-clave">Contraseña <span class="obligatorio">*</span></label>
+                    <input type="password" id="c-clave" name="clave" required
+                           autocomplete="new-password" aria-describedby="e-clave a-clave" />
+                    <!-- el botón cambia la contraseña entre puntitos y texto,
+                         type="button" para que no envíe el formulario, y
+                         data-mostrar dice a qué campo le toca, el aria-label
+                         completo lo cambia registro.js -->
+                    <button class="boton boton--texto boton--sm" type="button"
+                            data-mostrar="c-clave" aria-label="Mostrar contraseña">Mostrar</button>
                     <small class="campo__error" id="e-clave"></small>
                     <!-- el texto de ayuda va debajo del campo y no en el
-                       placeholder, porque el placeholder se borra al escribir -->
-                    <small class="campo__ayuda">Mínimo 8 caracteres.</small>
+                         placeholder, porque el placeholder se borra al escribir -->
+                    <small class="campo__ayuda" id="a-clave">Mínimo 8 caracteres.</small>
                   </div>
 
                   <div class="campo">
-                    <label for="c-repetirclave"
-                      >Repetir Contraseña
-                      <span class="obligatorio">*</span></label
-                    >
-                    <input
-                      type="password"
-                      id="c-repetirclave"
-                      name="repetir_clave"
-                      required
-                    />
+                    <label for="c-repetirclave">Repetir Contraseña <span class="obligatorio">*</span></label>
+                    <input type="password" id="c-repetirclave" name="repetir_clave" required
+                           autocomplete="new-password" aria-describedby="e-repetirclave" />
                     <small class="campo__error" id="e-repetirclave"></small>
                   </div>
 
                   <!-- este campo no es obligatorio, usamos un textarea porque
                        el vecino puede escribir varias líneas -->
                   <div class="campo">
-                    <label for="c-nota"
-                      >¿Qué te gustaría vender en Kercado?</label
-                    >
-                    <textarea
-                      id="c-nota"
-                      name="nota"
-                      placeholder="Cuéntanos qué te gustaría vender en Kercado."
-                    ></textarea>
+                    <label for="c-nota">¿Qué te gustaría vender en Kercado?</label>
+                    <textarea id="c-nota" name="nota"
+                              placeholder="Cuéntanos qué te gustaría vender en Kercado."></textarea>
                   </div>
 
                   <!-- el checkbox de aceptar el reglamento, sin marcarlo no se crea
-                     la cuenta -->
+                       la cuenta -->
                   <div class="campo">
                     <label class="checkbox">
-                      <input type="checkbox" id="c-terminos" name="terminos" required />
+                      <input type="checkbox" id="c-terminos" name="terminos" required
+                             aria-describedby="e-terminos" />
                       Acepto el reglamento de convivencia del condominio.
                     </label>
                     <small class="campo__error" id="e-terminos"></small>
@@ -280,41 +276,31 @@
               <!-- aquí entra el vecino que ya tiene su cuenta activa, solo le
                    pedimos el correo y la contraseña con los que se registró,
                    el botón va con borde verde porque el naranja ya lo tiene
-                   crear cuenta, javascript revisa que el correo tenga forma de
-                   correo y que la contraseña no esté vacía, pero todavía no
-                   entra a ningún lado porque nos falta el servidor -->
+                   crear cuenta, registro.js revisa que los datos tengan forma
+                   correcta y después le pregunta al almacén si la cuenta
+                   existe, si está activa y si la contraseña coincide -->
               <h2 class="titulo-seccion mt-3">Iniciar Sesión</h2>
-              <form class="formulario" action="#" method="post" novalidate
-                    onsubmit="return validarSesion()">
+              <form class="formulario" id="form-sesion" action="#" method="post" novalidate>
                 <!-- acá javascript avisa si el correo o la contraseña están mal -->
-                <p class="mensaje" id="aviso-sesion"></p>
+                <p class="mensaje" id="aviso-sesion" aria-live="polite"></p>
 
                 <fieldset>
                   <legend>¿Ya tienes cuenta?</legend>
 
                   <div class="campo">
-                    <label for="s-correo"
-                      >Correo electrónico<span class="obligatorio">*</span></label
-                    >
-                    <input type="email" id="s-correo" name="correo" required />
+                    <label for="s-correo">Correo electrónico<span class="obligatorio">*</span></label>
+                    <input type="email" id="s-correo" name="correo" required
+                           autocomplete="email" aria-describedby="e-scorreo" />
                     <small class="campo__error" id="e-scorreo"></small>
                   </div>
 
                   <div class="campo">
-                    <label for="s-clave"
-                      >Contraseña <span class="obligatorio">*</span></label
-                    >
-                    <input type="password" id="s-clave" name="clave" required />
+                    <label for="s-clave">Contraseña <span class="obligatorio">*</span></label>
+                    <input type="password" id="s-clave" name="clave" required
+                           autocomplete="current-password" aria-describedby="e-sclave" />
+                    <button class="boton boton--texto boton--sm" type="button"
+                            data-mostrar="s-clave" aria-label="Mostrar contraseña">Mostrar</button>
                     <small class="campo__error" id="e-sclave"></small>
-                  </div>
-
-                  <!-- este no es obligatorio, sirve para que el vecino no tenga
-                       que escribir sus datos cada vez que entra -->
-                  <div class="campo">
-                    <label class="checkbox">
-                      <input type="checkbox" name="recordar" />
-                      Recordar mi sesión en este dispositivo.
-                    </label>
                   </div>
 
                   <button class="boton boton--linea boton--full" type="submit">
@@ -322,84 +308,114 @@
                   </button>
                 </fieldset>
               </form>
+
+              <!-- las cuentas de prueba, para que el profesor pueda entrar
+                   sin preguntar, la activa entra al panel y la pendiente
+                   muestra el mensaje de que todavía no está habilitada -->
+              <div class="aviso mt-3">
+                <p><strong>Cuentas de prueba</strong> (la contraseña de ambas es <code>Kercado2026</code>):</p>
+                <p>Cuenta activa: <code>carmen.rojas@kercado.pe</code></p>
+                <p>Cuenta pendiente: <code>sofia.mendoza@kercado.pe</code>, no puede entrar hasta que la administración la active.</p>
+              </div>
             </div>
           </section>
         </div>
       </section>
     </main>
 
-    <!-- este es el pie de página, también es el mismo en las cinco páginas,
+    <!-- este es el pie de página, también es el mismo en todas las páginas,
        tiene información de kercado, el contacto de la administración, el
        reglamento y los integrantes del grupo -->
-    <footer class="pie">
-      <div class="contenedor pie__grilla">
-        <!-- aquí contamos qué es kercado, y que no cobra ni hace entregas -->
-        <div>
-          <h3 class="pie__titulo">Kercado</h3>
-          <p class="subtexto">
-            Marketplace hiperlocal del condominio Las Palmas 357, Chorrillos.
-            Los vecinos publican, los vecinos compran.
-          </p>
-          <p class="subtexto">
-            Kercado no cobra comisiones, no procesa pagos y no gestiona la
-            entrega: solo conecta al vecino que vende con el que compra.
-          </p>
-        </div>
+  <footer class="pie">
+    <div class="contenedor pie__grilla">
 
-        <!-- los datos de contacto de la administración del condominio -->
-        <div>
-          <h3 class="pie__titulo">Administración</h3>
-          <ul class="pie__lista">
-            <li>Av. Las Palmas 357, Chorrillos — Lima</li>
-            <li>Oficina: Torre A, primer piso</li>
-            <li>Atención: lunes a sábado, 8:00 a 18:00</li>
-            <li>
-              <a href="mailto:administracion@laspalmas357.pe"
-                >administracion@laspalmas357.pe</a
-              >
-            </li>
-            <li><a href="tel:+5112345678">(01) 234 5678</a></li>
-          </ul>
-        </div>
-
-        <!-- estos enlaces llevan a partes de la página de inicio, donde
-           explicamos cómo funciona kercado y sus reglas -->
-        <div>
-          <h3 class="pie__titulo">Reglamento</h3>
-          <ul class="pie__lista">
-            <li>
-              <a href="index.html#como-funciona">Cómo funciona Kercado</a>
-            </li>
-            <li><a href="index.html#reglas">Reglas de convivencia</a></li>
-            <li><a href="index.html#pagos">Métodos de pago aceptados</a></li>
-            <li><a href="index.html#nosotros">Quiénes somos</a></li>
-          </ul>
-        </div>
-
-        <!-- nuestros nombres -->
-        <div>
-          <h3 class="pie__titulo">Integrantes</h3>
-          <ul class="pie__lista">
-            <li>Piero Alessandro Pérez Izquierdo</li>
-            <li>Edgar Paolo Pérez Román</li>
-            <li>Francys Diego Yareta Cortez</li>
-            <li>Luis Alberto Huánuco Jiménez</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- el año del pie lo escribe javascript con la fecha del día, así
-         no tenemos que cambiarlo a mano cuando empiece el año nuevo -->
-      <div class="pie__legal">
-        <p class="mb-0">
-          Kercado &copy; <span id="anio">2026</span> · Proyecto académico — Taller de Programación Web,
-          Universidad Tecnológica del Perú.
+      <!-- aquí contamos qué es kercado, y que no cobra ni hace entregas -->
+      <div>
+        <h3 class="pie__titulo">Kercado</h3>
+        <p class="subtexto">
+          Marketplace hiperlocal del condominio Las Palmas 357, Chorrillos.
+          Los vecinos publican, los vecinos compran.
+        </p>
+        <p class="subtexto">
+          Kercado no cobra comisiones, no procesa pagos y no gestiona la
+          entrega: solo conecta al vecino que vende con el que compra.
         </p>
       </div>
-    </footer>
 
-    <!-- el javascript del sitio, revisa los formularios y escribe el año
-         del pie -->
-    <script src="js/kercado.js"></script>
-  </body>
+      <!-- los datos de contacto de la administración del condominio -->
+      <div>
+        <h3 class="pie__titulo">Administración</h3>
+        <ul class="pie__lista">
+          <li>Av. Las Palmas 357, Chorrillos — Lima</li>
+          <li>Oficina: Torre A, primer piso</li>
+          <li>Atención: lunes a sábado, 8:00 a 18:00</li>
+          <li><a href="mailto:administracion@laspalmas357.pe">administracion@laspalmas357.pe</a></li>
+          <li><a href="tel:+5112345678">(01) 234 5678</a></li>
+        </ul>
+      </div>
+
+      <!-- estos enlaces llevan a partes de la página de inicio, donde
+           explicamos cómo funciona kercado y sus reglas -->
+      <div>
+        <h3 class="pie__titulo">Reglamento</h3>
+        <ul class="pie__lista">
+          <li><a href="index.html#como-funciona">Cómo funciona Kercado</a></li>
+          <li><a href="index.html#reglas">Reglas de convivencia</a></li>
+          <li><a href="index.html#pagos">Métodos de pago aceptados</a></li>
+          <li><a href="index.html#faq">Preguntas frecuentes</a></li>
+          <li><a href="index.html#nosotros">Quiénes somos</a></li>
+        </ul>
+      </div>
+
+      <!-- nuestros nombres -->
+      <div>
+        <h3 class="pie__titulo">Integrantes</h3>
+        <ul class="pie__lista">
+          <li>Piero Alessandro Pérez Izquierdo</li>
+          <li>Edgar Paolo Pérez Román</li>
+          <li>Francys Diego Yareta Cortez</li>
+          <li>Luis Alberto Huánuco Jiménez</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- el año del pie lo escribe javascript con la fecha del día, así
+       no tenemos que cambiarlo a mano cuando empiece el año nuevo -->
+    <div class="pie__legal">
+      <p class="mb-0">
+        Kercado &copy; <span id="anio">2026</span> · Proyecto académico — Taller de Programación Web,
+        Universidad Tecnológica del Perú.
+      </p>
+    </div>
+  </footer>
+
+
+  <!-- el diálogo que pregunta antes de hacer algo que no se puede deshacer,
+       como dar de baja una publicación o vaciar el carrito, javascript le
+       cambia el título y el texto según lo que se esté confirmando -->
+  <dialog class="confirmacion" id="confirmacion" aria-labelledby="confirmacion-titulo">
+    <form method="dialog">
+      <h2 class="confirmacion__titulo" id="confirmacion-titulo">Confirmar</h2>
+      <p id="confirmacion-texto">¿Seguro que quieres continuar?</p>
+      <div class="confirmacion__acciones">
+        <button class="boton boton--linea boton--sm" type="submit" value="no">No, volver</button>
+        <button class="boton boton--sm" type="submit" value="si">Sí, continuar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- aquí javascript pone los avisos flotantes, con aria-live los
+       lectores de pantalla los leen apenas aparecen -->
+  <div class="avisos" id="avisos" aria-live="polite"></div>
+
+
+  <!-- el javascript del sitio, van en este orden porque cada uno usa al
+       anterior, primero los datos iniciales, después el que los guarda en
+       el navegador, luego lo común a todas las páginas y al final el de
+       cada página -->
+  <script src="js/datos.js"></script>
+  <script src="js/almacen.js"></script>
+  <script src="js/base.js"></script>
+  <script src="js/registro.js"></script>
+</body>
 </html>

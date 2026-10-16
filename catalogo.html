@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <!--
-  hecho por francys. 
-aquí está el catálogo, a la izquierda van las
+  hecho por francys. aquí está el catálogo, a la izquierda van las
   categorías y el filtro por precio, y a la derecha todos los productos que
   venden los vecinos, cada tarjeta lleva a la ficha del producto
 -->
@@ -28,8 +27,13 @@ aquí está el catálogo, a la izquierda van las
 
 <body>
 
-  <!-- esta es la cabecera, es la misma en las cinco páginas del sitio,
-       tiene el logo, el buscador, el botón para ingresar y el menú -->
+  <!-- este enlace solo se ve al apretar tab, sirve para que quien navega
+       con el teclado salte directo al contenido sin pasar por el menú -->
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <!-- esta es la cabecera, es la misma en todas las páginas del sitio,
+       tiene el logo, el buscador, el carrito, la cuenta del vecino y el
+       menú -->
   <header class="encabezado">
 
     <div class="contenedor encabezado__fila">
@@ -41,10 +45,17 @@ aquí está el catálogo, a la izquierda van las
         </span>
       </a>
 
-      <!-- el buscador todavía no busca nada porque nos falta el servidor
-         que busque los productos, pero lo dejamos para que se vea cómo
-         quedará la cabecera -->
-      <form class="buscador" action="catalogo.html" method="get">
+      <!-- este botón abre y cierra el menú en el celular, en pantallas
+           grandes no se ve, aria-expanded dice si el menú está abierto -->
+      <button class="menu-boton" type="button" id="menu-boton"
+              aria-expanded="false" aria-controls="menu-principal">
+        <span class="menu-boton__icono" aria-hidden="true"></span>
+        Menú
+      </button>
+
+      <!-- el buscador manda al catálogo lo que se escribió y allá se
+           muestran solo los productos que coinciden -->
+      <form class="buscador" action="catalogo.html" method="get" role="search">
         <!-- este label no se ve en pantalla, pero lo leen los lectores de
              pantalla que usan las personas con discapacidad visual -->
         <label class="solo-lectores" for="q">Buscar productos</label>
@@ -53,25 +64,40 @@ aquí está el catálogo, a la izquierda van las
         <button class="buscador__boton" type="submit">Buscar</button>
       </form>
 
-      <!-- hay un solo botón para ingresar, porque el vecino usa la misma
-           cuenta para comprar y para vender -->
-      <a class="boton boton--sm" href="registro.html">Ingresar</a>
+      <div class="encabezado__acciones">
+
+        <!-- el enlace al carrito, el globo con la cantidad lo actualiza
+             javascript y se esconde cuando el carrito está vacío -->
+        <a class="encabezado__carrito" href="carrito.html">
+          Carrito
+          <span class="contador" id="contador-carrito" hidden>0</span>
+          <span class="solo-lectores">productos en el carrito</span>
+        </a>
+
+        <!-- hay un solo botón para ingresar, porque el vecino usa la misma
+             cuenta para comprar y para vender, cuando ya entró javascript
+             lo cambia por su nombre y el botón para salir -->
+        <div class="cuenta" id="cuenta">
+          <a class="boton boton--sm" href="registro.html">Ingresar</a>
+        </div>
+      </div>
     </div>
 
-    <!-- este es el menú principal, en cada página marcamos como activo el
-         enlace de la página donde está el vecino -->
-    <nav class="menu" aria-label="Navegación principal">
+    <!-- este es el menú principal, javascript marca el enlace de la página
+         donde está el vecino -->
+    <nav class="menu" id="menu-principal" aria-label="Navegación principal">
       <ul class="contenedor menu__lista">
         <li><a class="menu__enlace" href="index.html">Inicio</a></li>
-        <li><a class="menu__enlace menu__enlace--activo" href="catalogo.html">Catálogo</a></li>
+        <li><a class="menu__enlace" href="catalogo.html">Catálogo</a></li>
         <li><a class="menu__enlace" href="panel.html">Mi panel</a></li>
+        <li><a class="menu__enlace" href="carrito.html">Carrito</a></li>
         <li><a class="menu__enlace" href="registro.html">Registro</a></li>
       </ul>
     </nav>
   </header>
 
 
-  <main>
+  <main id="contenido">
     <!-- aquí empieza el catálogo, profesor, está dividido en dos columnas,
          las categorías y el filtro a la izquierda, y los productos a la
          derecha -->
@@ -81,38 +107,30 @@ aquí está el catálogo, a la izquierda van las
              aquí porque ya está arriba en la cabecera -->
         <aside class="panel-lateral" aria-label="Categorías y filtros">
           <div class="panel-lateral__bloque">
-            <h3 class="panel-lateral__titulo">Categorías</h3>
+            <h2 class="panel-lateral__titulo">Categorías</h2>
 
-            <!-- la lista de categorías, la que tiene la clase activo es la que
-                 se está viendo ahora, que es todos los productos -->
-            <ul class="lista-categorias">
-              <li><a class="activo" href="catalogo.html">Todos los productos</a></li>
-              <li><a href="catalogo.html">Comida preparada</a></li>
-              <li><a href="catalogo.html">Postres</a></li>
-              <li><a href="catalogo.html">Panadería</a></li>
-              <li><a href="catalogo.html">Bebidas</a></li>
-              <li><a href="catalogo.html">Abarrotes</a></li>
-            </ul>
+            <!-- la lista de categorías la arma catalogo.js con las categorías
+                 guardadas, la que se está viendo lleva la clase activo -->
+            <ul class="lista-categorias" id="lista-categorias"></ul>
           </div>
 
           <!-- el filtro por precio, cada campo tiene su label unido con el id,
-               javascript revisa que los precios no sean negativos y que el
-               mínimo no sea mayor que el máximo, todavía no filtra los
-               productos porque para eso nos falta el servidor -->
+               catalogo.js revisa que los precios no sean negativos y que el
+               mínimo no sea mayor que el máximo, y después filtra los
+               productos sin recargar la página -->
           <div class="panel-lateral__bloque">
-            <h3 class="panel-lateral__titulo">Filtrar por precio</h3>
-            <form action="catalogo.html" method="get" novalidate
-                  onsubmit="return validarFiltro()">
+            <h2 class="panel-lateral__titulo">Filtrar por precio</h2>
+            <form id="filtro-precio" action="catalogo.html" method="get" novalidate>
               <!-- acá javascript avisa si los precios quedaron mal -->
-              <p class="mensaje" id="aviso-filtro"></p>
+              <p class="mensaje" id="aviso-filtro" aria-live="polite"></p>
 
               <div class="campo">
                 <label for="precio-min">Desde (S/)</label>
-                <input type="number" id="precio-min" name="min" min="0" step="0.5" placeholder="0">
+                <input type="number" id="precio-min" name="precioMin" min="0" step="0.5" placeholder="0">
               </div>
               <div class="campo">
                 <label for="precio-max">Hasta (S/)</label>
-                <input type="number" id="precio-max" name="max" min="0" step="0.5" placeholder="100">
+                <input type="number" id="precio-max" name="precioMax" min="0" step="0.5" placeholder="100">
               </div>
               <button class="boton boton--linea boton--full boton--sm" type="submit">Aplicar filtro</button>
             </form>
@@ -120,195 +138,44 @@ aquí está el catálogo, a la izquierda van las
 
         </aside>
 
+        <!-- el molde de cada tarjeta, el navegador no lo dibuja, catalogo.js
+             lo copia una vez por cada producto que pasa el filtro -->
+        <template id="plantilla-tarjeta">
+          <article class="tarjeta">
+            <figure class="tarjeta__figura">
+              <img class="tarjeta__imagen" src="assets/img/kercado.png" alt="">
+            </figure>
+            <div class="tarjeta__cuerpo">
+              <span class="etiqueta"></span>
+              <h3 class="tarjeta__titulo"><a href="producto.html"></a></h3>
+              <p class="tarjeta__vendedor mb-0">
+                Vendido por <strong></strong> · <span></span>
+              </p>
+            </div>
+            <div class="tarjeta__pie">
+              <span class="tarjeta__precio"></span>
+              <a class="boton boton--sm" href="producto.html">Ver</a>
+            </div>
+          </article>
+        </template>
+
         <!-- la columna de la derecha con los productos -->
         <div>
           <h1>Catálogo de Productos</h1>
-          <!-- la grilla con las nueve tarjetas, se acomoda sola y en el
-               celular queda en una sola columna -->
-          <div class="grilla-productos">
-            <!-- cada tarjeta tiene la foto, la categoría, el nombre, quién lo
-                 vende y el precio, los precios siempre van con dos decimales
-                 para que se vean parejos -->
-            <!-- producto 1 -->
-            <article class="tarjeta">
-              <figure class="tarjeta__figura">
-                <img class="tarjeta__imagen" src="assets/img/catalogos/torta-chocolate.jpg" alt="Torta de chocolate artesanal decorada">
-              </figure>
-              <div class="tarjeta__cuerpo">
-                <span class="etiqueta">Postres</span>
-                <h3 class="tarjeta__titulo">
-                  <a href="producto.html">Torta de Chocolate Casera</a>
-                </h3>
-                <p class="tarjeta__vendedor mb-0">
-                  Vendido por <strong>María Torres</strong> · Torre B, Dpto. 402
-                </p>
-              </div>
-              <div class="tarjeta__pie">
-                <span class="tarjeta__precio">S/ 24.00</span>
-                <a class="boton boton--sm" href="producto.html">Ver</a>
-              </div>
-            </article>
+          <!-- aquí catalogo.js escribe cuántos productos se ven, por ejemplo
+               4 productos en postres, con aria-live el lector de pantalla lo
+               lee cada vez que cambia el filtro -->
+          <p class="subtexto" id="conteo-productos" aria-live="polite"></p>
+          <h2 class="solo-lectores">Productos</h2>
 
-            <!-- producto 2 -->
-            <article class="tarjeta">
-              <figure class="tarjeta__figura">
-                <img class="tarjeta__imagen" src="assets/img/catalogos/torta-tresleches.jpg" alt="Torta de 3 leches">
-              </figure>
-              <div class="tarjeta__cuerpo">
-                <span class="etiqueta">Postres</span>
-                <h3 class="tarjeta__titulo">
-                  <a href="producto.html">Torta de 3 leches</a>
-                </h3>
-                <p class="tarjeta__vendedor mb-0">
-                  Vendido por <strong>Gregorio Torres</strong> · Torre C, Dpto. 301
-                </p>
-              </div>
-              <div class="tarjeta__pie">
-                <span class="tarjeta__precio">S/ 28.00</span>
-                <a class="boton boton--sm" href="producto.html">Ver</a>
-              </div>
-            </article>
+          <div class="grilla-productos grilla-productos--animada" id="grilla-catalogo"></div>
 
-            <!-- producto 3 -->
-            <article class="tarjeta">
-              <figure class="tarjeta__figura">
-                <img class="tarjeta__imagen" src="assets/img/catalogos/pan-baguette.jpg" alt="Pan Baguette">
-              </figure>
-              <div class="tarjeta__cuerpo">
-                <span class="etiqueta">Panadería</span>
-                <h3 class="tarjeta__titulo">
-                  <a href="producto.html">Pan Baguette</a>
-                </h3>
-                <p class="tarjeta__vendedor mb-0">
-                  Vendido por <strong>Micaela Jimenez</strong> · Torre A, Dpto. 111
-                </p>
-              </div>
-              <div class="tarjeta__pie">
-                <span class="tarjeta__precio">S/ 2.50</span>
-                <a class="boton boton--sm" href="producto.html">Ver</a>
-              </div>
-            </article>
-
-            <!-- producto 4 -->
-            <article class="tarjeta">
-              <figure class="tarjeta__figura">
-                <img class="tarjeta__imagen" src="assets/img/catalogos/galletas-chocolate.jpg" alt="Galletas con Chispas de Chocolate">
-              </figure>
-              <div class="tarjeta__cuerpo">
-                <span class="etiqueta">Panadería</span>
-                <h3 class="tarjeta__titulo">
-                  <a href="producto.html">Galletas con Chispas de Chocolate</a>
-                </h3>
-                <p class="tarjeta__vendedor mb-0">
-                  Vendido por <strong>Rafael Ramirez</strong> · Torre D, Dpto. 215
-                </p>
-              </div>
-              <div class="tarjeta__pie">
-                <span class="tarjeta__precio">S/ 6.00</span>
-                <a class="boton boton--sm" href="producto.html">Ver</a>
-              </div>
-            </article>
-
-            <!-- producto 5 -->
-            <article class="tarjeta">
-              <figure class="tarjeta__figura">
-                <img class="tarjeta__imagen" src="assets/img/catalogos/chicha-morada.jpg" alt="Refresco Chicha Morada">
-              </figure>
-              <div class="tarjeta__cuerpo">
-                <span class="etiqueta">Bebidas</span>
-                <h3 class="tarjeta__titulo">
-                  <a href="producto.html">Refresco Chicha Morada</a>
-                </h3>
-                <p class="tarjeta__vendedor mb-0">
-                  Vendido por <strong>Luis Castro</strong> · Torre B, Dpto. 115
-                </p>
-              </div>
-              <div class="tarjeta__pie">
-                <span class="tarjeta__precio">S/ 7.50</span>
-                <a class="boton boton--sm" href="producto.html">Ver</a>
-              </div>
-            </article>
-
-            <!-- producto 6 -->
-            <article class="tarjeta">
-              <figure class="tarjeta__figura">
-                <img class="tarjeta__imagen" src="assets/img/catalogos/camu-camu.jpg" alt="Refresco Camu-Camu">
-              </figure>
-              <div class="tarjeta__cuerpo">
-                <span class="etiqueta">Bebidas</span>
-                <h3 class="tarjeta__titulo">
-                  <a href="producto.html">Refresco Camu-Camu</a>
-                </h3>
-                <p class="tarjeta__vendedor mb-0">
-                  Vendido por <strong>Ana López</strong> · Torre A, Dpto. 108
-                </p>
-              </div>
-              <div class="tarjeta__pie">
-                <span class="tarjeta__precio">S/ 8.00</span>
-                <a class="boton boton--sm" href="producto.html">Ver</a>
-              </div>
-            </article>
-
-            <!-- producto 7 -->
-            <article class="tarjeta">
-              <figure class="tarjeta__figura">
-                <img class="tarjeta__imagen" src="assets/img/catalogos/lomo-saltado.jpg" alt="Lomo Saltado de Res">
-              </figure>
-              <div class="tarjeta__cuerpo">
-                <span class="etiqueta">Comida Preparada</span>
-                <h3 class="tarjeta__titulo">
-                  <a href="producto.html">Lomo Saltado de Res</a>
-                </h3>
-                <p class="tarjeta__vendedor mb-0">
-                  Vendido por <strong>Nicolás Medina</strong> · Torre A, Dpto. 106
-                </p>
-              </div>
-              <div class="tarjeta__pie">
-                <span class="tarjeta__precio">S/ 30.00</span>
-                <a class="boton boton--sm" href="producto.html">Ver</a>
-              </div>
-            </article>
-
-            <!-- producto 8 -->
-            <article class="tarjeta">
-              <figure class="tarjeta__figura">
-                <img class="tarjeta__imagen" src="assets/img/catalogos/pollo-a-la-brasa-entero.jpg" alt="Pollo A la Brasa: Entero">
-              </figure>
-              <div class="tarjeta__cuerpo">
-                <span class="etiqueta">Comida Preparada</span>
-                <h3 class="tarjeta__titulo">
-                  <a href="producto.html">Pollo A la Brasa: Entero </a>
-                </h3>
-                <p class="tarjeta__vendedor mb-0">
-                  Vendido por <strong>Nataly Aguirre</strong> · Torre C, Dpto. 254
-                </p>
-              </div>
-              <div class="tarjeta__pie">
-                <span class="tarjeta__precio">S/ 75.00</span>
-                <a class="boton boton--sm" href="producto.html">Ver</a>
-              </div>
-            </article>
-
-            <!-- producto 9 -->
-            <article class="tarjeta">
-              <figure class="tarjeta__figura">
-                <img class="tarjeta__imagen" src="assets/img/catalogos/arroz-superior-BP-10Kg.jpg" alt="Arroz Superior - Blanco de Primera: 10 Kg">
-              </figure>
-              <div class="tarjeta__cuerpo">
-                <span class="etiqueta">Abarrotes</span>
-                <h3 class="tarjeta__titulo">
-                  <a href="producto.html">Arroz Superior - Blanco de Primera: 10 Kg</a>
-                </h3>
-                <p class="tarjeta__vendedor mb-0">
-                  Vendido por <strong>Ernesto Fernández</strong> · Torre B, Dpto. 222
-                </p>
-              </div>
-              <div class="tarjeta__pie">
-                <span class="tarjeta__precio">S/ 25.50</span>
-                <a class="boton boton--sm" href="producto.html">Ver</a>
-              </div>
-            </article>
-
+          <!-- este bloque se muestra solo cuando el filtro no deja ningún
+               producto, el botón borra los filtros y vuelve a mostrar todo -->
+          <div class="vacio" id="catalogo-vacio" hidden>
+            <h2 class="vacio__titulo">No encontramos productos</h2>
+            <p>Prueba con otra búsqueda o cambia los filtros.</p>
+            <button class="boton" type="button" id="quitar-filtros">Quitar filtros</button>
           </div>
         </div>
 
@@ -318,7 +185,7 @@ aquí está el catálogo, a la izquierda van las
   </main>
 
 
-  <!-- este es el pie de página, también es el mismo en las cinco páginas,
+  <!-- este es el pie de página, también es el mismo en todas las páginas,
        tiene información de kercado, el contacto de la administración, el
        reglamento y los integrantes del grupo -->
   <footer class="pie">
@@ -357,6 +224,7 @@ aquí está el catálogo, a la izquierda van las
           <li><a href="index.html#como-funciona">Cómo funciona Kercado</a></li>
           <li><a href="index.html#reglas">Reglas de convivencia</a></li>
           <li><a href="index.html#pagos">Métodos de pago aceptados</a></li>
+          <li><a href="index.html#faq">Preguntas frecuentes</a></li>
           <li><a href="index.html#nosotros">Quiénes somos</a></li>
         </ul>
       </div>
@@ -384,8 +252,32 @@ aquí está el catálogo, a la izquierda van las
   </footer>
 
 
-  <!-- el javascript del sitio, revisa los formularios y escribe el año
-       del pie -->
-  <script src="js/kercado.js"></script>
+  <!-- el diálogo que pregunta antes de hacer algo que no se puede deshacer,
+       como dar de baja una publicación o vaciar el carrito, javascript le
+       cambia el título y el texto según lo que se esté confirmando -->
+  <dialog class="confirmacion" id="confirmacion" aria-labelledby="confirmacion-titulo">
+    <form method="dialog">
+      <h2 class="confirmacion__titulo" id="confirmacion-titulo">Confirmar</h2>
+      <p id="confirmacion-texto">¿Seguro que quieres continuar?</p>
+      <div class="confirmacion__acciones">
+        <button class="boton boton--linea boton--sm" type="submit" value="no">No, volver</button>
+        <button class="boton boton--sm" type="submit" value="si">Sí, continuar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- aquí javascript pone los avisos flotantes, con aria-live los
+       lectores de pantalla los leen apenas aparecen -->
+  <div class="avisos" id="avisos" aria-live="polite"></div>
+
+
+  <!-- el javascript del sitio, van en este orden porque cada uno usa al
+       anterior, primero los datos iniciales, después el que los guarda en
+       el navegador, luego lo común a todas las páginas y al final el de
+       cada página -->
+  <script src="js/datos.js"></script>
+  <script src="js/almacen.js"></script>
+  <script src="js/base.js"></script>
+  <script src="js/catalogo.js"></script>
 </body>
 </html>

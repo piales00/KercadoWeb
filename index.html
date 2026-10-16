@@ -27,8 +27,13 @@
 
 <body>
 
-  <!-- esta es la cabecera, es la misma en las cinco páginas del sitio,
-       tiene el logo, el buscador, el botón para ingresar y el menú -->
+  <!-- este enlace solo se ve al apretar tab, sirve para que quien navega
+       con el teclado salte directo al contenido sin pasar por el menú -->
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <!-- esta es la cabecera, es la misma en todas las páginas del sitio,
+       tiene el logo, el buscador, el carrito, la cuenta del vecino y el
+       menú -->
   <header class="encabezado">
 
     <div class="contenedor encabezado__fila">
@@ -40,10 +45,17 @@
         </span>
       </a>
 
-      <!-- el buscador todavía no busca nada porque nos falta el servidor
-         que busque los productos, pero lo dejamos para que se vea cómo
-         quedará la cabecera -->
-      <form class="buscador" action="catalogo.html" method="get">
+      <!-- este botón abre y cierra el menú en el celular, en pantallas
+           grandes no se ve, aria-expanded dice si el menú está abierto -->
+      <button class="menu-boton" type="button" id="menu-boton"
+              aria-expanded="false" aria-controls="menu-principal">
+        <span class="menu-boton__icono" aria-hidden="true"></span>
+        Menú
+      </button>
+
+      <!-- el buscador manda al catálogo lo que se escribió y allá se
+           muestran solo los productos que coinciden -->
+      <form class="buscador" action="catalogo.html" method="get" role="search">
         <!-- este label no se ve en pantalla, pero lo leen los lectores de
              pantalla que usan las personas con discapacidad visual -->
         <label class="solo-lectores" for="q">Buscar productos</label>
@@ -52,46 +64,94 @@
         <button class="buscador__boton" type="submit">Buscar</button>
       </form>
 
-      <!-- hay un solo botón para ingresar, porque el vecino usa la misma
-           cuenta para comprar y para vender -->
-      <a class="boton boton--sm" href="registro.html">Ingresar</a>
+      <div class="encabezado__acciones">
+
+        <!-- el enlace al carrito, el globo con la cantidad lo actualiza
+             javascript y se esconde cuando el carrito está vacío -->
+        <a class="encabezado__carrito" href="carrito.html">
+          Carrito
+          <span class="contador" id="contador-carrito" hidden>0</span>
+          <span class="solo-lectores">productos en el carrito</span>
+        </a>
+
+        <!-- hay un solo botón para ingresar, porque el vecino usa la misma
+             cuenta para comprar y para vender, cuando ya entró javascript
+             lo cambia por su nombre y el botón para salir -->
+        <div class="cuenta" id="cuenta">
+          <a class="boton boton--sm" href="registro.html">Ingresar</a>
+        </div>
+      </div>
     </div>
 
-    <!-- este es el menú principal, en cada página marcamos como activo el
-         enlace de la página donde está el vecino -->
-    <nav class="menu" aria-label="Navegación principal">
+    <!-- este es el menú principal, javascript marca el enlace de la página
+         donde está el vecino -->
+    <nav class="menu" id="menu-principal" aria-label="Navegación principal">
       <ul class="contenedor menu__lista">
-        <li><a class="menu__enlace menu__enlace--activo" href="index.html">Inicio</a></li>
+        <li><a class="menu__enlace" href="index.html">Inicio</a></li>
         <li><a class="menu__enlace" href="catalogo.html">Catálogo</a></li>
         <li><a class="menu__enlace" href="panel.html">Mi panel</a></li>
+        <li><a class="menu__enlace" href="carrito.html">Carrito</a></li>
         <li><a class="menu__enlace" href="registro.html">Registro</a></li>
       </ul>
     </nav>
   </header>
 
 
-  <main>
+  <main id="contenido">
 
     <!-- esto es lo primero que ve el vecino al entrar, profesor, la foto del
          condominio ocupa todo el ancho para que reconozca dónde está, y
          encima van el nombre y una frase corta, pusimos un solo botón para
-         que vaya directo al catálogo, si hubiera varios no sabría cuál tocar -->
+         que vaya directo al catálogo, si ya entró con su cuenta inicio.js lo
+         cambia por uno que lleva a su panel, la portada no lleva la clase
+         revelar porque tiene que verse apenas carga la página -->
     <section class="portada">
-      <img src="assets/img/condominiofachada.jpg" alt="Condominio Las Palmas 357" class="portada__imagen">
+      <img src="assets/img/condominiofachada.jpg" alt="Fachada del condominio Las Palmas 357" class="portada__imagen">
       <div class="contenedor portada__contenido">
         <h1 class="portada__titulo">Ker<span class="logo__acento">cado</span></h1>
         <p class="portada__frase">El mercado interno de nuestra comunidad, donde comprar y vender es más cercano y seguro.</p>
         <div>
-          <a href="catalogo.html" class="boton boton--lg">Ver el catálogo</a>
+          <a href="catalogo.html" class="boton boton--lg" id="boton-portada">Ver el catálogo</a>
         </div>
       </div>
     </section>
 
-    <!-- estos párrafos cuentan que kercado es solo para los residentes, y
-         dejamos claro que se compra y se vende con la misma cuenta, así
-         nadie busca un registro aparte para vender, al lado va una foto de
-         algo que venden los vecinos para que se entienda de qué se trata -->
-    <section class="seccion">
+    <!-- las cuatro publicaciones más nuevas del condominio, la grilla empieza
+         vacía y inicio.js la llena con los datos guardados, así lo que un
+         vecino acaba de publicar aparece aquí sin tocar el html -->
+    <section class="seccion revelar" aria-labelledby="titulo-recientes">
+      <div class="contenedor">
+        <div class="fila-titulo">
+          <h2 class="titulo-seccion" id="titulo-recientes">Lo más reciente</h2>
+          <a class="boton boton--linea boton--sm" href="catalogo.html">Ver todo el catálogo</a>
+        </div>
+        <div class="grilla-productos grilla-productos--animada" id="ultimas-publicaciones"></div>
+      </div>
+    </section>
+
+    <!-- el molde de cada tarjeta, el navegador no lo dibuja, inicio.js lo
+         copia una vez por cada publicación -->
+    <template id="plantilla-tarjeta">
+      <article class="tarjeta">
+        <figure class="tarjeta__figura">
+          <img class="tarjeta__imagen" src="assets/img/kercado.png" alt="">
+        </figure>
+        <div class="tarjeta__cuerpo">
+          <span class="etiqueta"></span>
+          <h3 class="tarjeta__titulo"><a href="producto.html"></a></h3>
+          <p class="tarjeta__vendedor mb-0">
+            Vendido por <strong></strong> · <span></span>
+          </p>
+        </div>
+        <div class="tarjeta__pie">
+          <span class="tarjeta__precio"></span>
+          <a class="boton boton--sm" href="producto.html">Ver</a>
+        </div>
+      </article>
+    </template>
+
+    <!-- estos párrafos cuentan qué es kercado -->
+    <section class="seccion revelar">
       <div class="contenedor dos-columnas">
         <div>
           <h2 class="titulo-seccion">Qué es Kercado</h2>
@@ -103,12 +163,8 @@
       </div>
     </section>
 
-    <!-- los tres pasos para usar kercado, desde que un vecino publica hasta
-         que se ponen de acuerdo, cada paso va en una caja y la grilla las
-         acomoda solas, en la computadora salen lado a lado y en el celular
-         una debajo de otra, la sección tiene id porque el enlace del pie de
-         página baja hasta aquí -->
-    <section class="seccion" id="como-funciona">
+    <!-- los tres pasos para usar kercado -->
+    <section class="seccion revelar" id="como-funciona">
       <div class="contenedor">
         <h2 class="titulo-seccion">Cómo funciona</h2>
         <div class="grilla-auto">
@@ -118,7 +174,7 @@
           </div>
           <div class="caja">
             <h3>2. Otro vecino pide</h3>
-            <p>Revisa las publicaciones disponibles y contacta al vendedor directamente para solicitar el artículo.</p>
+            <p>Revisa el catálogo, agrega lo que quiere a su carrito y registra el pedido, el vendedor lo ve al instante en su panel.</p>
           </div>
           <div class="caja">
             <h3>3. Acuerdan pago y entrega entre ellos</h3>
@@ -128,11 +184,8 @@
       </div>
     </section>
 
-    <!-- aquí dejamos claro que kercado es solo para los vecinos del
-         condominio y no para cualquier persona, le pusimos el fondo verde
-         clarito para que se note que es otra parte, y en cada caja contamos
-         cómo lo usa cada tipo de vecino -->
-    <section class="seccion seccion--alterna">
+    <!-- para quién es -->
+    <section class="seccion seccion--alterna revelar">
       <div class="contenedor">
         <h2 class="titulo-seccion">Para quién es</h2>
         <p class="mb-3">Kercado es solo para los residentes del condominio Las Palmas 357, así cada compra y cada venta queda entre vecinos que se conocen.</p>
@@ -156,11 +209,8 @@
       </div>
     </section>
 
-    <!-- las formas de pago que pueden acordar los vecinos, las pusimos en
-         una lista porque son solo tres y así se leen rápido, abajo
-         aclaramos que kercado no cobra, y el id es para el enlace del pie
-         de página -->
-    <section class="seccion" id="pagos">
+    <!-- las formas de pago -->
+    <section class="seccion revelar" id="pagos">
       <div class="contenedor">
         <h2 class="titulo-seccion">Métodos de pago</h2>
         <ul>
@@ -172,10 +222,46 @@
       </div>
     </section>
 
-    <!-- las reglas de convivencia para comprar y vender entre vecinos, van
-         en lista para que cada regla se lea por separado, esta sección
-         también tiene id porque el pie de página enlaza aquí -->
-    <section class="seccion" id="reglas">
+    <!-- las preguntas frecuentes, cada una es un details con su summary, se
+         abren y se cierran solas y funcionan con el teclado sin javascript -->
+    <section class="seccion revelar" id="faq">
+      <div class="contenedor">
+        <h2 class="titulo-seccion">Preguntas frecuentes</h2>
+        <div class="caja mb-3">
+          <details>
+            <summary><strong>¿Tiene algún costo publicar en Kercado?</strong></summary>
+            <p class="mt-2 mb-0">No, Kercado es totalmente gratuito y creado por la administración para fomentar el comercio interno entre vecinos.</p>
+          </details>
+        </div>
+        <div class="caja mb-3">
+          <details>
+            <summary><strong>¿Cómo valida la administración mi cuenta?</strong></summary>
+            <p class="mt-2 mb-0">Al registrarte indicas tu torre y departamento; la administración corrobora que estés al día con el condominio antes de activar tu acceso.</p>
+          </details>
+        </div>
+        <div class="caja mb-3">
+          <details>
+            <summary><strong>¿Cómo sé en qué va mi pedido?</strong></summary>
+            <p class="mt-2 mb-0">En tu panel, en la pestaña Mis compras, ves cada pedido con su código y su estado: pendiente, aceptado, en preparación, entregado o cancelado. El vendedor lo va cambiando desde su propio panel.</p>
+          </details>
+        </div>
+        <div class="caja mb-3">
+          <details>
+            <summary><strong>¿Puedo comprar y vender con la misma cuenta?</strong></summary>
+            <p class="mt-2 mb-0">Sí, cada vecino tiene una sola cuenta. En tu panel están juntas tus compras y tus ventas, y desde ahí publicas tus productos.</p>
+          </details>
+        </div>
+        <div class="caja mb-3">
+          <details>
+            <summary><strong>¿Kercado cobra o reparte los pedidos?</strong></summary>
+            <p class="mt-2 mb-0">No. Kercado solo registra el pedido y el método de pago que acuerdan, efectivo contra entrega, Yape o Plin. El pago y la entrega los coordinan entre vecinos.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- las reglas de convivencia -->
+    <section class="seccion revelar" id="reglas">
       <div class="contenedor">
         <h2 class="titulo-seccion">Reglas de convivencia</h2>
         <ul>
@@ -188,41 +274,37 @@
       </div>
     </section>
 
-    <!-- aquí nos presentamos los cuatro integrantes, cada uno en su caja con
-         su foto y lo que hizo en el proyecto, usamos la misma grilla que en
-         los pasos, y el id es para el enlace quiénes somos del pie de
-         página -->
-    <section class="seccion" id="nosotros">
+    <!-- nosotros -->
+    <section class="seccion revelar" id="nosotros">
       <div class="contenedor">
         <h2 class="titulo-seccion">Nosotros</h2>
         <div class="grilla-auto">
           <div class="caja">
             <img src="assets/img/integrante1.jpg" alt="Piero Alessandro Pérez Izquierdo" class="imagen-marco">
             <h3>Piero Alessandro Pérez Izquierdo</h3>
-            <p>A cargo del panel.html y la integración general, tablas, estructura de página, funcionamiento y orden del repositorio.</p>
+            <p>A cargo de la base del sitio, los estilos, los datos guardados en el navegador, el panel con sus pestañas y la integración de todas las páginas.</p>
           </div>
           <div class="caja">
             <img src="assets/img/integrante2.jpg" alt="Edgar Paolo Pérez Román" class="imagen-marco">
             <h3>Edgar Paolo Pérez Román</h3>
-            <p>A cargo de index.html, la sección multimedia, las anclas del footer y la estructura general del inicio.</p>
+            <p>A cargo de la página de inicio, la página para publicar productos con su vista previa y el documento del avance.</p>
           </div>
           <div class="caja">
             <img src="assets/img/integrante3.jpg" alt="Francys Diego Yareta Cortez" class="imagen-marco">
             <h3>Francys Diego Yareta Cortez</h3>
-            <p>A cargo de catalogo.html, producto.html, la tabla ficha y la estructura de la página con el aside.</p>
+            <p>A cargo del catálogo con sus filtros por categoría, precio y búsqueda, y de la ficha de cada producto con su galería.</p>
           </div>
           <div class="caja">
             <img src="assets/img/integrante4.jpg" alt="Luis Alberto Huánuco Jiménez" class="imagen-marco">
             <h3>Luis Alberto Huánuco Jiménez</h3>
-            <p>A cargo de registro.html, el formulario completo y la gestión de todos los archivos multimedia del proyecto.</p>
+            <p>A cargo del registro y el inicio de sesión, el carrito que arma un pedido por vecino y los archivos multimedia del proyecto.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- el audio de presentación de kercado, usa los controles que ya trae
-         el navegador, así no necesitamos javascript -->
-    <section class="seccion">
+    <!-- el audio de presentación de kercado -->
+    <section class="seccion revelar">
       <div class="contenedor">
         <h2 class="titulo-seccion">Presentación en audio</h2>
         <div class="audio-caja">
@@ -236,13 +318,12 @@
   </main>
 
 
-  <!-- este es el pie de página, también es el mismo en las cinco páginas,
+  <!-- este es el pie de página, también es el mismo en todas las páginas,
        tiene información de kercado, el contacto de la administración, el
        reglamento y los integrantes del grupo -->
   <footer class="pie">
     <div class="contenedor pie__grilla">
 
-      <!-- aquí contamos qué es kercado, y que no cobra ni hace entregas -->
       <div>
         <h3 class="pie__titulo">Kercado</h3>
         <p class="subtexto">
@@ -255,7 +336,6 @@
         </p>
       </div>
 
-      <!-- los datos de contacto de la administración del condominio -->
       <div>
         <h3 class="pie__titulo">Administración</h3>
         <ul class="pie__lista">
@@ -267,19 +347,17 @@
         </ul>
       </div>
 
-      <!-- estos enlaces llevan a partes de la página de inicio, donde
-           explicamos cómo funciona kercado y sus reglas -->
       <div>
         <h3 class="pie__titulo">Reglamento</h3>
         <ul class="pie__lista">
           <li><a href="index.html#como-funciona">Cómo funciona Kercado</a></li>
           <li><a href="index.html#reglas">Reglas de convivencia</a></li>
           <li><a href="index.html#pagos">Métodos de pago aceptados</a></li>
+          <li><a href="index.html#faq">Preguntas frecuentes</a></li>
           <li><a href="index.html#nosotros">Quiénes somos</a></li>
         </ul>
       </div>
 
-      <!-- nuestros nombres -->
       <div>
         <h3 class="pie__titulo">Integrantes</h3>
         <ul class="pie__lista">
@@ -291,8 +369,6 @@
       </div>
     </div>
 
-    <!-- el año del pie lo escribe javascript con la fecha del día, así
-       no tenemos que cambiarlo a mano cuando empiece el año nuevo -->
     <div class="pie__legal">
       <p class="mb-0">
         Kercado &copy; <span id="anio">2026</span> · Proyecto académico — Taller de Programación Web,
@@ -302,8 +378,23 @@
   </footer>
 
 
-  <!-- el javascript del sitio, revisa los formularios y escribe el año
-       del pie -->
-  <script src="js/kercado.js"></script>
+  <dialog class="confirmacion" id="confirmacion" aria-labelledby="confirmacion-titulo">
+    <form method="dialog">
+      <h2 class="confirmacion__titulo" id="confirmacion-titulo">Confirmar</h2>
+      <p id="confirmacion-texto">¿Seguro que quieres continuar?</p>
+      <div class="confirmacion__acciones">
+        <button class="boton boton--linea boton--sm" type="submit" value="no">No, volver</button>
+        <button class="boton boton--sm" type="submit" value="si">Sí, continuar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="avisos" id="avisos" aria-live="polite"></div>
+
+
+  <script src="js/datos.js"></script>
+  <script src="js/almacen.js"></script>
+  <script src="js/base.js"></script>
+  <script src="js/inicio.js"></script>
 </body>
 </html>
