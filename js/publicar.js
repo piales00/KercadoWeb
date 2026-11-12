@@ -1,29 +1,13 @@
 /*
-  hecho por edgar. el javascript de publicar producto, llena los select de
-  categoría y de foto, va cambiando la tarjeta de vista previa mientras el
-  vecino escribe, revisa el formulario y guarda la publicación con
-  crearPublicacion(), que la deja primera en el catálogo
+  hecho por edgar. el javascript de publicar producto, va cambiando la
+  tarjeta de vista previa mientras el vecino escribe, le muestra la foto
+  que eligió antes de subirla y revisa el formulario antes de enviarlo, php
+  lo vuelve a revisar todo al recibirlo porque el javascript se puede saltar
 */
 
-/* las fotos que el vecino puede elegir, son las que ya están en la
-   carpeta del catálogo, el valor de cada opción es la ruta completa */
-const FOTOS_DISPONIBLES = [
-  { nombre: "Ají de gallina", ruta: "assets/img/catalogos/aji-de-gallina.jpg" },
-  { nombre: "Alfajores", ruta: "assets/img/catalogos/alfajores-maicena.jpg" },
-  { nombre: "Arroz en saco", ruta: "assets/img/catalogos/arroz-superior-BP-10Kg.jpg" },
-  { nombre: "Camu camu", ruta: "assets/img/catalogos/camu-camu.jpg" },
-  { nombre: "Chicha morada", ruta: "assets/img/catalogos/chicha-morada.jpg" },
-  { nombre: "Empanadas", ruta: "assets/img/catalogos/empanadas-carne.jpg" },
-  { nombre: "Galletas de chocolate", ruta: "assets/img/catalogos/galletas-chocolate.jpg" },
-  { nombre: "Limonada", ruta: "assets/img/catalogos/limonada-frozen.jpg" },
-  { nombre: "Lomo saltado", ruta: "assets/img/catalogos/lomo-saltado.jpg" },
-  { nombre: "Pan", ruta: "assets/img/catalogos/pan-baguette.jpg" },
-  { nombre: "Pollo a la brasa", ruta: "assets/img/catalogos/pollo-a-la-brasa-entero.jpg" },
-  { nombre: "Queque", ruta: "assets/img/catalogos/queque-naranja.jpg" },
-  { nombre: "Torta de chocolate", ruta: "assets/img/catalogos/torta-chocolate.jpg" },
-  { nombre: "Torta tres leches", ruta: "assets/img/catalogos/torta-tresleches.jpg" },
-  { nombre: "Otro producto (logo de Kercado)", ruta: "assets/img/kercado.png" }
-];
+/* los tipos de foto que acepta el servidor y el tamaño máximo, 2 MB */
+const TIPOS_DE_FOTO = ["image/jpeg", "image/png", "image/webp"];
+const TAMANO_MAXIMO_FOTO = 2 * 1024 * 1024;
 
 /* los campos del formulario junto con el small donde sale su error */
 const CAMPOS_PUBLICAR = [
@@ -36,31 +20,9 @@ const CAMPOS_PUBLICAR = [
   ["p-descripcion", "e-descripcion"]
 ];
 
-/* agrega una opción a un select, el texto va con textContent */
-function agregarOpcion(select, valor, texto) {
-  let opcion = document.createElement("option");
-
-  opcion.value = valor;
-  opcion.textContent = texto;
-  select.appendChild(opcion);
-}
-
-/* llena el select de categorías con las guardadas y el de fotos con la
-   lista de arriba */
-function llenarSelects() {
-  let selectCategoria = document.getElementById("p-categoria");
-  let selectImagen = document.getElementById("p-imagen");
-  let categorias = listarCategorias();
-  let i;
-
-  for (i = 0; i < categorias.length; i++) {
-    agregarOpcion(selectCategoria, categorias[i].idCategoria, categorias[i].nombre);
-  }
-
-  for (i = 0; i < FOTOS_DISPONIBLES.length; i++) {
-    agregarOpcion(selectImagen, FOTOS_DISPONIBLES[i].ruta, FOTOS_DISPONIBLES[i].nombre);
-  }
-}
+/* la dirección temporal de la foto elegida, la guardamos para soltarla
+   cuando el vecino elige otra y no llenar la memoria */
+let urlVistaPrevia = "";
 
 /* reescribe la tarjeta de vista previa con lo que hay en el formulario,
    si un campo está vacío deja un texto de ejemplo para que la tarjeta no
@@ -69,7 +31,6 @@ function actualizarVistaPrevia() {
   let titulo = document.getElementById("p-titulo").value.trim();
   let precio = parseFloat(document.getElementById("p-precio").value);
   let selectCategoria = document.getElementById("p-categoria");
-  let ruta = document.getElementById("p-imagen").value;
   let imagen = document.getElementById("prev-imagen");
 
   if (titulo === "") {
@@ -89,36 +50,74 @@ function actualizarVistaPrevia() {
       selectCategoria.options[selectCategoria.selectedIndex].textContent;
   }
 
-  if (ruta === "") {
-    imagen.src = "assets/img/kercado.png";
-    imagen.alt = "Foto de ejemplo para la vista previa";
-  } else {
-    imagen.src = ruta;
+  if (urlVistaPrevia !== "") {
     imagen.alt = "Vista previa de " + titulo;
   }
 }
 
-/* revisa campo por campo y cuenta los errores, igual que el registro,
-   devuelve cuántos encontró */
+/* revisa la foto elegida, devuelve el texto del error o "" si sirve, el
+   tipo y el tamaño los da el navegador sin subir nada */
+function errorDeFoto(archivo) {
+  if (archivo === undefined) {
+    return "sube una foto de tu producto";
+  }
+  if (TIPOS_DE_FOTO.indexOf(archivo.type) === -1) {
+    return "la foto tiene que ser JPG, PNG o WEBP";
+  }
+  if (archivo.size > TAMANO_MAXIMO_FOTO) {
+    return "la foto pesa más de 2 MB, elige una más liviana";
+  }
+  return "";
+}
+
+/* cuando el vecino elige una foto la mostramos en la tarjeta con
+   URL.createObjectURL, que crea una dirección temporal sin subir nada */
+function alElegirFoto() {
+  let archivo = document.getElementById("p-imagen").files[0];
+  let imagen = document.getElementById("prev-imagen");
+  let error = errorDeFoto(archivo);
+
+  if (urlVistaPrevia !== "") {
+    URL.revokeObjectURL(urlVistaPrevia);
+    urlVistaPrevia = "";
+  }
+
+  if (error !== "") {
+    marcarError("p-imagen", "e-imagen", error);
+    imagen.src = "assets/img/kercado.png";
+    imagen.alt = "Foto de ejemplo para la vista previa";
+    return;
+  }
+
+  limpiarCampo("p-imagen", "e-imagen");
+  urlVistaPrevia = URL.createObjectURL(archivo);
+  imagen.src = urlVistaPrevia;
+  actualizarVistaPrevia();
+}
+
+/* revisa campo por campo con las mismas reglas que publicar.php y cuenta
+   los errores, devuelve cuántos encontró */
 function validarPublicacion() {
   let titulo = document.getElementById("p-titulo").value.trim();
   let categoria = document.getElementById("p-categoria").value;
   let textoPrecio = document.getElementById("p-precio").value;
   let textoStock = document.getElementById("p-stock").value;
   let horario = document.getElementById("p-horario").value.trim();
-  let imagen = document.getElementById("p-imagen").value;
+  let archivo = document.getElementById("p-imagen").files[0];
   let descripcion = document.getElementById("p-descripcion").value.trim();
   let precio = parseFloat(textoPrecio);
   let stock = Number(textoStock);
+  let errorFoto = errorDeFoto(archivo);
   let errores = 0;
   let i;
 
   for (i = 0; i < CAMPOS_PUBLICAR.length; i++) {
     limpiarCampo(CAMPOS_PUBLICAR[i][0], CAMPOS_PUBLICAR[i][1]);
+    document.getElementById(CAMPOS_PUBLICAR[i][0]).removeAttribute("aria-invalid");
   }
 
-  if (titulo.length < 5) {
-    marcarError("p-titulo", "e-titulo", "el nombre necesita al menos 5 letras");
+  if (titulo.length < 3 || titulo.length > 80) {
+    marcarError("p-titulo", "e-titulo", "el nombre tiene que tener entre 3 y 80 letras");
     errores = errores + 1;
   }
 
@@ -127,96 +126,63 @@ function validarPublicacion() {
     errores = errores + 1;
   }
 
-  if (textoPrecio === "" || isNaN(precio) || precio <= 0) {
-    marcarError("p-precio", "e-precio", "el precio tiene que ser mayor a 0");
+  if (textoPrecio === "" || isNaN(precio) || precio <= 0 || precio > 9999) {
+    marcarError("p-precio", "e-precio", "el precio tiene que ser mayor a 0 y hasta S/ 9999");
     errores = errores + 1;
   }
 
   /* el stock tiene que ser un número entero, no se venden media torta */
-  if (textoStock === "" || !Number.isInteger(stock) || stock < 1) {
-    marcarError("p-stock", "e-stock", "escribe cuántas unidades tienes, un número entero desde 1");
+  if (textoStock === "" || !Number.isInteger(stock) || stock < 1 || stock > 999) {
+    marcarError("p-stock", "e-stock", "escribe cuántas unidades tienes, un número entero de 1 a 999");
     errores = errores + 1;
   }
 
-  if (horario === "") {
-    marcarError("p-horario", "e-horario", "escribe en qué horario entregas");
+  if (horario === "" || horario.length > 40) {
+    marcarError("p-horario", "e-horario", "escribe en qué horario entregas, hasta 40 letras");
     errores = errores + 1;
   }
 
-  if (imagen === "") {
-    marcarError("p-imagen", "e-imagen", "elige la foto que más se parezca a tu producto");
+  if (errorFoto !== "") {
+    marcarError("p-imagen", "e-imagen", errorFoto);
     errores = errores + 1;
   }
 
-  if (descripcion === "") {
-    marcarError("p-descripcion", "e-descripcion", "cuéntales a tus vecinos cómo es tu producto");
+  if (descripcion.length < 10 || descripcion.length > 500) {
+    marcarError("p-descripcion", "e-descripcion", "la descripción tiene que tener entre 10 y 500 letras");
     errores = errores + 1;
+  }
+
+  /* los campos con error quedan marcados también para el lector de pantalla */
+  for (i = 0; i < CAMPOS_PUBLICAR.length; i++) {
+    if (document.getElementById(CAMPOS_PUBLICAR[i][1]).textContent !== "") {
+      document.getElementById(CAMPOS_PUBLICAR[i][0]).setAttribute("aria-invalid", "true");
+    }
   }
 
   mostrarResumen("aviso-publicar", errores);
   return errores;
 }
 
-/* al enviar, si no hay errores guardamos la publicación y cambiamos el
-   formulario por el bloque con el enlace a la ficha nueva */
+/* si hay errores no dejamos que el formulario salga, si no los hay el
+   navegador lo envía normal y php hace el resto */
 function alPublicar(evento) {
-  let publicacion;
-  let enlace;
-
-  evento.preventDefault();
-
   if (validarPublicacion() > 0) {
+    evento.preventDefault();
     document.getElementById("aviso-publicar").scrollIntoView({ block: "center" });
-    return;
   }
-
-  publicacion = crearPublicacion({
-    titulo: document.getElementById("p-titulo").value,
-    descripcion: document.getElementById("p-descripcion").value,
-    precio: document.getElementById("p-precio").value,
-    stock: document.getElementById("p-stock").value,
-    horario: document.getElementById("p-horario").value,
-    idCategoria: document.getElementById("p-categoria").value,
-    imagenes: [document.getElementById("p-imagen").value]
-  });
-
-  if (publicacion === null) {
-    mostrarAviso("no pudimos guardar tu publicación, revisa los datos e inténtalo otra vez", "error");
-    return;
-  }
-
-  enlace = document.getElementById("publicado-enlace");
-  enlace.href = "producto.html?id=" + publicacion.idPublicacion;
-  document.getElementById("publicado-texto").textContent =
-    "Tus vecinos ya ven " + publicacion.titulo + " en el catálogo, con el código " +
-    publicacion.idPublicacion + ".";
-
-  document.querySelector(".layout-publicar").hidden = true;
-  document.getElementById("publicado").hidden = false;
-  enlace.focus();
-  mostrarAviso("publicaste " + publicacion.titulo, "ok");
 }
 
-/* aquí arranca la página, sin sesión exigirSesion manda al registro y
-   anota que vuelva aquí después de entrar */
 function iniciarPublicar() {
-  let residente;
-  let formulario;
+  let formulario = document.getElementById("form-publicar");
 
-  if (!exigirSesion()) {
-    return;
-  }
-
-  residente = sesionActual();
-  document.getElementById("prev-vendedor").textContent = nombreCompleto(residente);
-  document.getElementById("prev-unidad").textContent = textoUnidad(residente);
-
-  llenarSelects();
-
-  formulario = document.getElementById("form-publicar");
   formulario.addEventListener("input", actualizarVistaPrevia);
   formulario.addEventListener("change", actualizarVistaPrevia);
+  document.getElementById("p-imagen").addEventListener("change", alElegirFoto);
   formulario.addEventListener("submit", alPublicar);
+
+  /* si php devolvió el formulario con errores, la tarjeta ya muestra lo
+     que el vecino había escrito */
+  actualizarVistaPrevia();
 }
 
 iniciarPublicar();

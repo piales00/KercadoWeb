@@ -1355,6 +1355,7 @@ p {
 
 .pestanas {
   display: flex;
+  flex-wrap: wrap;                  /* en el celular las pestañas bajan a otra fila */
   gap: var(--sp-1);
   border-bottom: 2px solid var(--verde-claro);
 }
@@ -1374,6 +1375,7 @@ p {
 }
 .pestanas__boton:hover {
   color: var(--verde-oscuro);
+  text-decoration: none;            /* en la administración las pestañas son enlaces */
 }
 .pestanas__boton[aria-selected="true"] {
   color: var(--verde-oscuro);
@@ -1496,7 +1498,8 @@ p {
 .lista-codigos {
   padding-left: var(--sp-3);
 }
-.carrito__monto {
+.carrito__monto,
+.resumen__numero {
   font-family: var(--fuente-titulos);
   font-size: var(--txt-xl);
   font-weight: 800;
@@ -1817,4 +1820,253 @@ dialog.confirmacion::backdrop {
     overflow: visible;
     box-shadow: none;
   }
+}
+
+
+/* desde el avance 3
+
+   estas partes las agregamos cuando el sitio pasó a php, la cabecera y el
+   pie ahora los arma app/plantilla.php */
+
+/* el botón salir ahora va dentro de un formulario post, así nadie puede
+   cerrarle la sesión al vecino con un enlace, el formulario no tiene que
+   notarse, por eso no tiene margen y se alinea como un botón más */
+.cuenta__salir {
+  display: inline-flex;
+  margin: 0;
+}
+
+/* los íconos de las redes del pie, van en fila debajo del texto de
+   kercado y al pasar el mouse se levantan un poco */
+.redes {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+  margin-top: var(--sp-2);
+}
+.redes__enlace {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 1px solid rgba(245, 239, 224, 0.3);
+  color: var(--crema);
+  transition: transform var(--duracion) var(--curva),
+              background-color var(--duracion) var(--curva),
+              color var(--duracion) var(--curva);
+}
+.redes__enlace:hover {
+  background-color: var(--naranja-claro);
+  color: var(--verde-oscuro);
+  transform: translateY(-3px);
+}
+.redes__icono {
+  width: 1.2rem;
+  height: 1.2rem;
+  fill: currentColor;
+}
+
+/* el chat de ayuda
+
+   el botón flotante va abajo a la izquierda porque a la derecha salen los
+   avisos, y el panel se abre encima del botón */
+.chat {
+  position: fixed;
+  left: var(--sp-2);
+  bottom: var(--sp-2);
+  z-index: 250;
+}
+.chat__boton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: var(--sp-1) var(--sp-2);
+  border: none;
+  border-radius: var(--radio-lg);
+  background-color: var(--verde);
+  color: var(--crema);
+  font: inherit;
+  font-weight: 700;
+  box-shadow: var(--sombra-media);
+  cursor: pointer;
+  transition: transform var(--duracion) var(--curva),
+              background-color var(--duracion) var(--curva);
+}
+.chat__boton:hover {
+  background-color: var(--verde-oscuro);
+  transform: scale(1.05);
+}
+.chat__icono {
+  width: 1.2rem;
+  height: 1.2rem;
+  fill: currentColor;
+}
+
+/* el panel usa grid para que los mensajes tomen el espacio que sobra y
+   el campo de escribir quede siempre abajo */
+.chat__panel {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + var(--sp-1));
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  width: min(340px, calc(100vw - var(--sp-4)));
+  max-height: min(480px, calc(100vh - 6rem));
+  border: var(--borde);
+  border-radius: var(--radio-md);
+  background-color: var(--blanco);
+  box-shadow: var(--sombra-media);
+  overflow: hidden;
+  animation: deslizar-entrada var(--duracion) var(--curva);
+}
+.chat__panel[hidden] {
+  display: none;
+}
+.chat__cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-1);
+  padding: var(--sp-1) var(--sp-2);
+  background-color: var(--verde);
+  color: var(--crema);
+}
+.chat__titulo {
+  margin: 0;
+  font-size: var(--txt-md);
+  color: var(--crema);
+}
+.chat__cerrar {
+  border: none;
+  background: none;
+  color: var(--crema);
+  font-size: var(--txt-lg);
+  line-height: 1;
+  padding: var(--sp-1);
+  cursor: pointer;
+}
+.chat__mensajes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: var(--sp-2);
+  overflow-y: auto;
+  min-height: 8rem;
+}
+
+/* las burbujas, las del vecino van a la derecha en verde y las del
+   asistente a la izquierda en crema, como en cualquier chat */
+.chat__mensaje {
+  max-width: 85%;
+  margin: 0;
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: var(--radio-md);
+  font-size: var(--txt-sm);
+  line-height: 1.45;
+  animation: aparecer var(--duracion) var(--curva);
+}
+.chat__mensaje--asistente {
+  align-self: flex-start;
+  background-color: var(--verde-claro);
+  color: var(--texto);
+  border-bottom-left-radius: var(--radio-sm);
+}
+.chat__mensaje--vecino {
+  align-self: flex-end;
+  background-color: var(--verde);
+  color: var(--crema);
+  border-bottom-right-radius: var(--radio-sm);
+}
+
+/* las preguntas frecuentes son botones chicos que se acomodan en filas */
+.chat__preguntas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+  padding: var(--sp-1) var(--sp-2);
+  border-top: var(--borde);
+}
+.chat__pregunta {
+  padding: 0.3rem var(--sp-1);
+  border: 1px solid var(--verde);
+  border-radius: var(--radio-lg);
+  background-color: var(--blanco);
+  color: var(--verde);
+  font: inherit;
+  font-size: var(--txt-xs);
+  cursor: pointer;
+  transition: background-color var(--duracion) var(--curva),
+              color var(--duracion) var(--curva);
+}
+.chat__pregunta:hover {
+  background-color: var(--verde);
+  color: var(--crema);
+}
+.chat__formulario {
+  display: flex;
+  gap: var(--sp-1);
+  padding: var(--sp-1) var(--sp-2) var(--sp-2);
+}
+.chat__campo {
+  flex: 1;
+  min-width: 0;                     /* deja que el campo se achique en el celular */
+  padding: var(--sp-1);
+  border: var(--borde);
+  border-radius: var(--radio-sm);
+  font: inherit;
+  font-size: var(--txt-sm);
+}
+
+/* en el celular el botón se pega más a la esquina para tapar menos, y el
+   panel ocupa casi todo el ancho para que se lea bien */
+@media (max-width: 620px) {
+  .chat {
+    left: var(--sp-1);
+    bottom: var(--sp-1);
+  }
+  .chat__panel {
+    width: calc(100vw - var(--sp-2));
+  }
+}
+
+/* quien pidió menos movimiento no ve el salto de los botones */
+@media (prefers-reduced-motion: reduce) {
+  .redes__enlace:hover,
+  .chat__boton:hover {
+    transform: none;
+  }
+}
+
+/* al imprimir el chat no sirve, lo escondemos */
+@media print {
+  .chat {
+    display: none;
+  }
+}
+
+/* la foto chiquita de cada producto en las tablas de la administración */
+.tabla__miniatura {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: var(--radio-sm);
+}
+
+/* las pestañas del panel y de la administración son enlaces, así funcionan
+   aunque el navegador no tenga javascript */
+a.pestanas__boton {
+  display: inline-block;
+  text-decoration: none;
+}
+
+/* el select, el motivo y el botón para cambiar el estado de un pedido se
+   acomodan en otra fila si no entran en el celular */
+[data-estado-pedido] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-1);
 }

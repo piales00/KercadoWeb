@@ -1,2 +1,10 @@
 CLAUDE.md
 .vercel
+.claude
+uploads/*
+!uploads/.htaccess
+!uploads/.gitkeep
+
+# los datos de conexión con la clave real no se suben, en el repo queda
+# la copia de ejemplo sin claves
+app/config.php

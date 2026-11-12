@@ -1,109 +1,28 @@
-<!DOCTYPE html>
-<!--
-  hecho por edgar. esta es la página de inicio, aquí contamos qué es
-  kercado, cómo funciona, para quién es, cómo se paga, las reglas de
-  convivencia, quiénes somos, y al final va el audio de presentación
--->
-<html lang="es">
+<?php
+/*
+  hecho por edgar. la página de inicio, cuenta qué es kercado y muestra las
+  cuatro publicaciones más nuevas, que ahora salen de la base de datos con
+  listarPublicaciones(), y si el vecino ya entró le cambia el botón de la
+  portada para llevarlo a su panel
+*/
+require_once __DIR__ . "/app/plantilla.php";
 
-<head>
-  <!-- con esto las tildes y las eñes se ven bien en el navegador -->
-  <meta charset="UTF-8">
+// cuántas publicaciones mostramos en lo más reciente
+const CANTIDAD_RECIENTES = 4;
 
-  <!-- esta línea hace que en el celular la página use el ancho real de la
-       pantalla, así el diseño se acomoda bien -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+// listarPublicaciones ya las devuelve de la más nueva a la más antigua, así
+// que basta con quedarnos con las primeras
+$recientes = array_slice(listarPublicaciones(), 0, CANTIDAD_RECIENTES);
+$residente = sesionActual();
 
-  <!-- la descripción de la página y los autores -->
-  <meta name="description" content="Conoce qué es Kercado, cómo funciona el marketplace del condominio Las Palmas 357 y sus reglas de convivencia.">
-  <meta name="author" content="Equipo Kercado — Taller de Programación Web, UTP">
-
-  <!-- el título que sale en la pestaña del navegador -->
-  <title>Inicio · Kercado</title>
-
-  <!-- enlazamos la misma hoja de estilos que usan todas las páginas -->
-  <link rel="stylesheet" href="css/estilo.css">
-</head>
-
-<body>
-
-  <!-- este enlace solo se ve al apretar tab, sirve para que quien navega
-       con el teclado salte directo al contenido sin pasar por el menú -->
-  <a class="saltar" href="#contenido">Saltar al contenido</a>
-
-  <!-- esta es la cabecera, es la misma en todas las páginas del sitio,
-       tiene el logo, el buscador, el carrito, la cuenta del vecino y el
-       menú -->
-  <header class="encabezado">
-
-    <div class="contenedor encabezado__fila">
-
-      <!-- el logo lleva a la página de inicio -->
-      <a class="logo" href="index.html">
-        <span>Ker<span class="logo__acento">cado</span>
-          <span class="logo__bajada">Condominio Las Palmas 357</span>
-        </span>
-      </a>
-
-      <!-- este botón abre y cierra el menú en el celular, en pantallas
-           grandes no se ve, aria-expanded dice si el menú está abierto -->
-      <button class="menu-boton" type="button" id="menu-boton"
-              aria-expanded="false" aria-controls="menu-principal">
-        <span class="menu-boton__icono" aria-hidden="true"></span>
-        Menú
-      </button>
-
-      <!-- el buscador manda al catálogo lo que se escribió y allá se
-           muestran solo los productos que coinciden -->
-      <form class="buscador" action="catalogo.html" method="get" role="search">
-        <!-- este label no se ve en pantalla, pero lo leen los lectores de
-             pantalla que usan las personas con discapacidad visual -->
-        <label class="solo-lectores" for="q">Buscar productos</label>
-        <input class="buscador__campo" type="search" id="q" name="q"
-               placeholder="Buscar postres, menús, abarrotes...">
-        <button class="buscador__boton" type="submit">Buscar</button>
-      </form>
-
-      <div class="encabezado__acciones">
-
-        <!-- el enlace al carrito, el globo con la cantidad lo actualiza
-             javascript y se esconde cuando el carrito está vacío -->
-        <a class="encabezado__carrito" href="carrito.html">
-          Carrito
-          <span class="contador" id="contador-carrito" hidden>0</span>
-          <span class="solo-lectores">productos en el carrito</span>
-        </a>
-
-        <!-- hay un solo botón para ingresar, porque el vecino usa la misma
-             cuenta para comprar y para vender, cuando ya entró javascript
-             lo cambia por su nombre y el botón para salir -->
-        <div class="cuenta" id="cuenta">
-          <a class="boton boton--sm" href="registro.html">Ingresar</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- este es el menú principal, javascript marca el enlace de la página
-         donde está el vecino -->
-    <nav class="menu" id="menu-principal" aria-label="Navegación principal">
-      <ul class="contenedor menu__lista">
-        <li><a class="menu__enlace" href="index.html">Inicio</a></li>
-        <li><a class="menu__enlace" href="catalogo.html">Catálogo</a></li>
-        <li><a class="menu__enlace" href="panel.html">Mi panel</a></li>
-        <li><a class="menu__enlace" href="carrito.html">Carrito</a></li>
-        <li><a class="menu__enlace" href="registro.html">Registro</a></li>
-      </ul>
-    </nav>
-  </header>
-
-
-  <main id="contenido">
+abrirPagina("Inicio", "Kercado, el mercado interno del condominio Las Palmas 357, donde los vecinos compran y venden entre ellos.", "inicio");
+?>
 
     <!-- esto es lo primero que ve el vecino al entrar, profesor, la foto del
          condominio ocupa todo el ancho para que reconozca dónde está, y
          encima van el nombre y una frase corta, pusimos un solo botón para
-         que vaya directo al catálogo, si ya entró con su cuenta inicio.js lo
-         cambia por uno que lleva a su panel, la portada no lleva la clase
+         que vaya directo al catálogo, si ya entró con su cuenta inicio.js php
+         lo cambia por uno que lleva a su panel, la portada no lleva la clase
          revelar porque tiene que verse apenas carga la página -->
     <section class="portada">
       <img src="assets/img/condominiofachada.jpg" alt="Fachada del condominio Las Palmas 357" class="portada__imagen">
@@ -111,44 +30,53 @@
         <h1 class="portada__titulo">Ker<span class="logo__acento">cado</span></h1>
         <p class="portada__frase">El mercado interno de nuestra comunidad, donde comprar y vender es más cercano y seguro.</p>
         <div>
-          <a href="catalogo.html" class="boton boton--lg" id="boton-portada">Ver el catálogo</a>
+<?php if ($residente !== null) { ?>
+          <a href="panel.php" class="boton boton--lg">Hola, <?= e($residente["nombres"]) ?>, ve tu panel</a>
+<?php } else { ?>
+          <a href="catalogo.php" class="boton boton--lg">Ver el catálogo</a>
+<?php } ?>
         </div>
       </div>
     </section>
 
-    <!-- las cuatro publicaciones más nuevas del condominio, la grilla empieza
-         vacía y inicio.js la llena con los datos guardados, así lo que un
-         vecino acaba de publicar aparece aquí sin tocar el html -->
+    <!-- las cuatro publicaciones más nuevas del condominio, ahora las
+         imprime php leyendo la base, así lo que un vecino acaba de publicar
+         aparece aquí apenas recarga la página -->
     <section class="seccion revelar" aria-labelledby="titulo-recientes">
       <div class="contenedor">
         <div class="fila-titulo">
           <h2 class="titulo-seccion" id="titulo-recientes">Lo más reciente</h2>
-          <a class="boton boton--linea boton--sm" href="catalogo.html">Ver todo el catálogo</a>
+          <a class="boton boton--linea boton--sm" href="catalogo.php">Ver todo el catálogo</a>
         </div>
-        <div class="grilla-productos grilla-productos--animada" id="ultimas-publicaciones"></div>
+<?php if (count($recientes) === 0) { ?>
+        <p class="subtexto">Todavía no hay productos publicados, sé el primero en <a href="publicar.php">publicar uno</a>.</p>
+<?php } else { ?>
+        <div class="grilla-productos grilla-productos--animada" id="ultimas-publicaciones">
+<?php foreach ($recientes as $publicacion) {
+          $enlace = "producto.php?id=" . $publicacion["idPublicacion"]; ?>
+          <article class="tarjeta">
+            <figure class="tarjeta__figura">
+              <img class="tarjeta__imagen" src="<?= e($publicacion["imagenes"][0]) ?>" alt="<?= e($publicacion["titulo"]) ?>">
+            </figure>
+            <div class="tarjeta__cuerpo">
+<?php if (!empty($publicacion["nombreCategoria"])) { ?>
+              <span class="etiqueta"><?= e($publicacion["nombreCategoria"]) ?></span>
+<?php } ?>
+              <h3 class="tarjeta__titulo"><a href="<?= e($enlace) ?>"><?= e($publicacion["titulo"]) ?></a></h3>
+              <p class="tarjeta__vendedor mb-0">
+                Vendido por <strong><?= e(nombreCompleto($publicacion["vendedor"])) ?></strong> · <span><?= e(textoUnidad($publicacion["vendedor"])) ?></span>
+              </p>
+            </div>
+            <div class="tarjeta__pie">
+              <span class="tarjeta__precio"><?= e(formatearPrecio($publicacion["precio"])) ?></span>
+              <a class="boton boton--sm" href="<?= e($enlace) ?>" aria-label="Ver <?= e($publicacion["titulo"]) ?>">Ver</a>
+            </div>
+          </article>
+<?php } ?>
+        </div>
+<?php } ?>
       </div>
     </section>
-
-    <!-- el molde de cada tarjeta, el navegador no lo dibuja, inicio.js lo
-         copia una vez por cada publicación -->
-    <template id="plantilla-tarjeta">
-      <article class="tarjeta">
-        <figure class="tarjeta__figura">
-          <img class="tarjeta__imagen" src="assets/img/kercado.png" alt="">
-        </figure>
-        <div class="tarjeta__cuerpo">
-          <span class="etiqueta"></span>
-          <h3 class="tarjeta__titulo"><a href="producto.html"></a></h3>
-          <p class="tarjeta__vendedor mb-0">
-            Vendido por <strong></strong> · <span></span>
-          </p>
-        </div>
-        <div class="tarjeta__pie">
-          <span class="tarjeta__precio"></span>
-          <a class="boton boton--sm" href="producto.html">Ver</a>
-        </div>
-      </article>
-    </template>
 
     <!-- estos párrafos cuentan qué es kercado -->
     <section class="seccion revelar">
@@ -282,7 +210,7 @@
           <div class="caja">
             <img src="assets/img/integrante1.jpg" alt="Piero Alessandro Pérez Izquierdo" class="imagen-marco">
             <h3>Piero Alessandro Pérez Izquierdo</h3>
-            <p>A cargo de la base del sitio, los estilos, los datos guardados en el navegador, el panel con sus pestañas y la integración de todas las páginas.</p>
+            <p>A cargo de la base del sitio, los estilos, la base de datos, el panel con sus pestañas y la integración de todas las páginas.</p>
           </div>
           <div class="caja">
             <img src="assets/img/integrante2.jpg" alt="Edgar Paolo Pérez Román" class="imagen-marco">
@@ -314,87 +242,5 @@
         </div>
       </div>
     </section>
-
-  </main>
-
-
-  <!-- este es el pie de página, también es el mismo en todas las páginas,
-       tiene información de kercado, el contacto de la administración, el
-       reglamento y los integrantes del grupo -->
-  <footer class="pie">
-    <div class="contenedor pie__grilla">
-
-      <div>
-        <h3 class="pie__titulo">Kercado</h3>
-        <p class="subtexto">
-          Marketplace hiperlocal del condominio Las Palmas 357, Chorrillos.
-          Los vecinos publican, los vecinos compran.
-        </p>
-        <p class="subtexto">
-          Kercado no cobra comisiones, no procesa pagos y no gestiona la
-          entrega: solo conecta al vecino que vende con el que compra.
-        </p>
-      </div>
-
-      <div>
-        <h3 class="pie__titulo">Administración</h3>
-        <ul class="pie__lista">
-          <li>Av. Las Palmas 357, Chorrillos — Lima</li>
-          <li>Oficina: Torre A, primer piso</li>
-          <li>Atención: lunes a sábado, 8:00 a 18:00</li>
-          <li><a href="mailto:administracion@laspalmas357.pe">administracion@laspalmas357.pe</a></li>
-          <li><a href="tel:+5112345678">(01) 234 5678</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h3 class="pie__titulo">Reglamento</h3>
-        <ul class="pie__lista">
-          <li><a href="index.html#como-funciona">Cómo funciona Kercado</a></li>
-          <li><a href="index.html#reglas">Reglas de convivencia</a></li>
-          <li><a href="index.html#pagos">Métodos de pago aceptados</a></li>
-          <li><a href="index.html#faq">Preguntas frecuentes</a></li>
-          <li><a href="index.html#nosotros">Quiénes somos</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h3 class="pie__titulo">Integrantes</h3>
-        <ul class="pie__lista">
-          <li>Piero Alessandro Pérez Izquierdo</li>
-          <li>Edgar Paolo Pérez Román</li>
-          <li>Francys Diego Yareta Cortez</li>
-          <li>Luis Alberto Huánuco Jiménez</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="pie__legal">
-      <p class="mb-0">
-        Kercado &copy; <span id="anio">2026</span> · Proyecto académico — Taller de Programación Web,
-        Universidad Tecnológica del Perú.
-      </p>
-    </div>
-  </footer>
-
-
-  <dialog class="confirmacion" id="confirmacion" aria-labelledby="confirmacion-titulo">
-    <form method="dialog">
-      <h2 class="confirmacion__titulo" id="confirmacion-titulo">Confirmar</h2>
-      <p id="confirmacion-texto">¿Seguro que quieres continuar?</p>
-      <div class="confirmacion__acciones">
-        <button class="boton boton--linea boton--sm" type="submit" value="no">No, volver</button>
-        <button class="boton boton--sm" type="submit" value="si">Sí, continuar</button>
-      </div>
-    </form>
-  </dialog>
-
-  <div class="avisos" id="avisos" aria-live="polite"></div>
-
-
-  <script src="js/datos.js"></script>
-  <script src="js/almacen.js"></script>
-  <script src="js/base.js"></script>
-  <script src="js/inicio.js"></script>
-</body>
-</html>
+<?php
+cerrarPagina("js/inicio.js");

@@ -1,9 +1,8 @@
 /*
-  hecho por piero. este archivo tiene lo que usan todas las páginas, arma
-  la cabecera según si el vecino entró o no, mueve el contador del carrito,
-  abre el menú en el celular y marca en qué página estamos, también deja
-  listas las funciones que usan las demás páginas para mostrar precios,
-  fechas, avisos y errores, así todo el sitio avisa de la misma forma
+  hecho por piero. este archivo tiene lo que usan todas las páginas en el
+  navegador, desde este avance los datos los trae php, así que aquí solo
+  queda la interfaz, los avisos, el diálogo de confirmación, el menú del
+  celular, los errores de los formularios y el chat de ayuda
 */
 
 /* cuánto dura un aviso flotante en pantalla, en milisegundos */
@@ -11,9 +10,6 @@ const DURACION_AVISO = 4000;
 
 /* lo que hay que hacer si el vecino acepta el diálogo de confirmación */
 let accionConfirmada = null;
-
-/* el número que mostraba el contador del carrito, para saber si cambió */
-let cantidadAnterior = -1;
 
 
 /* funciones que usan las páginas */
@@ -23,56 +19,20 @@ function formatearPrecio(numero) {
   return "S/ " + Number(numero).toFixed(2);
 }
 
-/* pasa una fecha guardada como 2026-10-13T18:42:00 a 13/10/2026, la
-   cortamos como texto para que no dependa de la zona horaria */
+/* pasa una fecha como 2026-10-13 18:42:00 a 13/10/2026, la cortamos como
+   texto para que no dependa de la zona horaria */
 function formatearFecha(textoISO) {
   let partes = String(textoISO).substring(0, 10).split("-");
 
   return partes[2] + "/" + partes[1] + "/" + partes[0];
 }
 
-/* lee un valor de la dirección de la página, en producto.html?id=PB-0001
-   leerParametro("id") devuelve PB-0001, si no está devuelve null */
+/* lee un valor de la dirección de la página, en producto.php?id=3
+   leerParametro("id") devuelve 3, si no está devuelve null */
 function leerParametro(nombre) {
   let parametros = new URLSearchParams(window.location.search);
 
   return parametros.get(nombre);
-}
-
-/* el nombre y el apellido de un residente en un solo texto */
-function nombreCompleto(residente) {
-  if (residente === null) {
-    return "Vecino del condominio";
-  }
-
-  return residente.nombres + " " + residente.apellidos;
-}
-
-/* la torre y el departamento como salen en todo el sitio */
-function textoUnidad(residente) {
-  if (residente === null) {
-    return "";
-  }
-
-  return "Torre " + residente.torre + ", Dpto. " + residente.numeroDepartamento;
-}
-
-/* la clase de color que le toca a cada estado, sirve para los pedidos y
-   también para las publicaciones */
-function claseEstado(estado) {
-  if (estado === "Aceptado") {
-    return "estado estado--aceptado";
-  }
-  if (estado === "En preparación") {
-    return "estado estado--preparacion";
-  }
-  if (estado === "Entregado" || estado === "Activa") {
-    return "estado estado--entregado";
-  }
-  if (estado === "Cancelado" || estado === "Baja") {
-    return "estado estado--cancelado";
-  }
-  return "estado estado--pendiente";
 }
 
 /* muestra un aviso flotante abajo a la derecha que se va solo, tipo es
@@ -96,8 +56,7 @@ function mostrarAviso(texto, tipo) {
 }
 
 /* abre el diálogo de confirmación con un título y una explicación, y
-   guarda la función que se ejecuta solo si el vecino acepta, lo usamos
-   antes de dar de baja, cancelar un pedido o vaciar el carrito */
+   guarda la función que se ejecuta solo si el vecino acepta */
 function pedirConfirmacion(titulo, texto, alAceptar) {
   let dialogo = document.getElementById("confirmacion");
 
@@ -111,47 +70,11 @@ function pedirConfirmacion(titulo, texto, alAceptar) {
   dialogo.showModal();
 }
 
-/* las páginas que necesitan cuenta la llaman al empezar, si nadie entró
-   manda al registro y le deja anotada la página para volver después */
-function exigirSesion() {
-  let partes;
-  let pagina;
-
-  if (sesionActual() !== null) {
-    return true;
-  }
-
-  partes = window.location.pathname.split("/");
-  pagina = partes[partes.length - 1] + window.location.search + window.location.hash;
-  window.location.href = "registro.html?volver=" + encodeURIComponent(pagina);
-  return false;
-}
-
-/* vuelve a contar el carrito y actualiza el globo de la cabecera, las
-   páginas la llaman después de agregar, quitar o cambiar una cantidad */
-function actualizarContadorCarrito() {
-  let contador = document.getElementById("contador-carrito");
-  let cantidad = cantidadEnCarrito();
-
-  if (contador === null) {
-    return;
-  }
-
-  contador.textContent = cantidad;
-  contador.hidden = cantidad === 0;
-
-  /* el globo late solo cuando el número cambió, no al cargar la página */
-  if (cantidadAnterior !== -1 && cantidad !== cantidadAnterior) {
-    contador.classList.add("contador--latido");
-  }
-  cantidadAnterior = cantidad;
-}
-
 
 /* los errores de los formularios
 
-   cada campo tiene debajo un small vacío donde escribimos el error, y el
-   campo se pinta de rojo para que se vea de una cuál es */
+   cada campo tiene debajo un small donde escribimos el error, y el campo
+   se pinta de rojo para que se vea de una cuál es */
 
 function marcarError(idCampo, idError, mensaje) {
   document.getElementById(idError).textContent = mensaje;
@@ -190,76 +113,6 @@ function escribirAnio() {
 
   if (anio !== null) {
     anio.textContent = new Date().getFullYear();
-  }
-}
-
-/* arma la zona de la cuenta en la cabecera, si nadie entró se queda el
-   botón ingresar que ya viene en el html, y si hay sesión lo cambiamos por
-   el saludo y el botón para salir */
-function pintarCuenta() {
-  let zona = document.getElementById("cuenta");
-  let residente = sesionActual();
-  let saludo;
-  let salir;
-
-  if (zona === null || residente === null) {
-    return;
-  }
-
-  saludo = document.createElement("span");
-  saludo.className = "cuenta__saludo";
-  saludo.textContent = "Hola, " + residente.nombres;
-
-  salir = document.createElement("button");
-  salir.type = "button";
-  salir.className = "boton boton--claro boton--sm";
-  salir.textContent = "Salir";
-  salir.addEventListener("click", function () {
-    cerrarSesion();
-    window.location.href = "index.html";
-  });
-
-  zona.innerHTML = "";
-  zona.appendChild(saludo);
-  zona.appendChild(salir);
-}
-
-/* marca en el menú la página donde está el vecino, con la clase que la
-   pinta de naranja y con aria-current para los lectores de pantalla, la
-   ficha de un producto cuenta como catálogo y publicar como panel, porque
-   desde ahí se llega */
-function marcarPaginaActual() {
-  let partes = window.location.pathname.split("/");
-  let pagina = partes[partes.length - 1];
-  let enlaces = document.querySelectorAll(".menu__enlace");
-  let i;
-
-  if (pagina === "") {
-    pagina = "index.html";
-  }
-  if (pagina === "producto.html") {
-    pagina = "catalogo.html";
-  }
-  if (pagina === "publicar.html") {
-    pagina = "panel.html";
-  }
-
-  for (i = 0; i < enlaces.length; i++) {
-    if (enlaces[i].getAttribute("href") === pagina) {
-      enlaces[i].classList.add("menu__enlace--activo");
-      enlaces[i].setAttribute("aria-current", "page");
-    }
-  }
-}
-
-/* si el vecino llegó al catálogo desde el buscador, dejamos escrito en
-   el campo lo que buscó para que vea qué está filtrando */
-function recordarBusqueda() {
-  let campo = document.getElementById("q");
-  let buscado = leerParametro("q");
-
-  if (campo !== null && buscado !== null) {
-    campo.value = buscado;
   }
 }
 
@@ -318,29 +171,151 @@ function conectarConfirmacion() {
   });
 }
 
-/* cuando termina el latido del contador le quitamos la clase, así la
-   próxima vez que cambie puede volver a latir */
-function conectarContador() {
-  let contador = document.getElementById("contador-carrito");
+/* todo formulario con data-confirmar pregunta antes de enviarse, así las
+   páginas no tienen que escribir javascript para confirmar, form.submit()
+   envía sin volver a pasar por este evento, por eso no se repite la pregunta */
+function conectarFormulariosConConfirmacion() {
+  let formularios = document.querySelectorAll("form[data-confirmar]");
+  let i;
 
-  if (contador === null) {
+  for (i = 0; i < formularios.length; i++) {
+    formularios[i].addEventListener("submit", function (evento) {
+      let formulario = evento.currentTarget;
+      let titulo = formulario.dataset.titulo || "Confirmar";
+
+      evento.preventDefault();
+      pedirConfirmacion(titulo, formulario.dataset.confirmar, function () {
+        formulario.submit();
+      });
+    });
+  }
+}
+
+/* los avisos que imprimió php al cargar la página también se van solos,
+   igual que los de mostrarAviso() */
+function quitarAvisosDelServidor() {
+  let avisos = document.querySelectorAll("#avisos .aviso-flotante");
+
+  setTimeout(function () {
+    let i;
+
+    for (i = 0; i < avisos.length; i++) {
+      avisos[i].remove();
+    }
+  }, DURACION_AVISO);
+}
+
+
+/* el chat de ayuda
+
+   no es una persona ni usa internet, busca palabras clave en la pregunta
+   y contesta con lo que dice el reglamento de kercado */
+
+function responderPregunta(pregunta) {
+  let texto = pregunta.toLowerCase();
+
+  if (texto.indexOf("contraseña") !== -1 || texto.indexOf("clave") !== -1) {
+    return "Si olvidaste tu contraseña, acércate a la oficina de administración en la Torre A, ellos la restablecen después de confirmar que eres tú.";
+  }
+  if (texto.indexOf("cuenta") !== -1 || texto.indexOf("validar") !== -1 || texto.indexOf("valido") !== -1 || texto.indexOf("pendiente") !== -1) {
+    return "Al registrarte tu cuenta queda pendiente, la administración revisa que vivas en el condominio y la activa, después ya puedes comprar y vender.";
+  }
+  if (texto.indexOf("pago") !== -1 || texto.indexOf("pagar") !== -1 || texto.indexOf("yape") !== -1 || texto.indexOf("plin") !== -1 || texto.indexOf("efectivo") !== -1) {
+    return "Kercado no cobra nada, al confirmar el pedido eliges cómo le pagas al vecino, en efectivo contra entrega, por Yape o por Plin, y lo arreglan entre ustedes.";
+  }
+  if (texto.indexOf("entrega") !== -1 || texto.indexOf("delivery") !== -1 || texto.indexOf("envío") !== -1 || texto.indexOf("envio") !== -1) {
+    return "Kercado no hace entregas, el vecino que vende te avisa cuando está listo y coordinan dentro del condominio, el horario de entrega sale en cada producto.";
+  }
+  if (texto.indexOf("vend") !== -1 || texto.indexOf("public") !== -1) {
+    return "Con tu misma cuenta entra a Mi panel y elige publicar producto, pon la foto, el precio y el stock, los pedidos que te hagan aparecen en Mis ventas.";
+  }
+  if (texto.indexOf("compr") !== -1) {
+    return "Busca en el catálogo, agrega lo que quieras al carrito y confirma el pedido eligiendo cómo vas a pagar, cada vendedor recibe su propio pedido.";
+  }
+  return "No encontré una respuesta para eso, prueba con palabras como comprar, vender, pago, entrega o cuenta, o escríbele a la administración del condominio.";
+}
+
+/* agrega una burbuja al chat, con textContent porque lo que escribe el
+   vecino nunca se pinta como html */
+function agregarMensajeChat(texto, quien) {
+  let mensajes = document.getElementById("chat-mensajes");
+  let burbuja = document.createElement("p");
+
+  burbuja.className = "chat__mensaje chat__mensaje--" + quien;
+  burbuja.textContent = texto;
+  mensajes.appendChild(burbuja);
+  mensajes.scrollTop = mensajes.scrollHeight;
+}
+
+function preguntarAlChat(pregunta) {
+  agregarMensajeChat(pregunta, "vecino");
+  agregarMensajeChat(responderPregunta(pregunta), "asistente");
+}
+
+function cambiarChat(abrir) {
+  let boton = document.getElementById("chat-boton");
+  let panel = document.getElementById("chat-panel");
+
+  panel.hidden = !abrir;
+  boton.setAttribute("aria-expanded", String(abrir));
+
+  if (abrir) {
+    document.getElementById("chat-campo").focus();
+  }
+}
+
+function conectarChat() {
+  let boton = document.getElementById("chat-boton");
+  let preguntas = document.querySelectorAll(".chat__pregunta");
+  let i;
+
+  if (boton === null) {
     return;
   }
 
-  contador.addEventListener("animationend", function () {
-    contador.classList.remove("contador--latido");
+  boton.addEventListener("click", function () {
+    cambiarChat(boton.getAttribute("aria-expanded") === "false");
+  });
+
+  document.getElementById("chat-cerrar").addEventListener("click", function () {
+    cambiarChat(false);
+    boton.focus();
+  });
+
+  for (i = 0; i < preguntas.length; i++) {
+    preguntas[i].addEventListener("click", function (evento) {
+      preguntarAlChat(evento.currentTarget.dataset.pregunta);
+    });
+  }
+
+  document.getElementById("chat-formulario").addEventListener("submit", function (evento) {
+    let campo = document.getElementById("chat-campo");
+    let pregunta = campo.value.trim();
+
+    evento.preventDefault();
+    if (pregunta === "") {
+      return;
+    }
+    preguntarAlChat(pregunta);
+    campo.value = "";
+  });
+
+  /* con escape se cierra y el foco vuelve al botón, igual que el menú */
+  document.addEventListener("keydown", function (evento) {
+    if (evento.key === "Escape" && boton.getAttribute("aria-expanded") === "true") {
+      cambiarChat(false);
+      boton.focus();
+    }
   });
 }
 
 function iniciarBase() {
   escribirAnio();
-  pintarCuenta();
-  marcarPaginaActual();
-  recordarBusqueda();
   conectarMenu();
   conectarConfirmacion();
-  conectarContador();
-  actualizarContadorCarrito();
+  conectarFormulariosConConfirmacion();
+  quitarAvisosDelServidor();
+  conectarChat();
 }
 
 iniciarBase();
